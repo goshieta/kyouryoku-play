@@ -1,0 +1,63 @@
+/*全体*/
+#Header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  position: fixed;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  padding-bottom: 20px;
+  backdrop-filter: blur(5px);
+}
+
+/*タイトルエリア*/
+#titleArea {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+#titleIconArea {
+  display: flex;
+  align-items: center;
+}
+#titleIconArea img {
+  width: 50px;
+  height: 50px;
+}
+#titleStringArea {
+  margin-left: 10px;
+  text-align: center;
+}
+#titleStringArea * {
+  margin: 0;
+  padding: 0;
+}
+#titleStringArea p {
+  line-height: 20px;
+  font-size: 12px;
+}
+#titleStringArea h1 {
+  line-height: 35px;
+  font-size: 30px;
+  font-family: "游明朝", YuMincho, "Hiragino Mincho ProN", "HGS明朝E",
+    "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+}
+
+/*リンクエリア*/
+#linkArea {
+  display: flex;
+  gap: 30px;
+  margin-left: auto;
+  margin-right: 30px;
+}
+#linkArea a {
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+}
+#linkArea a:hover {
+  color: rgb(0, 132, 255);
+  transition: color 0.2s;
+}
