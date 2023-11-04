@@ -53,11 +53,10 @@ export default function Game() {
   }, []);
 
   //canvasを取得して、それをゲームのclassに渡す
-  const gameCanvas = useRef();
-  const gameClass = require(`@/gameCode/${name}/main.ts`).default;
-  const [gameInstance, setGameInstance] = useState<any>(undefined);
+  const gameCanvas = useRef(null);
+  const gameFunction = require(`@/gameCode/${name}/main.ts`).default;
   useEffect(() => {
-    setGameInstance(new gameClass(gameCanvas));
+    gameFunction(gameCanvas.current);
   }, []);
 
   return (
@@ -66,7 +65,7 @@ export default function Game() {
       <canvas
         width={gameObjSetting.width}
         height={gameObjSetting.height}
-        ref={gameCanvas.current}
+        ref={gameCanvas}
       ></canvas>
       <div id={styles.mdArea}>
         <ReactMarkDown>{mdScript}</ReactMarkDown>

@@ -34,3 +34,7 @@
   border-right: 5px solid #00ffb7;
   border-bottom: 5px solid #00ffb7;
 }
+
+#gameSet canvas {
+  border-radius: 5px;
+}
