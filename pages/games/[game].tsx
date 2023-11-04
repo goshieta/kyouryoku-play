@@ -22,6 +22,7 @@ type gameListType = {
         title: string;
         width: number;
         height: number;
+        otherGame: string[];
       }
     | undefined;
 };
@@ -60,8 +61,8 @@ export default function Game() {
   }, []);
 
   return (
-    <>
-      <h1>{gameObjSetting.title}</h1>
+    <div id={styles.gameSet}>
+      <h1 id={styles.gameSetTitle}>{gameObjSetting.title}</h1>
       <canvas
         width={gameObjSetting.width}
         height={gameObjSetting.height}
@@ -70,6 +71,7 @@ export default function Game() {
       <div id={styles.mdArea}>
         <ReactMarkDown>{mdScript}</ReactMarkDown>
       </div>
-    </>
+      <div id={styles.otherGame}></div>
+    </div>
   );
 }
