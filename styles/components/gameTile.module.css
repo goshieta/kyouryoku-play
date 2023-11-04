@@ -1,0 +1,55 @@
+/*全体*/
+#tile {
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+#tile a {
+  text-decoration: none;
+}
+#tile a:hover {
+  color: rgb(255, 255, 255);
+  transition: color 0.3s;
+}
+
+/*上*/
+#top {
+  display: flex;
+  gap: 10px;
+}
+
+#left {
+  width: 45%;
+  padding-left: 10px;
+}
+
+#right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+#right img {
+  width: 100px;
+  height: 100px;
+  display: block;
+  border-radius: 5px;
+}
+#right div {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(224, 224, 224);
+  border-radius: 5px;
+}
+#right.big img,
+#right.big div {
+  width: 150px;
+  height: 150px;
+}
+
+/*下*/
+#bottom {
+  width: 100%;
+  margin: 10px 0;
+  text-align: center;
+}

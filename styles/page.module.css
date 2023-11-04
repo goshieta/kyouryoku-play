@@ -1,0 +1,7 @@
+#gridGameArea {
+  display: grid;
+  max-width: 700px;
+  margin: 20px auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
