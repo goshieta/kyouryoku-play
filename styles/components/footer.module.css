@@ -1,32 +1,15 @@
 /*全体*/
 #footer {
-  background-color: rgb(240, 240, 240);
+  background-color: #f6f6f6;
   margin: 0;
   padding: 10px;
   margin-top: 40px;
 }
 
-/*リンクエリア*/
-#f_linkArea {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  padding: 20px;
-}
-#f_linkArea a {
-  text-decoration: none;
-  color: black;
-  display: block;
-  margin: 5px;
-}
-#f_linkArea a:hover {
-  color: rgb(0, 153, 255);
-  transition: color 0.2s;
-}
-
 /*アイコンエリア*/
 #f_logoArea {
   text-align: center;
+  padding-top: 50px;
 }
 #fl_logo {
   display: flex;

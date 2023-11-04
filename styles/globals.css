@@ -6,9 +6,8 @@ body {
   padding: 0;
 }
 * {
-  font-family: "游ゴシック体", "YuGothic", "游ゴシック", "Yu Gothic",
-    "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo",
-    sans-serif;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  color: #00114f;
 }
 
 ::-webkit-scrollbar {
