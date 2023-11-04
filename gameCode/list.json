@@ -1,5 +1,6 @@
 {
   "othello": {
+    "title": "オセロ（リバーシ）",
     "width": 500,
     "height": 500
   }

@@ -1,5 +1,5 @@
 export default class othello {
-  constructor() {
+  constructor(canvas: HTMLCanvasElement) {
     console.log("done.");
   }
 }
