@@ -1,4 +1,5 @@
 import styles from "@/styles/components/gameTile.module.css";
+import Link from "next/link";
 
 type gameTilePropsType = {
   themeColor: string;
@@ -29,7 +30,11 @@ export default function GameTile(props: gameTilePropsType) {
           {props.size == "big" ? <h2>{props.gamePhrase}</h2> : <></>}
           <h3>{props.gameTitle}</h3>
           {props.size == "big" ? <p>{props.gameDesc}</p> : <></>}
-          {props.size == "small" ? <a href={props.link}>プレイ ＞</a> : <></>}
+          {props.size == "small" ? (
+            <Link href={props.link}>プレイ ＞</Link>
+          ) : (
+            <></>
+          )}
         </div>
         <div
           id={styles.right}
@@ -49,7 +54,7 @@ export default function GameTile(props: gameTilePropsType) {
       </div>
       {props.size == "big" ? (
         <div id={styles.bottom}>
-          <a href={props.link}>プレイ ＞</a>
+          <Link href={props.link}>プレイ ＞</Link>
         </div>
       ) : (
         <></>

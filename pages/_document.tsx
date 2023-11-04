@@ -9,7 +9,7 @@ class Document extends NextDocument<Props> {
         <Head>
           <meta charSet="utf-8" />
           <meta name="format-detection" content="telephone=no" />
-          <link rel="icon" href="favicon.ico" type="image/x-icon" />
+          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
           <link rel="apple-touch-icon" href="/icon.png" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link

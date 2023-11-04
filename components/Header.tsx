@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "../styles/components/header.module.css";
 
 export default function Header() {
@@ -5,7 +6,7 @@ export default function Header() {
     <div id={styles.Header}>
       <a id={styles.titleArea} href="/">
         <div id={styles.titleIconArea}>
-          <img src="icon.png" alt="" width="50" height="50" />
+          <img src="/icon.png" alt="" width="50" height="50" />
         </div>
         <div id={styles.titleStringArea}>
           <p>KyouRyoku Play</p>
@@ -13,10 +14,10 @@ export default function Header() {
         </div>
       </a>
       <div id={styles.linkArea}>
-        <a href="/">トップ</a>
-        <a href="">このサイトについて</a>
-        <a href="">報告・提案</a>
-        <a href="">峡緑について</a>
+        <Link href="/">トップ</Link>
+        <Link href="">このサイトについて</Link>
+        <Link href="">報告・提案</Link>
+        <Link href="">峡緑について</Link>
       </div>
     </div>
   );

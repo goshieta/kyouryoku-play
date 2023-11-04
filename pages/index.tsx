@@ -16,7 +16,7 @@ export default function Home() {
         <GameTile
           gameTitle="オセロ(リバーシ)"
           themeColor="#00ffa2"
-          link="/"
+          link="/games/othello"
           size="big"
           gamePhrase="定番こそ、今やるべき"
           gameDesc="ボードゲームの中でも定番中の定番である「オセロ（リバーシ）」。定番だからこそ、久しぶりにやってみると奥が深いものです。"
