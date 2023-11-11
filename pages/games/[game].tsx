@@ -3,6 +3,7 @@ import gameList from "@/gameCode/list.json";
 import styles from "@/styles/game.module.css";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkDown from "react-markdown";
+import Phaser from "phaser";
 
 function extractLastPath(url: string) {
   // クエリパラメータを取り除く
@@ -45,6 +46,7 @@ export default function Game() {
     );
 
   //説明のmdファイルを読み込む
+  const gameArea = useRef(null);
   const [mdScript, setMdScript] = useState("");
   useEffect(() => {
     fetch(`/gameDesc/${name}.md`)
@@ -53,20 +55,17 @@ export default function Game() {
   }, []);
 
   //canvasを取得して、それをゲームのclassに渡す
-  const gameCanvas = useRef(null);
-  const gameFunction = require(`@/gameCode/${name}/main.ts`).default;
   useEffect(() => {
-    gameFunction(gameCanvas.current);
+    const gameFunc = require(`@/gameCode/${name}/main.ts`).default;
+    const cleanFunc: () => any = gameFunc(gameObjSetting, gameArea.current);
+    //クリーンアップ関数
+    return cleanFunc;
   }, []);
 
   return (
     <div id={styles.gameSet}>
       <h1 id={styles.gameSetTitle}>{gameObjSetting.title}</h1>
-      <canvas
-        width={gameObjSetting.width}
-        height={gameObjSetting.height}
-        ref={gameCanvas}
-      ></canvas>
+      <div id={styles.gameArea} ref={gameArea}></div>
       <div id={styles.mdArea}>
         <ReactMarkDown>{mdScript}</ReactMarkDown>
       </div>
