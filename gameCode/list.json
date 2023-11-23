@@ -1,8 +1,0 @@
-{
-  "othello": {
-    "title": "オセロ（リバーシ）",
-    "width": 500,
-    "height": 600,
-    "otherGame": ["shogi", "igo", "connectfour", "flash"]
-  }
-}

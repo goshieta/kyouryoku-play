@@ -2,21 +2,13 @@ import Phaser from "phaser";
 import { titleScreen } from "./titleScreen";
 import { gameScreen } from "./game";
 
-type gameConfigType = {
-  title: string;
-  width: number;
-  height: number;
-  otherGame: string[];
-};
-export default function othelloDF(
-  gameObjSetting: gameConfigType,
-  gameArea: HTMLDivElement
-) {
+export default function othelloDF(gameArea: HTMLDivElement) {
+  console.log("main.ts worked!");
   const config: Phaser.Types.Core.GameConfig = {
     title: "オセロ（リバーシ）",
     type: Phaser.AUTO,
-    width: gameObjSetting.width,
-    height: gameObjSetting.height,
+    width: 500,
+    height: 600,
     parent: gameArea,
     scene: [titleScreen, gameScreen],
   };
