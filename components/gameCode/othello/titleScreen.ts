@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+
 export class titleScreen extends Phaser.Scene {
   constructor(config: Phaser.Types.Core.GameConfig) {
     super(config);

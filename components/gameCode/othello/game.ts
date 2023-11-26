@@ -1,5 +1,3 @@
-import Phaser from "phaser";
-
 export class gameScreen extends Phaser.Scene {
   mode: "player" | "bot";
   constructor() {

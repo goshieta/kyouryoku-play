@@ -1,13 +1,35 @@
 import GamePageTemp from "@/components/GamePageTemp";
+import { useEffect, useState } from "react";
 
 export default function Othello() {
+  const [sceneArray, setSceneArray] = useState<any>([]);
+
+  useEffect(() => {
+    const readScenes = async () => {
+      console.log("done");
+      const titleScreen = await import(
+        "@/components/gameCode/othello/titleScreen"
+      );
+      const gameScreen = await import("@/components/gameCode/othello/game");
+      setSceneArray([
+        ...sceneArray,
+        titleScreen.titleScreen,
+        gameScreen.gameScreen,
+      ]);
+      console.log(sceneArray);
+    };
+
+    readScenes();
+  }, []);
+
+  console.log(sceneArray);
+
   return (
     <GamePageTemp
       title="オセロ（リバーシ）"
-      gameFunction={(gameArea) => {
-        const othelloDF = require("@/components/gameCode/othello/main").default;
-        return othelloDF(gameArea);
-      }}
+      scenes={sceneArray}
+      width={500}
+      height={600}
     >
       <h2>遊び方</h2>
       <p>シンプルな普通のオセロです。</p>
