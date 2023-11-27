@@ -30,6 +30,24 @@ export default function Othello() {
       scenes={sceneArray}
       width={500}
       height={600}
+      otherGames={[
+        {
+          title: "将棋",
+          link: "/",
+        },
+        {
+          title: "囲碁",
+          link: "/",
+        },
+        {
+          title: "フラッシュ暗算",
+          link: "/",
+        },
+        {
+          title: "コネクト４",
+          link: "/",
+        },
+      ]}
     >
       <h2>遊び方</h2>
       <p>シンプルな普通のオセロです。</p>

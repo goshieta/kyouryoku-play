@@ -5,7 +5,7 @@
   padding: 10px;
   position: fixed;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--alpha-background-color);
   width: 100%;
   padding-bottom: 20px;
   backdrop-filter: blur(5px);
@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: black;
+  color: var(--font-color);
 }
 #titleIconArea {
   display: flex;
@@ -53,7 +53,7 @@
   margin-right: 30px;
 }
 #linkArea a {
-  color: black;
+  color: var(--font-color);
   text-decoration: none;
   font-weight: 500;
 }

@@ -1,6 +1,7 @@
 import styles from "@/styles/game.module.css";
 import { ReactNode, useRef, useEffect, useState, useMemo } from "react";
 import Head from "next/head";
+import GameTile from "./GameTile";
 
 export default function GamePageTemp(props: {
   title: string;
@@ -8,6 +9,11 @@ export default function GamePageTemp(props: {
   scenes: any[];
   width: number;
   height: number;
+  otherGames: {
+    title: string;
+    link: string;
+    imgLink?: string;
+  }[];
 }) {
   const gameArea = useRef<HTMLDivElement>(null);
 
@@ -65,7 +71,23 @@ export default function GamePageTemp(props: {
         <h1 id={styles.gameSetTitle}>{props.title}</h1>
         <div id={styles.gameArea} ref={gameArea}></div>
         <div id={styles.mdArea}>{props.children}</div>
-        <div id={styles.otherGame}></div>
+        <div id={styles.otherGame}>
+          <h2>おすすめのゲーム</h2>
+          <div id={styles.otherGameTile}>
+            {props.otherGames.map((game, index) => {
+              return (
+                <GameTile
+                  gameTitle={game.title}
+                  link={game.link}
+                  themeColor="#b994ff"
+                  size="small"
+                  imgLink={game.imgLink}
+                  key={`recommendGameNumber${index}`}
+                ></GameTile>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </>
   );

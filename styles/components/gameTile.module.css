@@ -6,6 +6,13 @@
 }
 #tile a {
   text-decoration: none;
+  color: var(--black-font-color);
+}
+#tile a,
+#tile p,
+#tile h2,
+#tile h3 {
+  color: var(--black-font-color);
 }
 #tile a:hover {
   color: rgb(255, 255, 255);

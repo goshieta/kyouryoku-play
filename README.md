@@ -1,4 +1,4 @@
-![aa](public\icon.png)
+![aa](public/icon.png)
 
 # 峡緑プレイへようこそ！
 

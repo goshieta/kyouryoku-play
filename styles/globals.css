@@ -4,17 +4,36 @@ html {
 body {
   margin: 0;
   padding: 0;
+  background-color: var(--background-color);
 }
 * {
   font-family: "Zen Kaku Gothic New", sans-serif;
-  color: #00114f;
+  color: var(--font-color);
+}
+
+/*テーマカラーなど*/
+:root {
+  --font-color: #00114f;
+  --black-font-color: #00114f;
+  --background-color: #f6f9ff;
+  --alpha-background-color: #f6f9ffb4;
+  --special-bg: rgb(227, 235, 255);
+}
+/*ダークモード対応*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --font-color: #ffffff;
+    --background-color: #000b22;
+    --alpha-background-color: #000b22e5;
+    --special-bg: #00173c;
+  }
 }
 
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background-color: white;
+  background-color: var(--background-color);
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;

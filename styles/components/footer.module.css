@@ -1,6 +1,6 @@
 /*全体*/
 #footer {
-  background-color: #f6f6f6;
+  background-color: var(--special-bg);
   margin: 0;
   padding: 10px;
   margin-top: 40px;
