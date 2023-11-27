@@ -102,7 +102,9 @@ export class gameScreen extends Phaser.Scene {
             accumulator +
             currentArray.reduce(
               (columnAccumulator: number, currentValue) =>
-                currentValue == num ? columnAccumulator + 1 : columnAccumulator,
+                currentValue === num
+                  ? columnAccumulator + 1
+                  : columnAccumulator,
               0
             ),
           0
@@ -116,5 +118,47 @@ export class gameScreen extends Phaser.Scene {
 
   countTurnOverStone(x: number, y: number, color: number) {
     //ひっくり返せる石の情報を配列で返す
+    //方向をfor文で定めて、それぞれの方向に盤面上でループする。
+    let canTurnOverStone: number[][] = [];
+    for (let xDir = -1; xDir <= 1; xDir++) {
+      for (let yDir = -1; yDir <= 1; yDir++) {
+        //方向0,0はその場にとどまり続けるのではじく
+        if (xDir === 0 && yDir === 0) continue;
+        //ループ中に現在の位置を把握させる
+        let currentPosition = [x, y];
+        let canTurnOverStoneOnOneDirection: number[][] = [];
+
+        currentPosition = [
+          currentPosition[0] + xDir,
+          currentPosition[1] + yDir,
+        ];
+
+        while (
+          this.board[currentPosition[1]][currentPosition[0]] ==
+          (color == 1 ? 2 : 1)
+        ) {
+          canTurnOverStoneOnOneDirection.push(currentPosition);
+          currentPosition = [
+            currentPosition[0] + xDir,
+            currentPosition[1] + yDir,
+          ];
+          if (this.board[currentPosition[1]] == undefined) break;
+        }
+
+        //while文が終わっていた時の位置が範囲を超えていた場合、自分の石がなかったということなので、ひっくり返せない。
+        if (
+          currentPosition[0] < 0 ||
+          7 < currentPosition[0] ||
+          currentPosition[1] < 0 ||
+          7 < currentPosition[1]
+        )
+          canTurnOverStoneOnOneDirection = [];
+        canTurnOverStone = canTurnOverStone.concat(
+          canTurnOverStoneOnOneDirection
+        );
+      }
+    }
+
+    return canTurnOverStone;
   }
 }
