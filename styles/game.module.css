@@ -11,6 +11,16 @@
   border-radius: 5px;
 }
 
+#gameArea {
+  width: fit-content;
+  margin: 10px auto;
+}
+#gameArea * {
+  color: black;
+  outline: none;
+  border: none;
+}
+
 #mdArea {
   width: 500px;
   margin: 60px auto;

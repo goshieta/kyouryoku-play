@@ -7,58 +7,28 @@ export class titleScreen extends Phaser.Scene {
   preload() {}
   create() {
     const backGround = this.add.graphics();
-    backGround.fillStyle(0x24ad52, 1);
+    backGround.fillStyle(0x1aff97, 1);
     backGround.fillRect(
       0,
       0,
       Number(this.game.config.width),
       Number(this.game.config.height)
     );
-    this.add
-      .text(250, 100, "オセロ（リバーシ）", {
-        font: "40px Zen Kaku Gothic New",
-        color: "#ffffff",
-      })
-      .setOrigin(0.5);
 
-    this.add
-      .graphics()
-      .fillStyle(0xffffff, 1)
-      .fillRect(50, 260, 400, 80)
-      .setInteractive(
-        new Phaser.Geom.Rectangle(50, 260, 400, 80),
-        Phaser.Geom.Rectangle.Contains
-      )
-      .on("pointerup", () => {
-        this.scene.start("game", { mode: "player" });
-      });
-    this.add
-      .graphics()
-      .fillStyle(0xffffff, 1)
-      .fillRect(50, 410, 400, 80)
-      .setInteractive(
-        new Phaser.Geom.Rectangle(50, 410, 400, 80),
-        Phaser.Geom.Rectangle.Contains
-      )
-      .on("pointerup", () => {
+    this.add.dom(250, 300).createFromHTML(`
+    <div>
+      <button id="singlePlayButton" style="cursor:pointer;margin:60px;display:block;border-radius:5px;width:200px;height:60px;font-size:20px;font-weight:bold;">一人で対戦</button>
+      <button id="doublePlayButton" style="cursor:pointer;margin:60px;display:block;border-radius:5px;width:200px;height:60px;font-size:20px;font-weight:bold;">二人で対戦</button>
+    </div>`);
+    document
+      .getElementById("singlePlayButton")
+      ?.addEventListener("click", () => {
         this.scene.start("game", { mode: "bot" });
       });
-
-    this.add
-      .text(250, 300, "Player VS Player", {
-        font: "30px Zen Kaku Gothic New",
-        color: "black",
-      })
-      .setOrigin(0.5)
-
-      .on("pointerup", () => {
-        console.log("player");
+    document
+      .getElementById("doublePlayButton")
+      ?.addEventListener("click", () => {
+        this.scene.start("game", { mode: "player" });
       });
-    this.add
-      .text(250, 450, "Player VS Bot", {
-        font: "30px Zen Kaku Gothic New",
-        color: "black",
-      })
-      .setOrigin(0.5);
   }
 }

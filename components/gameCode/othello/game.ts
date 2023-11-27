@@ -1,16 +1,30 @@
 export class gameScreen extends Phaser.Scene {
   mode: "player" | "bot";
+  board: (0 | 1 | 2)[][];
+
   constructor() {
     super({
       key: "game",
     });
     this.mode = "bot";
+
+    //ボード。黒が1。白が2。先手は黒
+    this.board = [
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 2, 1, 0, 0, 0],
+      [0, 0, 0, 1, 2, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+    ];
   }
   create() {
     //盤面の初期化
     this.add
       .graphics()
-      .fillStyle(0x24ad52, 1)
+      .fillStyle(0x1aff97, 1)
       .fillRect(
         0,
         0,
@@ -22,16 +36,27 @@ export class gameScreen extends Phaser.Scene {
       for (let y = 0; y < 9; y++) {
         this.add
           .graphics()
-          .lineStyle(2, 0x000000)
+          .lineStyle(2, 0x08003f)
           .lineBetween(10, 10 + y * 60, 490, 10 + y * 60);
       }
       this.add
         .graphics()
-        .lineStyle(2, 0x000000)
+        .lineStyle(2, 0x08003f)
         .lineBetween(10 + x * 60, 10, 10 + x * 60, 490);
     }
+
+    //下のスコア表示など。
   }
   init(data: { mode: "player" | "bot" }) {
     this.mode = data.mode;
+  }
+
+  update(time: number, delta: number): void {
+    this.board.map((column, y) => {
+      column.map((oneCell, x) => {
+        const stoneColorArray = [, 0x000000, 0xffffff];
+        this.add.circle(40 + 60 * x, 40 + 60 * y, 20, stoneColorArray[oneCell]);
+      });
+    });
   }
 }

@@ -47,6 +47,9 @@ export default function GamePageTemp(props: {
         height: 600,
         parent: gameArea.current,
         scene: props.scenes,
+        dom: {
+          createContainer: true,
+        },
       };
 
       setPhaserObj(new Phaser.Game(config));
