@@ -5,7 +5,7 @@ export class gameScreen extends Phaser.Scene {
   scoreArea?: Phaser.GameObjects.DOMElement;
   stoneGraphics?: Phaser.GameObjects.Graphics;
   circleArray: Phaser.GameObjects.GameObject[];
-  currentlyPlayer: 0 | 1;
+  currentlyPlayer: 1 | 2;
 
   constructor() {
     super({
@@ -25,9 +25,8 @@ export class gameScreen extends Phaser.Scene {
       [0, 0, 0, 0, 0, 0, 0, 0],
     ];
     this.boardForRender = this.putOutSuggestion().boardForRender;
-    console.log(this.boardForRender);
 
-    this.currentlyPlayer = 0;
+    this.currentlyPlayer = 1;
 
     this.circleArray = [];
   }
@@ -78,17 +77,28 @@ export class gameScreen extends Phaser.Scene {
 
   update(time: number, delta: number): void {
     this.circleArray.forEach((oneCircle) => oneCircle.destroy());
-    this.board.map((column, y) => {
+    this.boardForRender.map((column, y) => {
       column.map((oneCell, x) => {
         const stoneColorArray = [, 0x000000, 0xffffff];
-        this.circleArray.push(
-          this.add.circle(
-            40 + 60 * x,
-            40 + 60 * y,
-            20,
-            stoneColorArray[oneCell]
-          )
-        );
+        if (oneCell === 3) {
+          this.circleArray.push(
+            this.add.circle(
+              40 + 60 * x,
+              40 + 60 * y,
+              5,
+              stoneColorArray[this.currentlyPlayer]
+            )
+          );
+        } else {
+          this.circleArray.push(
+            this.add.circle(
+              40 + 60 * x,
+              40 + 60 * y,
+              20,
+              stoneColorArray[oneCell]
+            )
+          );
+        }
       });
     });
 
@@ -123,7 +133,7 @@ export class gameScreen extends Phaser.Scene {
     };
   }
 
-  countTurnOverStone(x: number, y: number, currentColor: 0 | 1) {
+  countTurnOverStone(x: number, y: number, currentColor: 1 | 2) {
     //ひっくり返せる石の情報を配列で返す
     //方向をfor文で定めて、それぞれの方向に盤面上でループする。
     let canTurnOverStone: number[][] = [];
@@ -167,11 +177,6 @@ export class gameScreen extends Phaser.Scene {
           this.board[currentPosition[1]][currentPosition[0]] === 0
         )
           canTurnOverStoneOnOneDirection = [];
-
-        if (x === 2 && y === 2) {
-          console.log(currentPosition[0], currentPosition[1]);
-          console.log(canTurnOverStoneOnOneDirection);
-        }
 
         canTurnOverStone = canTurnOverStone.concat(
           canTurnOverStoneOnOneDirection
