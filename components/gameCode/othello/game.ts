@@ -224,13 +224,11 @@ export class gameScreen extends Phaser.Scene {
   }
 
   turnStone(x: number, y: number) {
-    console.log(x, y);
     if (this.boardForRender[y][x] !== 3) return;
     let turnStoneArray = [[x, y]];
     turnStoneArray = turnStoneArray.concat(
       this.countTurnOverStone(x, y, this.currentlyPlayer)
     );
-    console.log(turnStoneArray);
     turnStoneArray.forEach((position) => {
       this.board[position[1]][position[0]] = this.currentlyPlayer;
     });
