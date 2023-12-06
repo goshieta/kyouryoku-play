@@ -12,6 +12,7 @@ export class gameScreen extends Phaser.Scene {
       key: "game",
     });
     this.mode = "bot";
+    this.currentlyPlayer = 1;
 
     //ボード。黒が1。白が2。先手は黒
     this.board = [
@@ -25,8 +26,6 @@ export class gameScreen extends Phaser.Scene {
       [0, 0, 0, 0, 0, 0, 0, 0],
     ];
     this.boardForRender = this.putOutSuggestion().boardForRender;
-
-    this.currentlyPlayer = 1;
 
     this.circleArray = [];
   }
@@ -76,6 +75,7 @@ export class gameScreen extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
+    //レンダリング
     this.circleArray.forEach((oneCircle) => oneCircle.destroy());
     this.boardForRender.map((column, y) => {
       column.map((oneCell, x) => {
@@ -109,6 +109,24 @@ export class gameScreen extends Phaser.Scene {
         white: this.scoreArea.node.children[0].children[1].innerHTML,
       } = this.score());
     }
+
+    //入力イベントの検出
+    const pointer = this.input.activePointer;
+    if (pointer.isDown) {
+      if (
+        10 < pointer.x &&
+        pointer.x < 490 &&
+        10 < pointer.y &&
+        pointer.y < 490
+      ) {
+        //範囲内にポインターがある場合
+        const positionOfMass = {
+          x: Math.floor((pointer.x - 10) / 60),
+          y: Math.floor((pointer.y - 10) / 60),
+        };
+        this.turnStone(positionOfMass.x, positionOfMass.y);
+      }
+    }
   }
 
   score() {
@@ -134,6 +152,7 @@ export class gameScreen extends Phaser.Scene {
   }
 
   countTurnOverStone(x: number, y: number, currentColor: 1 | 2) {
+    //currentColorはいひっくり返す側のプレイヤー
     //ひっくり返せる石の情報を配列で返す
     //方向をfor文で定めて、それぞれの方向に盤面上でループする。
     let canTurnOverStone: number[][] = [];
@@ -153,7 +172,7 @@ export class gameScreen extends Phaser.Scene {
         while (
           this.board[currentPosition[1]] !== undefined &&
           this.board[currentPosition[1]][currentPosition[0]] ==
-            (currentColor == 1 ? 1 : 2)
+            (currentColor == 1 ? 2 : 1)
         ) {
           canTurnOverStoneOnOneDirection.push(currentPosition);
           currentPosition = [
@@ -202,5 +221,20 @@ export class gameScreen extends Phaser.Scene {
       boardForRender: boardForRender,
       arrayOfCanTurnOver: arrayOfCanTurnOver,
     };
+  }
+
+  turnStone(x: number, y: number) {
+    console.log(x, y);
+    if (this.boardForRender[y][x] !== 3) return;
+    let turnStoneArray = [[x, y]];
+    turnStoneArray = turnStoneArray.concat(
+      this.countTurnOverStone(x, y, this.currentlyPlayer)
+    );
+    console.log(turnStoneArray);
+    turnStoneArray.forEach((position) => {
+      this.board[position[1]][position[0]] = this.currentlyPlayer;
+    });
+    this.currentlyPlayer = this.currentlyPlayer === 1 ? 2 : 1;
+    this.boardForRender = this.putOutSuggestion().boardForRender;
   }
 }
