@@ -1,9 +1,11 @@
 export class gameScreen extends Phaser.Scene {
   mode: "player" | "bot";
   board: (0 | 1 | 2)[][];
+  boardForRender: (0 | 1 | 2 | 3)[][];
   scoreArea?: Phaser.GameObjects.DOMElement;
   stoneGraphics?: Phaser.GameObjects.Graphics;
   circleArray: Phaser.GameObjects.GameObject[];
+  currentlyPlayer: 0 | 1;
 
   constructor() {
     super({
@@ -22,6 +24,11 @@ export class gameScreen extends Phaser.Scene {
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0],
     ];
+    this.boardForRender = this.putOutSuggestion().boardForRender;
+    console.log(this.boardForRender);
+
+    this.currentlyPlayer = 0;
+
     this.circleArray = [];
   }
 
@@ -116,7 +123,7 @@ export class gameScreen extends Phaser.Scene {
     };
   }
 
-  countTurnOverStone(x: number, y: number, color: number) {
+  countTurnOverStone(x: number, y: number, currentColor: 0 | 1) {
     //ひっくり返せる石の情報を配列で返す
     //方向をfor文で定めて、それぞれの方向に盤面上でループする。
     let canTurnOverStone: number[][] = [];
@@ -134,8 +141,9 @@ export class gameScreen extends Phaser.Scene {
         ];
 
         while (
+          this.board[currentPosition[1]] !== undefined &&
           this.board[currentPosition[1]][currentPosition[0]] ==
-          (color == 1 ? 2 : 1)
+            (currentColor == 1 ? 1 : 2)
         ) {
           canTurnOverStoneOnOneDirection.push(currentPosition);
           currentPosition = [
@@ -153,6 +161,18 @@ export class gameScreen extends Phaser.Scene {
           7 < currentPosition[1]
         )
           canTurnOverStoneOnOneDirection = [];
+        //何もないところで終わっていた場合、自分の石がなかったということなのでひっくり返せない
+        if (
+          this.board[currentPosition[1]] === undefined ||
+          this.board[currentPosition[1]][currentPosition[0]] === 0
+        )
+          canTurnOverStoneOnOneDirection = [];
+
+        if (x === 2 && y === 2) {
+          console.log(currentPosition[0], currentPosition[1]);
+          console.log(canTurnOverStoneOnOneDirection);
+        }
+
         canTurnOverStone = canTurnOverStone.concat(
           canTurnOverStoneOnOneDirection
         );
@@ -160,5 +180,22 @@ export class gameScreen extends Phaser.Scene {
     }
 
     return canTurnOverStone;
+  }
+
+  putOutSuggestion() {
+    //boardForRender用の配列と、単純における場所の座標を書いた配列を返す。
+    let arrayOfCanTurnOver: number[][][] = [];
+    const boardForRender = this.board.map((row, y) =>
+      row.map((oneStone, x) => {
+        if (oneStone != 0) return oneStone;
+        const info = this.countTurnOverStone(x, y, this.currentlyPlayer);
+        arrayOfCanTurnOver.push(info);
+        return info.length == 0 ? 0 : 3;
+      })
+    );
+    return {
+      boardForRender: boardForRender,
+      arrayOfCanTurnOver: arrayOfCanTurnOver,
+    };
   }
 }
