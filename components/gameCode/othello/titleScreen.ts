@@ -15,18 +15,18 @@ export class titleScreen extends Phaser.Scene {
       Number(this.game.config.height)
     );
 
-    this.add.dom(250, 300).createFromHTML(`
+    const buttonDom = this.add.dom(250, 300).createFromHTML(`
     <div>
       <button id="singlePlayButton" style="cursor:pointer;margin:60px;display:block;border-radius:5px;width:200px;height:60px;font-size:20px;font-weight:bold;">一人で対戦</button>
       <button id="doublePlayButton" style="cursor:pointer;margin:60px;display:block;border-radius:5px;width:200px;height:60px;font-size:20px;font-weight:bold;">二人で対戦</button>
     </div>`);
-    document
-      .getElementById("singlePlayButton")
+    buttonDom
+      .getChildByID("singlePlayButton")
       ?.addEventListener("click", () => {
         this.scene.start("game", { mode: "bot" });
       });
-    document
-      .getElementById("doublePlayButton")
+    buttonDom
+      .getChildByID("doublePlayButton")
       ?.addEventListener("click", () => {
         this.scene.start("game", { mode: "player" });
       });

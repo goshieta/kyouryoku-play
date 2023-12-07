@@ -59,14 +59,37 @@ export class gameScreen extends Phaser.Scene {
 
     //下のスコア表示など。
     const scoreHTML = `
-      <div>
-        <div id="blackScoreArea">
-          <p>${this.score().black}</p>
+      <div id="r_scoreArea">
+        <div id="r_blackScoreArea">
+          ${this.score().black}
         </div>
-        <div id="whiteScoreArea">
-          <p>${this.score().white}</p>
+        <div id="r_whiteScoreArea">
+          ${this.score().white}
         </div>
       </div>
+      <style>
+        #r_scoreArea{
+          display:flex;
+          gap:20px;
+        }
+        #r_scoreArea > div{
+          width:80px;
+          height:40px;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          border-radius:5px;
+          font-size:20px;
+          font-weight:bold;
+        }
+        #r_blackScoreArea{
+          background-color:black;
+          color:white;
+        }
+        #r_whiteScoreArea{
+          background-color:white;
+        }
+      </style>
     `;
     this.scoreArea = this.add.dom(250, 550).createFromHTML(scoreHTML);
   }
