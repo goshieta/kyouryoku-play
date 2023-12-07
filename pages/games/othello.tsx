@@ -6,7 +6,6 @@ export default function Othello() {
 
   useEffect(() => {
     const readScenes = async () => {
-      console.log("done");
       const titleScreen = await import(
         "@/components/gameCode/othello/titleScreen"
       );
@@ -19,13 +18,10 @@ export default function Othello() {
         gameScreen.gameScreen,
         gameEndScreen.gameEnd,
       ]);
-      console.log(sceneArray);
     };
 
     readScenes();
   }, []);
-
-  console.log(sceneArray);
 
   return (
     <GamePageTemp

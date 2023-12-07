@@ -33,6 +33,19 @@ export class gameScreen extends Phaser.Scene {
   }
 
   create() {
+    //データの初期化
+    this.board = [
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 2, 1, 0, 0, 0],
+      [0, 0, 0, 1, 2, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+    this.boardForRender = this.putOutSuggestion().boardForRender;
+
     //盤面の初期化
     this.add
       .graphics()
@@ -283,7 +296,6 @@ export class gameScreen extends Phaser.Scene {
   }
 
   gameEnd() {
-    console.log("end!");
-    this.scene.start("gameEnd", this.score);
+    this.scene.start("gameEnd", this.score());
   }
 }
