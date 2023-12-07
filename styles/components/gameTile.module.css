@@ -37,20 +37,21 @@
   flex-grow: 1;
 }
 #right img {
-  width: 100px;
+  width: 150px;
   height: 100px;
   display: block;
   border-radius: 5px;
+  object-fit: cover;
 }
 #right div {
-  width: 100px;
+  width: 150px;
   height: 100px;
   background-color: rgb(224, 224, 224);
   border-radius: 5px;
 }
 #right.big img,
 #right.big div {
-  width: 150px;
+  width: 225px;
   height: 150px;
 }
 

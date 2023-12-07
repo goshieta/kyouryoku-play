@@ -20,6 +20,7 @@ export default function Home() {
           size="big"
           gamePhrase="定番こそ、今やるべき"
           gameDesc="ボードゲームの中でも定番中の定番である「オセロ（リバーシ）」。定番だからこそ、久しぶりにやってみると奥が深いものです。"
+          imgLink="/gamesImage/othello.png"
         ></GameTile>
         <GameTile
           gameTitle="将棋"
