@@ -6,6 +6,7 @@ export class gameScreen extends Phaser.Scene {
   stoneGraphics?: Phaser.GameObjects.Graphics;
   circleArray: Phaser.GameObjects.GameObject[];
   currentlyPlayer: 1 | 2;
+  passCache: number;
 
   constructor() {
     super({
@@ -13,6 +14,7 @@ export class gameScreen extends Phaser.Scene {
     });
     this.mode = "bot";
     this.currentlyPlayer = 1;
+    this.passCache = 0;
 
     //ボード。黒が1。白が2。先手は黒
     this.board = [
@@ -78,9 +80,10 @@ export class gameScreen extends Phaser.Scene {
           display:flex;
           justify-content:center;
           align-items:center;
-          border-radius:5px;
+          border-radius:2px;
           font-size:20px;
           font-weight:bold;
+          box-sizing:border-box;
         }
         #r_blackScoreArea{
           background-color:black;
@@ -100,10 +103,12 @@ export class gameScreen extends Phaser.Scene {
   update(time: number, delta: number): void {
     //レンダリング
     this.circleArray.forEach((oneCircle) => oneCircle.destroy());
+    let numberOfCanTurnOver = 0;
     this.boardForRender.map((column, y) => {
       column.map((oneCell, x) => {
         const stoneColorArray = [, 0x000000, 0xffffff];
         if (oneCell === 3) {
+          numberOfCanTurnOver++;
           this.circleArray.push(
             this.add.circle(
               40 + 60 * x,
@@ -124,13 +129,25 @@ export class gameScreen extends Phaser.Scene {
         }
       });
     });
+    if (numberOfCanTurnOver == 0) {
+      this.pass();
+      this.passCache++;
+    } else {
+      this.passCache = 0;
+    }
 
     //スコアを更新
     if (this.scoreArea != undefined) {
+      const scoreAreaParentDiv = this.scoreArea.node.children[0];
       ({
-        black: this.scoreArea.node.children[0].children[0].innerHTML,
-        white: this.scoreArea.node.children[0].children[1].innerHTML,
+        black: scoreAreaParentDiv.children[0].innerHTML,
+        white: scoreAreaParentDiv.children[1].innerHTML,
       } = this.score());
+    }
+
+    if (this.passCache >= 2) {
+      //パスが二回以上繰り返されたということなので、両方とも置けない。よってゲーム終了
+      this.gameEnd();
     }
 
     //入力イベントの検出
@@ -257,5 +274,16 @@ export class gameScreen extends Phaser.Scene {
     });
     this.currentlyPlayer = this.currentlyPlayer === 1 ? 2 : 1;
     this.boardForRender = this.putOutSuggestion().boardForRender;
+  }
+
+  pass() {
+    //パスを実装
+    this.currentlyPlayer = this.currentlyPlayer === 1 ? 2 : 1;
+    this.boardForRender = this.putOutSuggestion().boardForRender;
+  }
+
+  gameEnd() {
+    console.log("end!");
+    this.scene.start("gameEnd", this.score);
   }
 }

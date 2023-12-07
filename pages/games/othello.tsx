@@ -11,7 +11,14 @@ export default function Othello() {
         "@/components/gameCode/othello/titleScreen"
       );
       const gameScreen = await import("@/components/gameCode/othello/game");
-      setSceneArray([titleScreen.titleScreen, gameScreen.gameScreen]);
+      const gameEndScreen = await import(
+        "@/components/gameCode/othello/gameEnd"
+      );
+      setSceneArray([
+        titleScreen.titleScreen,
+        gameScreen.gameScreen,
+        gameEndScreen.gameEnd,
+      ]);
       console.log(sceneArray);
     };
 
