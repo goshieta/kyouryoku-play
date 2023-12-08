@@ -25,11 +25,6 @@ export default function GamePageTemp(props: {
   //canvasを取得して、それをゲームのclassに渡す
   useEffect(() => {
     async function initPhaser() {
-      /*if (
-        typeof window !== "undefined" &&
-        typeof window.navigator !== "undefined"
-      )
-        return;*/
       //一回のみ実行されるように書く
       if (isReadPhaser) return;
 
@@ -87,6 +82,18 @@ export default function GamePageTemp(props: {
       </Head>
       <div id={styles.gameSet}>
         <h1 id={styles.gameSetTitle}>{props.title}</h1>
+        {phaserObj === null ? (
+          <div id={styles.loadingGame}>
+            <div id={styles.loadingFlex}>
+              <div className={styles.roundLoader}></div>
+              <div className={styles.roundLoader}></div>
+              <div className={styles.roundLoader}></div>
+            </div>
+            <p>ゲームを読み込み中...</p>
+          </div>
+        ) : (
+          <></>
+        )}
         <div id={styles.gameArea} ref={gameArea}></div>
         <div id={styles.mdArea}>{props.children}</div>
         <div id={styles.otherGame}>
