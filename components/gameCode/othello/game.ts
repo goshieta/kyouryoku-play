@@ -1,4 +1,4 @@
-export class gameScreen extends Phaser.Scene {
+export class game extends Phaser.Scene {
   mode: "player" | "bot";
   board: (0 | 1 | 2)[][];
   boardForRender: (0 | 1 | 2 | 3)[][];

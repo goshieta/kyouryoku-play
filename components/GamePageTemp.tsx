@@ -1,12 +1,14 @@
 import styles from "@/styles/game.module.css";
-import { ReactNode, useRef, useEffect, useState, useMemo } from "react";
+import { ReactNode, useRef, useEffect, useState } from "react";
 import Head from "next/head";
 import GameTile from "./GameTile";
+import { useRouter } from "next/router";
 
 export default function GamePageTemp(props: {
   title: string;
   children: ReactNode;
-  scenes: any[];
+  scenes: string[];
+  fileName: string;
   width: number;
   height: number;
   otherGames: {
@@ -20,9 +22,6 @@ export default function GamePageTemp(props: {
   const [isReadPhaser, setIsReadPhaser] = useState<boolean>(false);
   const [phaserObj, setPhaserObj] = useState<any>(null);
 
-  //シーンの配列が切り替わったかを判断する材料
-  const [scenesCache, setScenesCache] = useState(props.scenes);
-
   //canvasを取得して、それをゲームのclassに渡す
   useEffect(() => {
     async function initPhaser() {
@@ -31,13 +30,22 @@ export default function GamePageTemp(props: {
         typeof window.navigator !== "undefined"
       )
         return;*/
-      //シーンのキャッシュと一回のみ実行されるように書く
-      if (isReadPhaser && scenesCache === props.scenes) return;
+      //一回のみ実行されるように書く
+      if (isReadPhaser) return;
 
       if (gameArea.current === null) return;
       const Phaser = await import("phaser");
 
       phaserObj?.destroy(true);
+
+      //シーンの読み込み。Promiseの関係でmapを使えなかったのでfor文
+      const scenesArray: Phaser.Scene[] = [];
+      for (let i = 0; i < props.scenes.length; i++) {
+        const readModule = await import(
+          `@/components/gameCode/${props.fileName}/${props.scenes[i]}`
+        );
+        scenesArray.push(readModule[props.scenes[i]]);
+      }
 
       //ゲームのプログラム
       const config: Phaser.Types.Core.GameConfig = {
@@ -46,24 +54,31 @@ export default function GamePageTemp(props: {
         width: 500,
         height: 600,
         parent: gameArea.current,
-        scene: props.scenes,
+        scene: scenesArray,
         dom: {
           createContainer: true,
         },
       };
 
       setPhaserObj(new Phaser.Game(config));
-      setScenesCache(props.scenes);
 
       //読み込み完了
       setIsReadPhaser(true);
     }
-    //const cleanFunc = props.gameFunction(gameArea.current);
-    //クリーンアップ関数
-    //return cleanFunc;
-
     initPhaser();
-  });
+  }, []);
+
+  //ページ遷移をした場合phaserオブジェクトを破棄する
+  const router = useRouter();
+  const pageChangeEvent = () => {
+    phaserObj?.destroy(true);
+  };
+  useEffect(() => {
+    router.events.on("routeChangeStart", pageChangeEvent);
+    return () => {
+      router.events.off("routeChangeStart", pageChangeEvent);
+    };
+  }, []);
 
   return (
     <>

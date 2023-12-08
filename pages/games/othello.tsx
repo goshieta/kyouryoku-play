@@ -1,32 +1,11 @@
 import GamePageTemp from "@/components/GamePageTemp";
-import { useEffect, useState } from "react";
 
 export default function Othello() {
-  const [sceneArray, setSceneArray] = useState<any>([]);
-
-  useEffect(() => {
-    const readScenes = async () => {
-      const titleScreen = await import(
-        "@/components/gameCode/othello/titleScreen"
-      );
-      const gameScreen = await import("@/components/gameCode/othello/game");
-      const gameEndScreen = await import(
-        "@/components/gameCode/othello/gameEnd"
-      );
-      setSceneArray([
-        titleScreen.titleScreen,
-        gameScreen.gameScreen,
-        gameEndScreen.gameEnd,
-      ]);
-    };
-
-    readScenes();
-  }, []);
-
   return (
     <GamePageTemp
       title="オセロ（リバーシ）"
-      scenes={sceneArray}
+      fileName="othello"
+      scenes={["titleScreen", "game", "gameEnd"]}
       width={500}
       height={600}
       otherGames={[
