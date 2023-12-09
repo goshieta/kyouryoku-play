@@ -13,39 +13,8 @@ export default function Home() {
         />
       </Head>
       <div id={styles.gridGameArea}>
-        <GameTile
-          gameTitle="オセロ(リバーシ)"
-          themeColor="#00ffa2"
-          link="/games/othello"
-          size="big"
-          gamePhrase="定番こそ、今やるべき"
-          gameDesc="ボードゲームの中でも定番中の定番である「オセロ（リバーシ）」。定番だからこそ、久しぶりにやってみると奥が深いものです。"
-          imgLink="/gamesImage/othello.png"
-        ></GameTile>
-        <GameTile
-          gameTitle="将棋"
-          themeColor="#b994ff"
-          link="/"
-          size="small"
-        ></GameTile>
-        <GameTile
-          gameTitle="囲碁"
-          themeColor="#b994ff"
-          link="/"
-          size="small"
-        ></GameTile>
-        <GameTile
-          gameTitle="コネクト4"
-          themeColor="#b994ff"
-          link="/"
-          size="small"
-        ></GameTile>
-        <GameTile
-          gameTitle="フラッシュ暗算"
-          themeColor="#b994ff"
-          link="/"
-          size="small"
-        ></GameTile>
+        <GameTile themeColor="#00ffa2" size="big" gameCode="othello"></GameTile>
+        <GameTile gameCode="flash" themeColor="#b994ff" size="small"></GameTile>
       </div>
     </div>
   );

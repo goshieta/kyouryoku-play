@@ -1,17 +1,27 @@
 import styles from "@/styles/components/gameTile.module.css";
 import Link from "next/link";
+import gameInfo from "@/public/gameInfo.json";
 
 type gameTilePropsType = {
   themeColor: string;
-  gameTitle: string;
+  gameCode: string;
   size: "big" | "small";
-  gamePhrase?: string;
-  gameDesc?: string;
-  link: string;
-  imgLink?: string;
 };
 
 export default function GameTile(props: gameTilePropsType) {
+  type TypeGameInfo = {
+    title: string;
+    catchCopy?: string;
+    description?: string;
+    gameCode: string;
+  };
+
+  const onTypeGameInfo: {
+    [key: string]: TypeGameInfo;
+  } = gameInfo;
+
+  const thisGameInfo = onTypeGameInfo[props.gameCode];
+
   return (
     <div
       id={styles.tile}
@@ -27,11 +37,11 @@ export default function GameTile(props: gameTilePropsType) {
     >
       <div id={styles.top}>
         <div id={styles.left}>
-          {props.size == "big" ? <h2>{props.gamePhrase}</h2> : <></>}
-          <h3>{props.gameTitle}</h3>
-          {props.size == "big" ? <p>{props.gameDesc}</p> : <></>}
+          {props.size == "big" ? <h2>{thisGameInfo.catchCopy}</h2> : <></>}
+          <h3>{thisGameInfo.title}</h3>
+          {props.size == "big" ? <p>{thisGameInfo.description}</p> : <></>}
           {props.size == "small" ? (
-            <Link href={props.link}>プレイ ＞</Link>
+            <Link href={`/games/${thisGameInfo.gameCode}`}>プレイ ＞</Link>
           ) : (
             <></>
           )}
@@ -40,21 +50,17 @@ export default function GameTile(props: gameTilePropsType) {
           id={styles.right}
           className={props.size == "big" ? styles.big : ""}
         >
-          {props.imgLink != undefined ? (
-            <img
-              src={props.imgLink}
-              alt={props.gameTitle}
-              width={150}
-              height={150}
-            />
-          ) : (
-            <div></div>
-          )}
+          <img
+            src={`/gamesImage/${thisGameInfo.gameCode}.png`}
+            alt={thisGameInfo.title}
+            width={150}
+            height={150}
+          />
         </div>
       </div>
       {props.size == "big" ? (
         <div id={styles.bottom}>
-          <Link href={props.link}>プレイ ＞</Link>
+          <Link href={`/games/${thisGameInfo.gameCode}`}>プレイ ＞</Link>
         </div>
       ) : (
         <></>

@@ -11,11 +11,7 @@ export default function GamePageTemp(props: {
   fileName: string;
   width: number;
   height: number;
-  otherGames: {
-    title: string;
-    link: string;
-    imgLink?: string;
-  }[];
+  otherGames: string[];
 }) {
   const gameArea = useRef<HTMLDivElement>(null);
 
@@ -46,8 +42,8 @@ export default function GamePageTemp(props: {
       const config: Phaser.Types.Core.GameConfig = {
         title: props.title,
         type: Phaser.AUTO,
-        width: 500,
-        height: 600,
+        width: props.width,
+        height: props.height,
         parent: gameArea.current,
         scene: scenesArray,
         dom: {
@@ -102,11 +98,9 @@ export default function GamePageTemp(props: {
             {props.otherGames.map((game, index) => {
               return (
                 <GameTile
-                  gameTitle={game.title}
-                  link={game.link}
-                  themeColor="#b994ff"
+                  gameCode={game}
                   size="small"
-                  imgLink={game.imgLink}
+                  themeColor="#b994ff"
                   key={`recommendGameNumber${index}`}
                 ></GameTile>
               );

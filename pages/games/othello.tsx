@@ -8,24 +8,7 @@ export default function Othello() {
       scenes={["titleScreen", "game", "gameEnd"]}
       width={500}
       height={600}
-      otherGames={[
-        {
-          title: "将棋",
-          link: "/",
-        },
-        {
-          title: "囲碁",
-          link: "/",
-        },
-        {
-          title: "フラッシュ暗算",
-          link: "/",
-        },
-        {
-          title: "コネクト４",
-          link: "/",
-        },
-      ]}
+      otherGames={["flash"]}
     >
       <h2>遊び方</h2>
       <p>シンプルな二人プレイ用のオセロです。</p>
