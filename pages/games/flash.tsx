@@ -5,7 +5,7 @@ export default function Flash() {
     <GamePageTemp
       title="フラッシュ暗算"
       fileName="flash"
-      scenes={["top", "game"]}
+      scenes={["top", "game", "gameAnswer"]}
       width={500}
       height={500}
       otherGames={["othello"]}

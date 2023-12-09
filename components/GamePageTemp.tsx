@@ -74,7 +74,7 @@ export default function GamePageTemp(props: {
   return (
     <>
       <Head>
-        <title>{props.title} - 峡緑プレイ</title>
+        <title>{`${props.title} - 峡緑プレイ`}</title>
       </Head>
       <div id={styles.gameSet}>
         <h1 id={styles.gameSetTitle}>{props.title}</h1>

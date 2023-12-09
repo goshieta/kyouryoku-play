@@ -84,6 +84,8 @@ export class top extends Phaser.Scene {
         digit: splitValue[1],
         number: splitValue[2],
         second: splitValue[3],
+        currentNumber: 1,
+        cache: [],
       });
     });
   }
