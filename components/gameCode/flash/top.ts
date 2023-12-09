@@ -74,7 +74,17 @@ export class top extends Phaser.Scene {
     `;
     const topFormDom = this.add.dom(250, 250).createFromHTML(topFormCode);
     topFormDom.getChildByID("ft_start")?.addEventListener("click", () => {
-      this.scene.start("game");
+      const levelValue: string = (<HTMLInputElement>(
+        topFormDom.getChildByID("ft_selLev")
+      )).value;
+      if (levelValue === "") return;
+      const splitValue = levelValue.split(",");
+      this.scene.start("game", {
+        level: splitValue[0],
+        digit: splitValue[1],
+        number: splitValue[2],
+        second: splitValue[3],
+      });
     });
   }
 }
