@@ -76,7 +76,16 @@ export class gameAnswer extends Phaser.Scene {
         correctAnswer: this.gameData.correctNumber,
       });
       this.gameData.currentNumber += 1;
-      this.scene.start("game", this.gameData);
+
+      //次のシーンへの分岐
+      if (this.gameData.currentNumber <= 5) {
+        this.scene.start("game", this.gameData);
+      } else {
+        //５問解いたら
+        this.scene.start("checkingAnswer", {
+          problemCache: this.gameData.cache,
+        });
+      }
     };
 
     (<HTMLInputElement>formDom.getChildByID("fga_answer")).focus();
