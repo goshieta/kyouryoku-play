@@ -39,6 +39,8 @@ export class game extends Phaser.Scene {
     this.second = data.second;
     this.currentNumber = data.currentNumber;
     this.problemCache = data.cache;
+    this.currentTime = 0;
+    this.problem = [];
 
     //問題作成
     for (let i = 0; i < this.number; i++) {
@@ -81,7 +83,7 @@ export class game extends Phaser.Scene {
         number: this.number,
         second: this.second,
         currentNumber: this.currentNumber,
-        cache: this.cache,
+        cache: this.problemCache,
         correctNumber: this.problem.reduce(
           (previousValue, currentValue) => previousValue + currentValue
         ),
