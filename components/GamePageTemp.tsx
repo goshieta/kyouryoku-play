@@ -12,10 +12,11 @@ export default function GamePageTemp(props: {
   width: number;
   height: number;
   otherGames: string[];
+  additionalConfig?: Phaser.Types.Core.GameConfig;
 }) {
   const gameArea = useRef<HTMLDivElement>(null);
 
-  const [isReadPhaser, setIsReadPhaser] = useState<boolean>(false);
+  //const [isReadPhaser, setIsReadPhaser] = useState<boolean>(false);
   const [phaserObj, setPhaserObj] = useState<any>(null);
 
   //canvasを取得して、それをゲームのclassに渡す
@@ -49,12 +50,13 @@ export default function GamePageTemp(props: {
         dom: {
           createContainer: true,
         },
+        ...(props.additionalConfig === undefined ? {} : props.additionalConfig),
       };
 
       setPhaserObj(new Phaser.Game(config));
 
       //読み込み完了
-      setIsReadPhaser(true);
+      //setIsReadPhaser(true);
     }
     initPhaser();
   }, []);

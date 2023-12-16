@@ -9,6 +9,17 @@ export default function FlyFly() {
       width={800}
       height={600}
       otherGames={["othello", "flash"]}
+      additionalConfig={{
+        physics: {
+          default: "arcade",
+          arcade: {
+            debug: true,
+            gravity: {
+              y: 300,
+            },
+          },
+        },
+      }}
     >
       <h2>遊び方</h2>
     </GamePageTemp>
