@@ -4,7 +4,7 @@ export default function FlyFly() {
   return (
     <GamePageTemp
       title="Fly Fly"
-      scenes={[]}
+      scenes={["main"]}
       fileName="flyfly"
       width={800}
       height={600}
