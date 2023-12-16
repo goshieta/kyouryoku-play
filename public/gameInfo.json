@@ -8,5 +8,9 @@
   "flash": {
     "title": "フラッシュ暗算",
     "gameCode": "flash"
+  },
+  "flyfly": {
+    "title": "Fly Fly",
+    "gameCode": "flyfly"
   }
 }

@@ -14,6 +14,11 @@ export default function Home() {
       </Head>
       <div id={styles.gridGameArea}>
         <GameTile themeColor="#00ffa2" size="big" gameCode="othello"></GameTile>
+        <GameTile
+          gameCode="flyfly"
+          themeColor="#b994ff"
+          size="small"
+        ></GameTile>
         <GameTile gameCode="flash" themeColor="#b994ff" size="small"></GameTile>
       </div>
     </div>
