@@ -15,7 +15,7 @@ export default function FlyFly() {
           arcade: {
             debug: true,
             gravity: {
-              y: 300,
+              y: 500,
             },
           },
         },
