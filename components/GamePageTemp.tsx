@@ -22,7 +22,7 @@ export default function GamePageTemp(props: {
   useEffect(() => {
     async function initPhaser() {
       //一回のみ実行されるように書く
-      if (isReadPhaser) return;
+      //if (isReadPhaser) return;
 
       if (gameArea.current === null) return;
       const Phaser = await import("phaser");
