@@ -13,7 +13,6 @@ export default function FlyFly() {
         physics: {
           default: "arcade",
           arcade: {
-            debug: true,
             gravity: {
               y: 500,
             },
