@@ -23,8 +23,9 @@ export class main extends Phaser.Scene {
     //メインオブジェクト
     this.player = this.physics.add
       .sprite(100, 300, "plane")
-      .setDisplaySize(100, 100);
-    this.physics.add.existing(this.player);
+      .setDisplaySize(100, 100)
+      .setOrigin(0.5, 0.5);
+    this.physics.add.existing(this.player).setSize(150, 50);
 
     //障害物のグループ
     this.matoriteGroup = this.physics.add.staticGroup();
@@ -86,7 +87,8 @@ export class main extends Phaser.Scene {
       const newMatorite = this.physics.add
         .sprite(900, Math.floor(Math.random() * 600), "metorite")
         .setDisplaySize(80, 80)
-        .setGravityY(-500);
+        .setGravityY(-500)
+        .setCircle(75);
       this.matoriteGroup.add(newMatorite);
       this.tweens.add({
         targets: newMatorite,
