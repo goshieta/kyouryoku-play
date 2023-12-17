@@ -4,6 +4,7 @@ export class main extends Phaser.Scene {
   matoriteGroup?: Phaser.GameObjects.Group;
   starGroup?: Phaser.GameObjects.Group;
   boostGroup?: Phaser.GameObjects.Group;
+  starNumberText?: Phaser.GameObjects.Text;
   gameState: "pause" | "active";
   matoriteTime: number;
   speed: number;
@@ -47,8 +48,15 @@ export class main extends Phaser.Scene {
       <div id="f_menu">
         <button id="f_menu_play_button">Play</button>
       </div>
+      <div id="f_menu_retry" style="display:none">
+        <div>
+          <h3>スコア</h3>
+          <p id="score_view">0</p>
+          <button id="f_menu_retry_button">Retry</button>
+        </div>
+      </div>
       <style>
-        #f_menu{
+        #f_menu,#f_menu_retry{
           background-color:rgba(0, 0, 0, 0.5);
           width:800px;
           height:600px;
@@ -57,7 +65,7 @@ export class main extends Phaser.Scene {
           justify-content:center;
           align-items:center;
         }
-        #f_menu button{
+        #f_menu button,#f_menu_retry_button{
           width:100px;
           height:50px;
           background-color:#8b00ff;
@@ -66,8 +74,14 @@ export class main extends Phaser.Scene {
           cursor:pointer;
           color:white;
         }
-        #f_menu button:hover{
+        #f_menu button:hover,#f_menu_retry_button:hover{
           background-color:#7900de;
+        }
+        #f_menu_retry_button{
+          margin-top:30px;
+        }
+        #f_menu_retry *{
+          color:white;
         }
       </style>
     `;
@@ -75,9 +89,18 @@ export class main extends Phaser.Scene {
     this.menuDom
       .getChildByID("f_menu_play_button")
       ?.addEventListener("click", this.gameActivate.bind(this));
+    this.menuDom
+      .getChildByID("f_menu_retry_button")
+      ?.addEventListener("click", this.gameActivate.bind(this));
 
     this.input.keyboard?.on("keyup", this.fly.bind(this));
     this.input.on("pointerdown", this.fly.bind(this));
+
+    //左上のスコア
+    this.add.image(30, 30, "star").setDisplaySize(30, 30);
+    this.starNumberText = this.add
+      .text(60, 33, String(this.starNumber), { fontSize: 30 })
+      .setOrigin(0, 0.5);
   }
 
   gameActivate() {
@@ -85,6 +108,7 @@ export class main extends Phaser.Scene {
     this.gameState = "active";
     this.physics.resume();
     (<any>this.menuDom?.getChildByID("f_menu")).style.display = "none";
+    (<any>this.menuDom?.getChildByID("f_menu_retry")).style.display = "none";
   }
 
   update(time: number, delta: number): void {
@@ -107,6 +131,8 @@ export class main extends Phaser.Scene {
       //当たり判定
       this.physics.add.overlap(this.player, newMatorite, () => {
         newMatorite.destroy();
+        //ゲームオーバー処理
+        this.gameOver();
       });
       this.matoriteTime = 0;
     }
@@ -162,6 +188,9 @@ export class main extends Phaser.Scene {
       gameObj.setVelocityX(-this.speed);
       if (gameObj.x < -100) gameObj.destroy();
     });
+
+    //星のテキストを更新
+    this.starNumberText?.setText(String(this.starNumber));
   }
 
   fly(event: KeyboardEvent | MouseEvent) {
@@ -169,5 +198,31 @@ export class main extends Phaser.Scene {
     if (this.gameState != "active") return;
     //飛ぶ処理
     this.player?.setVelocity(0, -400);
+  }
+
+  gameOver() {
+    //ゲームオーバー処理
+    [
+      ...(<Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[]>(
+        this.matoriteGroup?.children.getArray()
+      )),
+      ...(<Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[]>(
+        this.starGroup?.children.getArray()
+      )),
+      ...(<Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[]>(
+        this.boostGroup?.children.getArray()
+      )),
+    ].forEach((gameObj) => gameObj.destroy());
+    this.physics.pause();
+    this.gameState = "pause";
+    this.matoriteTime = 0;
+    this.speed = 200;
+    this.player?.setPosition(100, 300);
+    (<any>this.menuDom?.getChildByID("f_menu_retry")).style.display = "flex";
+    (<any>this.menuDom?.getChildByID("score_view")).innerText = String(
+      this.starNumber
+    );
+
+    this.starNumber = 0;
   }
 }
