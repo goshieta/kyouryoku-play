@@ -58,6 +58,6 @@
   font-weight: 500;
 }
 #linkArea a:hover {
-  color: rgb(0, 132, 255);
+  color: var(--link-color);
   transition: color 0.2s;
 }

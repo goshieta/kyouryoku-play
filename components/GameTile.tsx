@@ -3,7 +3,6 @@ import Link from "next/link";
 import gameInfo from "@/public/gameInfo.json";
 
 type gameTilePropsType = {
-  themeColor: string;
   gameCode: string;
   size: "big" | "small";
 };
@@ -14,6 +13,7 @@ export default function GameTile(props: gameTilePropsType) {
     catchCopy?: string;
     description?: string;
     gameCode: string;
+    color: string;
   };
 
   const onTypeGameInfo: {
@@ -25,14 +25,15 @@ export default function GameTile(props: gameTilePropsType) {
   return (
     <div
       id={styles.tile}
+      className={styles[`tile_${props.size}`]}
       style={{
-        backgroundColor: props.themeColor,
         ...(props.size == "big"
           ? {
               gridColumnStart: 1,
               gridColumnEnd: 3,
             }
           : {}),
+        borderColor: thisGameInfo.color,
       }}
     >
       <div id={styles.top}>
@@ -51,10 +52,10 @@ export default function GameTile(props: gameTilePropsType) {
           className={props.size == "big" ? styles.big : ""}
         >
           <img
-            src={`/gamesImage/${thisGameInfo.gameCode}.png`}
+            src={`/gamesImage/${thisGameInfo.gameCode}.svg`}
             alt={thisGameInfo.title}
-            width={150}
-            height={150}
+            width={100}
+            height={100}
           />
         </div>
       </div>
