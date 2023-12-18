@@ -15,5 +15,10 @@
     "title": "Fly Fly",
     "gameCode": "flyfly",
     "color": "rgb(119, 0, 255)"
+  },
+  "fishing": {
+    "title": "水魚金",
+    "gameCode": "fishing",
+    "color": "#0384fc"
   }
 }
