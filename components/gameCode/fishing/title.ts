@@ -39,9 +39,9 @@ export class title extends Phaser.Scene {
   }
 
   domEventManager(titleDom: Phaser.GameObjects.DOMElement) {
-    titleDom
-      .getChildByID("ft_start_button")
-      ?.addEventListener("click", () => {});
+    titleDom.getChildByID("ft_start_button")?.addEventListener("click", () => {
+      this.scene.start("map", this.setting);
+    });
     titleDom
       .getChildByID("ft_load_button")
       ?.addEventListener("click", () => {});

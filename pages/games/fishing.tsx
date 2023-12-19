@@ -5,7 +5,7 @@ export default function fishing() {
     <GamePageTemp
       title="水魚金"
       fileName="fishing"
-      scenes={["title"]}
+      scenes={["title", "map"]}
       width={900}
       height={600}
       otherGames={["othello", "flyfly", "flash"]}
