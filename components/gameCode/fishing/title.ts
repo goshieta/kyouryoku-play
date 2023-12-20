@@ -1,9 +1,14 @@
+import { settingType } from "./setting";
+
 export class title extends Phaser.Scene {
-  setting: {};
+  setting: settingType;
 
   constructor(config: Phaser.Types.Core.GameConfig) {
     super({ ...config, key: "title" });
-    this.setting = {};
+    this.setting = {
+      currentMapName: "蔵町",
+      positionOfMap: "bus",
+    };
   }
 
   create() {
