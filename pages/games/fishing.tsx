@@ -9,6 +9,15 @@ export default function fishing() {
       width={900}
       height={600}
       otherGames={["othello", "flyfly", "flash"]}
+      additionalConfig={{
+        physics: {
+          default: "arcade",
+          arcade: {
+            gravity: { y: 0 },
+            debug: false,
+          },
+        },
+      }}
     >
       <h2>ゲームの概要</h2>
       <p>このゲームは、魚を捕って、売りさばき、億万長者になるゲームです。</p>

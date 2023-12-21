@@ -6,7 +6,7 @@ export class title extends Phaser.Scene {
   constructor(config: Phaser.Types.Core.GameConfig) {
     super({ ...config, key: "title" });
     this.setting = {
-      currentMapName: "蔵町",
+      currentMapName: "田舎",
       positionOfMap: "bus",
     };
   }
