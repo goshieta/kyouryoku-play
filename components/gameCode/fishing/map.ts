@@ -21,7 +21,7 @@ export class map extends Phaser.Scene {
     this.load.image("mapTexture", "/chara/fishing/map.png");
 
     this.mapArray.forEach((mapName) => {
-      this.load.tilemapCSV(mapName, `/chara/fishing/map/${mapName}.csv`);
+      this.load.tilemapTiledJSON(mapName, `/chara/fishing/map/${mapName}.json`);
     });
   }
 
@@ -30,10 +30,8 @@ export class map extends Phaser.Scene {
 
     const map = this.make.tilemap({
       key: this.setting.currentMapName,
-      width: 48,
-      height: 48,
     });
-    const tileSet = map.addTilesetImage("mapTexture", "mapTexture", 48, 48);
+    const tileSet = map.addTilesetImage("tileset", "mapTexture", 48, 48);
     if (tileSet === null) return;
     const layer = map.createLayer(0, tileSet, 0, 0);
   }
