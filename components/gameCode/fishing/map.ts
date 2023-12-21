@@ -52,8 +52,25 @@ export class map extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
     });*/
 
-    //プレイヤー
-    this.player = this.physics.add.sprite(20, 20, "player", 0).setSize(30, 30);
+    //スポーンする座標の処理
+    const spawnpoint = map.findObject(
+      "objects",
+      (obj) => obj.name === "spawnPoint"
+    );
+    const spawnPointPosition =
+      spawnpoint === null ||
+      spawnpoint.x === undefined ||
+      spawnpoint.y === undefined
+        ? { x: 100, y: 100 }
+        : { x: spawnpoint.x, y: spawnpoint.y };
+    const firstPlayerPosition =
+      this.setting.positionOfMap == "bus"
+        ? spawnPointPosition
+        : this.setting.positionOfMap;
+    //プレイヤーを追加
+    this.player = this.physics.add
+      .sprite(firstPlayerPosition.x, firstPlayerPosition.y, "player", 0)
+      .setSize(30, 30);
     this.physics.add.collider(this.player, <any>layer);
 
     //カメラ
@@ -76,13 +93,17 @@ export class map extends Phaser.Scene {
     this.player?.setVelocity(0);
     if (this.cursors?.left.isDown || this.wasdCursors?.left.isDown) {
       this.player?.setVelocityX(-speed);
+      this.player?.setFrame(3);
     } else if (this.cursors?.right.isDown || this.wasdCursors?.right.isDown) {
       this.player?.setVelocityX(speed);
+      this.player?.setFrame(1);
     }
     if (this.cursors?.up.isDown || this.wasdCursors?.up.isDown) {
       this.player?.setVelocityY(-speed);
+      this.player?.setFrame(2);
     } else if (this.cursors?.down.isDown || this.wasdCursors?.down.isDown) {
       this.player?.setVelocityY(speed);
+      this.player?.setFrame(0);
     }
     //斜めに移動したとき速くならないように標準化
     this.player?.body?.velocity.normalize().scale(speed);

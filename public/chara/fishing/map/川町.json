@@ -46,7 +46,7 @@
         {
          "draworder":"topdown",
          "id":3,
-         "name":"Objects",
+         "name":"objects",
          "objects":[
                 {
                  "height":0,
