@@ -33,7 +33,6 @@ export default function GameTile(props: gameTilePropsType) {
               gridColumnEnd: 3,
             }
           : {}),
-        borderColor: thisGameInfo.color,
       }}
     >
       <div id={styles.top}>

@@ -1,15 +1,32 @@
 /*全体*/
 #tile {
-  border-radius: 5px;
   box-sizing: border-box;
   padding: 20px;
-  border-style: solid;
+  border-radius: 5px;
 }
 .tile_big {
   border-width: 4px;
+  background-color: rgba(0, 255, 174, 0.2);
+}
+@media (prefers-color-scheme: dark) {
+  .tile_big {
+    background-color: rgba(0, 255, 174, 0.9);
+  }
+  .tile_big * {
+    color: black !important;
+  }
 }
 .tile_small {
   border-width: 2px;
+  background-color: rgba(0, 106, 255, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  .tile_small {
+    background-color: rgb(109, 104, 255);
+  }
+  .tile_small * {
+    color: black !important;
+  }
 }
 #tile a {
   text-decoration: none;
