@@ -15,6 +15,7 @@ export default function Home() {
       <div id={styles.gridGameArea}>
         <GameTile size="big" gameCode="othello"></GameTile>
         <GameTile size="small" gameCode="fishing"></GameTile>
+        <GameTile size="small" gameCode="numguess"></GameTile>
         <GameTile gameCode="flyfly" size="small"></GameTile>
         <GameTile gameCode="flash" size="small"></GameTile>
       </div>

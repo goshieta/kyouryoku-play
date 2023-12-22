@@ -102,7 +102,6 @@ export default function GamePageTemp(props: {
                 <GameTile
                   gameCode={game}
                   size="small"
-                  themeColor="#b994ff"
                   key={`recommendGameNumber${index}`}
                 ></GameTile>
               );

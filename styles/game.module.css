@@ -32,6 +32,9 @@
 #mdArea h2 {
   text-align: center;
 }
+#mdArea > div {
+  margin: 30px 20px;
+}
 
 #otherGame {
   margin: 30px auto;

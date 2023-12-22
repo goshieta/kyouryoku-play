@@ -20,5 +20,10 @@
     "title": "水魚金",
     "gameCode": "fishing",
     "color": "#0384fc"
+  },
+  "numguess": {
+    "title": "数あてゲーム",
+    "gameCode": "numguess",
+    "color": "#fc036f"
   }
 }
