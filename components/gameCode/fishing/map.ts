@@ -8,6 +8,8 @@ export class map extends Phaser.Scene {
   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasdCursors?: any;
 
+  choicesDialog?: Phaser.GameObjects.DOMElement;
+
   constructor() {
     super({ key: "map" });
     this.mapArray = ["蔵町", "川町", "浜町", "湖町", "田舎"];
@@ -41,9 +43,10 @@ export class map extends Phaser.Scene {
     });
     const tileSet = map.addTilesetImage("tileset", "mapTexture", 48, 48);
     if (tileSet === null) return;
-    const layer = map.createLayer(0, tileSet, 0, 0);
+    const layer = map.createLayer("ground", tileSet, 0, 0);
 
     layer?.setCollisionByProperty({ collides: true });
+    if (layer !== null) this.eventManager(layer);
 
     /*const debugGraphics = this.add.graphics().setAlpha(0.75);
     layer?.renderDebug(debugGraphics, {
@@ -85,6 +88,44 @@ export class map extends Phaser.Scene {
       down: "S",
       right: "D",
     });
+
+    //選択用ダイアログ
+    const dialogCode = `
+      <div id="fm_dialog" style="display:none;">
+        <div id="fm_dialog_center">
+        </div>
+      </div>
+      <style>
+        #fm_dialog{
+          background-color:rgba(0,0,0,0.6);
+          width:900px;
+          height:600px;
+          position:absolute;
+          transform:translate(-50%,-50%)
+        }
+        #fm_dialog_center{
+          position:relative;
+          display:flex;
+          width:900px;
+          height:600px;
+          justify-content:center;
+          align-items:center;
+          flex-flow:column;
+          gap:40px;
+        }
+        #fm_dialog_center > button{
+          display:block;
+          width:200px;
+          height:70px;
+          font-size:20px;
+          background-color:#e3ebff;
+          color:black;
+          border-radius:3px;
+          cursor:pointer;
+        }
+      </style>
+    `;
+    this.choicesDialog = this.add.dom(450, 300).createFromHTML(dialogCode);
   }
 
   update(time: number, delta: number): void {
@@ -107,5 +148,49 @@ export class map extends Phaser.Scene {
     }
     //斜めに移動したとき速くならないように標準化
     this.player?.body?.velocity.normalize().scale(speed);
+  }
+
+  showDialog(choices: string[]) {
+    //イベントをプロミスで処理する
+    const dialogElement = this.choicesDialog?.getChildByID("fm_dialog");
+    const centerDialogElement =
+      this.choicesDialog?.getChildByID("fm_dialog_center");
+    this.choicesDialog?.setPosition(
+      this.cameras.main.worldView.centerX,
+      this.cameras.main.worldView.centerY
+    );
+    dialogElement?.setAttribute("style", "display:block;");
+    if (centerDialogElement === null || centerDialogElement === undefined)
+      return;
+
+    return new Promise((resolve) => {
+      choices.forEach((val) => {
+        const button = document.createElement("button");
+        button.innerHTML = val;
+        button.addEventListener("click", () => {
+          centerDialogElement.innerHTML = "";
+          dialogElement?.setAttribute("style", "display:none;");
+
+          resolve(val);
+        });
+        centerDialogElement?.appendChild(button);
+      });
+    });
+  }
+
+  eventManager(layer: Phaser.Tilemaps.TilemapLayer) {
+    let eventStopper = false;
+    //ものに触れたときのイベントを追加していく
+    layer?.setTileIndexCallback(
+      [4, 5],
+      async () => {
+        if (eventStopper) return;
+        eventStopper = true;
+        const result = await this.showDialog(["果実をとる", "何もしない"]);
+        console.log(result);
+        eventStopper = false;
+      },
+      this
+    );
   }
 }
