@@ -9,6 +9,7 @@ export class game extends Phaser.Scene {
     times: Element;
     input: HTMLInputElement;
     submitButton: Element;
+    history: HTMLDivElement;
   };
 
   constructor() {
@@ -45,11 +46,12 @@ export class game extends Phaser.Scene {
       <div id="ng_main">
         <div id="ng_input_area">
           <h2>${["初級", "中級", "上級"][this.level]}</h2>
-          <div>
+          <form onsubmit="return false;">
             <input type="number" id="ng_input"></input><button id="ng_submit">回答</button>
-          </div>
+          </form>
         </div>
-        <div id="ng_history"></div>
+        <div id="ng_history">
+        </div>
         <div id="ng_para">
           <div id="ng_seconds">
             <p>残り時間</p>
@@ -74,7 +76,7 @@ export class game extends Phaser.Scene {
         #ng_input_area h2{
           margin:50px 0;
         }
-        #ng_input_area > div{
+        #ng_input_area > form{
           display:flex;
           gap:20px;
           justify-content:center;
@@ -106,6 +108,47 @@ export class game extends Phaser.Scene {
           display:block;
           cursor:pointer;
         }
+        #ng_input_area button:hover{
+          background-color:#c20054;
+          transition:background-color 0.3s;
+        }
+        #ng_history{
+          overflow-y:scroll;
+        }
+        #ng_history p{
+          animation:berowAnime 0.5s; 
+        }
+        @keyframes berowAnime{
+          0%{
+            opacity:0;
+          }
+          100%{
+            opacity:1;
+          }
+        }
+        #ng_history p:nth-child(1){
+          font-size:25px;
+          font-weight:bold;
+        }
+        #ng_history p:nth-child(2){
+          font-size:21px;
+          font-weight:bold;
+        }
+        #ng_history p:nth-child(3){
+          font-size:17px;
+          font-weight:bold;
+        }
+        #ng_history::-webkit-scrollbar{
+          width:6px;
+        }
+        #ng_history::-webkit-scrollbar-track{
+          background-color:#540024;
+          border-radius:3px;
+        }
+        #ng_history::-webkit-scrollbar-thumb{
+          background-color:#fc036f;
+          border-radius:3px;
+        }
         #ng_para{
           display:grid;
           grid-template-columns:1fr 1fr;
@@ -120,14 +163,28 @@ export class game extends Phaser.Scene {
       times: <Element>gameDom.getChildByID("ng_times_p"),
       input: <HTMLInputElement>gameDom.getChildByID("ng_input"),
       submitButton: <Element>gameDom.getChildByID("ng_submit"),
+      history: <HTMLDivElement>gameDom.getChildByID("ng_history"),
     };
 
+    this.domItem.input.focus();
     //イベントを設定
     this.domItem.submitButton.addEventListener("click", () => {
       if (this.domItem === undefined) return;
       if (this.domItem.input.value === null) return;
       const result = this.parse(this.domItem.input.value, this.correctNumber);
-      console.log(result);
+      if (result.errorMes.length === 0) {
+        this.domItem.input.value = "";
+      } else {
+        result.errorMes.forEach((oneMes) => alert(oneMes));
+        this.domItem.input.focus();
+        return;
+      }
+
+      const newPara = document.createElement("p");
+      newPara.innerHTML = `${result.userNumber}　-　〇 ${result.round}　△ ${result.triangle}`;
+      this.domItem.history.prepend(newPara);
+
+      this.domItem.input.focus();
     });
   }
 
@@ -170,6 +227,7 @@ export class game extends Phaser.Scene {
         round: 0,
         triangle: 0,
         correctNumber: correctNumber,
+        userNumber: userAnswer,
       };
 
     //マッチしている数を調べる
@@ -194,9 +252,10 @@ export class game extends Phaser.Scene {
 
     return {
       errorMes: errorMes,
-      round: roundNumber,
-      triangle: triangleNumber,
+      round: Number(roundNumber),
+      triangle: Number(triangleNumber),
       correctNumber: correctNumber,
+      userNumber: userAnswer,
     };
   }
 }
