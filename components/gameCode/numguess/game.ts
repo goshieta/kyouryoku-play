@@ -7,7 +7,7 @@ export class game extends Phaser.Scene {
   private domItem?: {
     seconds: Element;
     times: Element;
-    input: Element;
+    input: HTMLInputElement;
     submitButton: Element;
   };
 
@@ -118,17 +118,15 @@ export class game extends Phaser.Scene {
     this.domItem = {
       seconds: <Element>gameDom.getChildByID("ng_seconds_p"),
       times: <Element>gameDom.getChildByID("ng_times_p"),
-      input: <Element>gameDom.getChildByID("ng_input"),
+      input: <HTMLInputElement>gameDom.getChildByID("ng_input"),
       submitButton: <Element>gameDom.getChildByID("ng_submit"),
     };
 
     //イベントを設定
     this.domItem.submitButton.addEventListener("click", () => {
       if (this.domItem === undefined) return;
-      const result = this.parse(
-        this.domItem.input.innerHTML,
-        this.correctNumber
-      );
+      if (this.domItem.input.value === null) return;
+      const result = this.parse(this.domItem.input.value, this.correctNumber);
       console.log(result);
     });
   }
@@ -166,8 +164,13 @@ export class game extends Phaser.Scene {
       const isOk = regularExpression.test(userAnswer);
       if (!isOk) errorMes.push(oneException.errorMessage);
     });
-    if (errorMes.length === 0)
-      return { errorMes: errorMes, round: 0, triangle: 0 };
+    if (errorMes.length !== 0)
+      return {
+        errorMes: errorMes,
+        round: 0,
+        triangle: 0,
+        correctNumber: correctNumber,
+      };
 
     //マッチしている数を調べる
     const roundNumber = Array.from(stringCorrectNumber).reduce(
@@ -175,7 +178,8 @@ export class game extends Phaser.Scene {
         if (userAnswer[currentIndex] === currentValue)
           return String(Number(previousValue) + 1);
         else return previousValue;
-      }
+      },
+      "0"
     );
     const triangleNumber = Array.from(stringCorrectNumber).reduce(
       (previousValue, currentValue, currentIndex) => {
@@ -184,9 +188,15 @@ export class game extends Phaser.Scene {
         );
         if (isMatch) return String(Number(previousValue) + 1);
         else return previousValue;
-      }
+      },
+      "0"
     );
 
-    return { errorMes: errorMes, round: roundNumber, triangle: triangleNumber };
+    return {
+      errorMes: errorMes,
+      round: roundNumber,
+      triangle: triangleNumber,
+      correctNumber: correctNumber,
+    };
   }
 }
