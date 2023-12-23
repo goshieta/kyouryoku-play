@@ -4,7 +4,7 @@ export default function numguess() {
   return (
     <GamePageTemp
       title="数あてゲーム"
-      scenes={[]}
+      scenes={["title", "game"]}
       fileName="numguess"
       width={500}
       height={500}
