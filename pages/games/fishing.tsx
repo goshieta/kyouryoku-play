@@ -8,7 +8,7 @@ export default function fishing() {
       scenes={["title", "map"]}
       width={900}
       height={600}
-      otherGames={["othello", "flyfly", "flash"]}
+      otherGames={["othello", "flyfly", "numguess", "flash"]}
       additionalConfig={{
         physics: {
           default: "arcade",

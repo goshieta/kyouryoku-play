@@ -8,7 +8,7 @@ export default function Othello() {
       scenes={["titleScreen", "game", "gameEnd"]}
       width={500}
       height={600}
-      otherGames={["fishing", "flyfly", "flash"]}
+      otherGames={["fishing", "flyfly", "numguess", "flash"]}
     >
       <h2>遊び方</h2>
       <p>シンプルな二人プレイ用のオセロです。</p>

@@ -8,7 +8,7 @@ export default function Flash() {
       scenes={["top", "game", "gameAnswer", "checkingAnswer"]}
       width={500}
       height={500}
-      otherGames={["othello", "flyfly", "fishing"]}
+      otherGames={["numguess", "othello", "flyfly", "fishing"]}
     >
       <h2>遊び方</h2>
       <p>
