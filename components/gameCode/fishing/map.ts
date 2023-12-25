@@ -4,6 +4,7 @@ export class map extends Phaser.Scene {
   mapArray: string[];
   setting: settingType;
   player?: Phaser.Physics.Arcade.Sprite;
+  eventStopper: boolean;
 
   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasdCursors?: any;
@@ -17,6 +18,7 @@ export class map extends Phaser.Scene {
       currentMapName: "蔵町",
       positionOfMap: "bus",
     };
+    this.eventStopper = false;
   }
 
   init(setting: settingType) {
@@ -130,6 +132,7 @@ export class map extends Phaser.Scene {
 
   update(time: number, delta: number): void {
     //プレイヤーを動かす
+    if (this.eventStopper) return;
     const speed = 150;
     this.player?.setVelocity(0);
     if (this.cursors?.left.isDown || this.wasdCursors?.left.isDown) {
@@ -150,7 +153,7 @@ export class map extends Phaser.Scene {
     this.player?.body?.velocity.normalize().scale(speed);
   }
 
-  showDialog(choices: string[]) {
+  showDialog(choices: string[]): Promise<string> | undefined {
     //イベントをプロミスで処理する
     const dialogElement = this.choicesDialog?.getChildByID("fm_dialog");
     const centerDialogElement =
@@ -179,18 +182,48 @@ export class map extends Phaser.Scene {
   }
 
   eventManager(layer: Phaser.Tilemaps.TilemapLayer) {
-    let eventStopper = false;
-    //ものに触れたときのイベントを追加していく
-    layer?.setTileIndexCallback(
-      [4, 5],
-      async () => {
-        if (eventStopper) return;
-        eventStopper = true;
-        const result = await this.showDialog(["果実をとる", "何もしない"]);
-        console.log(result);
-        eventStopper = false;
+    //イベント自体はここで定義
+    const eventlist = [
+      {
+        number: [4, 5],
+        dialog: [
+          {
+            desc: "果実をとる",
+            eventFunc: () => {},
+          },
+          {
+            desc: "何もしない",
+            eventFunc: () => {},
+          },
+        ],
       },
-      this
-    );
+    ];
+
+    this.eventStopper = false;
+    //ものに触れたときのイベントを追加していく
+    eventlist.forEach((oneEvent) => {
+      layer?.setTileIndexCallback(
+        oneEvent.number,
+        () => {
+          const processForDialog = async () => {
+            this.eventStopper = true;
+            const descArray = oneEvent.dialog.map((oneDialg) => oneDialg.desc);
+            const result = await this.showDialog(descArray);
+            if (result === null || result === undefined) return;
+            oneEvent.dialog
+              .find((oneDialog) => oneDialog.desc === result)
+              ?.eventFunc();
+            this.eventStopper = false;
+          };
+
+          if (this.eventStopper) return;
+          processForDialog();
+
+          //falseを設定すると通り抜けないように、trueを返すと通り抜けるようになる。
+          return false;
+        },
+        this
+      );
+    });
   }
 }
