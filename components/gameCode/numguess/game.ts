@@ -3,6 +3,7 @@ export class game extends Phaser.Scene {
   correctNumber: number;
   seconds: number;
   times: number;
+  clear: boolean;
 
   private domItem?: {
     seconds: Element;
@@ -19,6 +20,7 @@ export class game extends Phaser.Scene {
     this.correctNumber = 0;
     this.seconds = 0;
     this.times = 0;
+    this.clear = false;
   }
 
   init(config: { level: number }) {
@@ -184,6 +186,10 @@ export class game extends Phaser.Scene {
       newPara.innerHTML = `${result.userNumber}　-　〇 ${result.round}　△ ${result.triangle}`;
       this.domItem.history.prepend(newPara);
 
+      this.times -= 1;
+
+      if (Number(result.userNumber) === result.correctNumber) this.clear = true;
+
       this.domItem.input.focus();
     });
   }
@@ -194,6 +200,18 @@ export class game extends Phaser.Scene {
     if (this.domItem === undefined) return;
     this.domItem.seconds.innerHTML = String(Math.floor(this.seconds));
     this.domItem.times.innerHTML = String(this.times);
+
+    //ゲーム終了
+    if (this.clear || this.seconds <= 0 || this.times <= 0) {
+      //クリア
+      this.scene.start("score", {
+        times: this.times,
+        seconds: this.seconds,
+        level: this.level,
+        judgement: this.clear,
+        correctNum: this.correctNumber,
+      });
+    }
   }
 
   //入力された数字を答えと照らし合わせる
