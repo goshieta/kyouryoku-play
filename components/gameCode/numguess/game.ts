@@ -24,6 +24,13 @@ export class game extends Phaser.Scene {
   }
 
   init(config: { level: number }) {
+    //初期化
+    this.level = 0;
+    this.correctNumber = 0;
+    this.seconds = 0;
+    this.times = 0;
+    this.clear = false;
+
     this.level = config.level;
 
     this.seconds = 100 + this.level * 50;

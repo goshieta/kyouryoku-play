@@ -24,7 +24,9 @@ export class score extends Phaser.Scene {
   create() {
     if (!this.scoreData) return;
     const score = Math.floor(
-      this.scoreData.seconds + this.scoreData.times * 10
+      this.scoreData.seconds +
+        this.scoreData.times * 10 -
+        (this.scoreData.judgement ? 0 : 100)
     );
 
     const scoreBoardCode = `
