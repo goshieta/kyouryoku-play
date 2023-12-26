@@ -6,4 +6,12 @@ export type settingType = {
         y: number;
       }
     | "bus";
+  playerState: {
+    items: {
+      name: string;
+      count: number;
+    }[];
+    health: number;
+    hunger: number;
+  };
 };

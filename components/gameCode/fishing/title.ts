@@ -8,6 +8,11 @@ export class title extends Phaser.Scene {
     this.setting = {
       currentMapName: "蔵町",
       positionOfMap: "bus",
+      playerState: {
+        items: [],
+        health: 100,
+        hunger: 100,
+      },
     };
   }
 

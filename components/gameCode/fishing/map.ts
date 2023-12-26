@@ -5,6 +5,14 @@ export class map extends Phaser.Scene {
   setting: settingType;
   player?: Phaser.Physics.Arcade.Sprite;
   eventStopper: boolean;
+  header?: Phaser.GameObjects.Container;
+  headerMainObject?: {
+    state: {
+      health: Phaser.GameObjects.Rectangle;
+      hunger: Phaser.GameObjects.Rectangle;
+    };
+  };
+  uiCamera?: Phaser.Cameras.Scene2D.Camera;
 
   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasdCursors?: any;
@@ -17,6 +25,11 @@ export class map extends Phaser.Scene {
     this.setting = {
       currentMapName: "蔵町",
       positionOfMap: "bus",
+      playerState: {
+        items: [],
+        health: 0,
+        hunger: 0,
+      },
     };
     this.eventStopper = false;
   }
@@ -34,6 +47,15 @@ export class map extends Phaser.Scene {
 
     this.mapArray.forEach((mapName) => {
       this.load.tilemapTiledJSON(mapName, `/chara/fishing/map/${mapName}.json`);
+    });
+
+    this.load.svg("health", "/chara/fishing/header/state/health.svg", {
+      width: 20,
+      height: 20,
+    });
+    this.load.svg("hunger", "/chara/fishing/header/state/hunger.svg", {
+      width: 20,
+      height: 20,
     });
   }
 
@@ -78,10 +100,6 @@ export class map extends Phaser.Scene {
       .setSize(30, 30);
     this.physics.add.collider(this.player, <any>layer);
 
-    //カメラ
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
     //キーボード
     this.cursors = this.input.keyboard?.createCursorKeys();
     this.wasdCursors = this.input.keyboard?.addKeys({
@@ -90,6 +108,35 @@ export class map extends Phaser.Scene {
       down: "S",
       right: "D",
     });
+
+    //画面上のプレイヤーのステートの表示
+    this.header = this.add.container();
+    const state = this.add.container(15, 10);
+    const item = this.add.container();
+    const stateGameObj = ["health", "hunger"].map((oneStateName, index) => {
+      const parent = this.add.container();
+      const image = this.add.image(0, 0, oneStateName).setOrigin(0, 0.5);
+      const baseRect = this.add
+        .rectangle(35, 0, 100, 15, 0xffc7de)
+        .setOrigin(0, 0.5);
+      const relativeRect = this.add
+        .rectangle(35, 0, 100, 15, 0xff0069)
+        .setOrigin(0, 0.5);
+
+      parent.setPosition(0, 10 * (index + 1) + 20 * index);
+
+      parent.add([image, baseRect, relativeRect]);
+      state.add(parent);
+
+      return relativeRect;
+    });
+    this.header.add([state, item]);
+    this.headerMainObject = {
+      state: {
+        health: stateGameObj[0],
+        hunger: stateGameObj[1],
+      },
+    };
 
     //選択用ダイアログ
     const dialogCode = `
@@ -125,16 +172,28 @@ export class map extends Phaser.Scene {
           border-radius:3px;
           cursor:pointer;
         }
+        #fm_dialog_center > button:hover{
+          transition:background-color 0.3s;
+          background-color:#c4d5ff;
+        }
       </style>
     `;
     this.choicesDialog = this.add.dom(450, 300).createFromHTML(dialogCode);
+
+    //カメラ
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.uiCamera = this.cameras.add(0, 0, 900, 600);
+
+    this.uiCamera.ignore([this.player, <any>layer]);
+    this.cameras.main.ignore([this.header, this.choicesDialog]);
   }
 
   update(time: number, delta: number): void {
     //プレイヤーを動かす
+    this.player?.setVelocity(0);
     if (this.eventStopper) return;
     const speed = 150;
-    this.player?.setVelocity(0);
     if (this.cursors?.left.isDown || this.wasdCursors?.left.isDown) {
       this.player?.setVelocityX(-speed);
       this.player?.setFrame(3);
@@ -151,6 +210,19 @@ export class map extends Phaser.Scene {
     }
     //斜めに移動したとき速くならないように標準化
     this.player?.body?.velocity.normalize().scale(speed);
+
+    //ヘッダーを更新
+    this.headerMainObject?.state.health.setSize(
+      this.setting.playerState.health,
+      15
+    );
+    this.headerMainObject?.state.hunger.setSize(
+      this.setting.playerState.hunger,
+      15
+    );
+
+    //ステートの更新
+    //this.setting.playerState.hunger -= 0.01;
   }
 
   showDialog(choices: string[]): Promise<string> | undefined {
@@ -158,10 +230,7 @@ export class map extends Phaser.Scene {
     const dialogElement = this.choicesDialog?.getChildByID("fm_dialog");
     const centerDialogElement =
       this.choicesDialog?.getChildByID("fm_dialog_center");
-    this.choicesDialog?.setPosition(
-      this.cameras.main.worldView.centerX,
-      this.cameras.main.worldView.centerY
-    );
+    this.choicesDialog?.setPosition(450, 300);
     dialogElement?.setAttribute("style", "display:block;");
     if (centerDialogElement === null || centerDialogElement === undefined)
       return;
