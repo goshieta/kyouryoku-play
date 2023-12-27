@@ -9,7 +9,16 @@ export class title extends Phaser.Scene {
       currentMapName: "蔵町",
       positionOfMap: "bus",
       playerState: {
-        items: [],
+        items: [
+          {
+            name: "coin",
+            count: 25,
+          },
+          {
+            name: "treeFluit",
+            count: 2,
+          },
+        ],
         health: 100,
         hunger: 100,
       },

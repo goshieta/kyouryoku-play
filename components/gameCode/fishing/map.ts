@@ -1,4 +1,6 @@
 import { settingType } from "./setting";
+import putItemList from "./itemList";
+import { count } from "console";
 
 export class map extends Phaser.Scene {
   mapArray: string[];
@@ -11,6 +13,12 @@ export class map extends Phaser.Scene {
       health: Phaser.GameObjects.Rectangle;
       hunger: Phaser.GameObjects.Rectangle;
     };
+    items: {
+      gameContainer: Phaser.GameObjects.Container;
+      itemNumberString: Phaser.GameObjects.Text;
+      itemName: string;
+    }[];
+    itemContainer: Phaser.GameObjects.Container;
   };
   uiCamera?: Phaser.Cameras.Scene2D.Camera;
 
@@ -43,6 +51,10 @@ export class map extends Phaser.Scene {
     this.load.spritesheet("player", "/chara/fishing/player.png", {
       frameWidth: 33,
       frameHeight: 48,
+    });
+    this.load.spritesheet("items", "/chara/fishing/header/item/items.png", {
+      frameWidth: 24,
+      frameHeight: 24,
     });
 
     this.mapArray.forEach((mapName) => {
@@ -112,7 +124,7 @@ export class map extends Phaser.Scene {
     //画面上のプレイヤーのステートの表示
     this.header = this.add.container();
     const state = this.add.container(15, 10);
-    const item = this.add.container();
+    const item = this.add.container(200, 35);
     const stateGameObj = ["health", "hunger"].map((oneStateName, index) => {
       const parent = this.add.container();
       const image = this.add.image(0, 0, oneStateName).setOrigin(0, 0.5);
@@ -130,12 +142,18 @@ export class map extends Phaser.Scene {
 
       return relativeRect;
     });
+    const itemList = putItemList();
+    const itemGameObj = this.setting.playerState.items.map((oneItem, index) => {
+      return this.makeHeaderItem(index, oneItem, item);
+    });
     this.header.add([state, item]);
     this.headerMainObject = {
       state: {
         health: stateGameObj[0],
         hunger: stateGameObj[1],
       },
+      items: itemGameObj,
+      itemContainer: item,
     };
 
     //選択用ダイアログ
@@ -220,9 +238,59 @@ export class map extends Phaser.Scene {
       this.setting.playerState.hunger,
       15
     );
+    //アイテムを更新
+    let restItemList = this.setting.playerState.items;
+    if (this.headerMainObject === undefined) return;
+    this.headerMainObject.items = this.headerMainObject.items.filter(
+      (oneItem, index) => {
+        const itemInfo = restItemList.find(
+          (oneItemInfo) => oneItemInfo.name === oneItem.itemName
+        );
+        if (itemInfo === undefined) {
+          this.headerMainObject?.items.splice(index, 1);
+          return false;
+        }
+        oneItem.itemNumberString.setText(String(itemInfo.count));
+        restItemList = restItemList.filter(
+          (searchSubject) => searchSubject !== itemInfo
+        );
+        return true;
+      }
+    );
+    //新規アイテムの作成
+    restItemList.forEach((restItem, index) => {
+      if (this.headerMainObject === undefined) return;
+      this.headerMainObject.items.push(
+        this.makeHeaderItem(
+          this.headerMainObject?.items.length + index,
+          restItem,
+          this.headerMainObject.itemContainer
+        )
+      );
+    });
 
     //ステートの更新
     //this.setting.playerState.hunger -= 0.01;
+  }
+
+  makeHeaderItem(
+    index: number,
+    oneItemInfo: { name: string; count: number },
+    item: Phaser.GameObjects.Container
+  ) {
+    //ヘッダーのアイテムのUIを新規作成する。
+    const parent = this.add.container(15 * (index + 1) + 30 * index, 0);
+    const image = this.add
+      .image(0, 0, "items", putItemList(oneItemInfo.name)?.number)
+      .setOrigin(0, 0.5);
+    const itemNumberString = this.add.text(17, 0, String(oneItemInfo.count));
+    parent.add([image, itemNumberString]);
+    item.add(parent);
+    return {
+      gameContainer: parent,
+      itemNumberString: itemNumberString,
+      itemName: oneItemInfo.name,
+    };
   }
 
   showDialog(choices: string[]): Promise<string> | undefined {
@@ -250,6 +318,25 @@ export class map extends Phaser.Scene {
     });
   }
 
+  itemHundle(name: string, size: number) {
+    //アイテムに関する操作を提供する
+    //nameにアイテムの名前、sizeに増減の数を記述する
+    const item = this.setting.playerState.items.find(
+      (oneItem) => oneItem.name === name
+    );
+    if (item === undefined) {
+      if (size >= 0)
+        this.setting.playerState.items.push({ name: name, count: size });
+      return;
+    }
+    item.count += size;
+    if (item.count <= 0) {
+      this.setting.playerState.items = this.setting.playerState.items.filter(
+        (searchSubject) => searchSubject !== item
+      );
+    }
+  }
+
   eventManager(layer: Phaser.Tilemaps.TilemapLayer) {
     //イベント自体はここで定義
     const eventlist = [
@@ -258,7 +345,9 @@ export class map extends Phaser.Scene {
         dialog: [
           {
             desc: "果実をとる",
-            eventFunc: () => {},
+            eventFunc: () => {
+              this.itemHundle("rowFluit", 1);
+            },
           },
           {
             desc: "何もしない",
