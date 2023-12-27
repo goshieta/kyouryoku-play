@@ -1,0 +1,36 @@
+<div id="fm_dialog" style="display: none">
+  <div id="fm_dialog_center"></div>
+</div>
+<style>
+  #fm_dialog {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 900px;
+    height: 600px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+  #fm_dialog_center {
+    position: relative;
+    display: flex;
+    width: 900px;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    gap: 40px;
+  }
+  #fm_dialog_center > button {
+    display: block;
+    width: 200px;
+    height: 70px;
+    font-size: 20px;
+    background-color: #e3ebff;
+    color: black;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  #fm_dialog_center > button:hover {
+    transition: background-color 0.3s;
+    background-color: #c4d5ff;
+  }
+</style>

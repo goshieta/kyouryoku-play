@@ -69,6 +69,7 @@ export class map extends Phaser.Scene {
       width: 20,
       height: 20,
     });
+    this.load.html("mapDom", "/chara/fishing/dom/mapDom.html");
   }
 
   create() {
@@ -157,46 +158,7 @@ export class map extends Phaser.Scene {
     };
 
     //選択用ダイアログ
-    const dialogCode = `
-      <div id="fm_dialog" style="display:none;">
-        <div id="fm_dialog_center">
-        </div>
-      </div>
-      <style>
-        #fm_dialog{
-          background-color:rgba(0,0,0,0.6);
-          width:900px;
-          height:600px;
-          position:absolute;
-          transform:translate(-50%,-50%)
-        }
-        #fm_dialog_center{
-          position:relative;
-          display:flex;
-          width:900px;
-          height:600px;
-          justify-content:center;
-          align-items:center;
-          flex-flow:column;
-          gap:40px;
-        }
-        #fm_dialog_center > button{
-          display:block;
-          width:200px;
-          height:70px;
-          font-size:20px;
-          background-color:#e3ebff;
-          color:black;
-          border-radius:3px;
-          cursor:pointer;
-        }
-        #fm_dialog_center > button:hover{
-          transition:background-color 0.3s;
-          background-color:#c4d5ff;
-        }
-      </style>
-    `;
-    this.choicesDialog = this.add.dom(450, 300).createFromHTML(dialogCode);
+    this.choicesDialog = this.add.dom(450, 300).createFromCache("mapDom");
 
     //カメラ
     this.cameras.main.startFollow(this.player);
@@ -279,11 +241,14 @@ export class map extends Phaser.Scene {
     item: Phaser.GameObjects.Container
   ) {
     //ヘッダーのアイテムのUIを新規作成する。
-    const parent = this.add.container(15 * (index + 1) + 30 * index, 0);
+    const parent = this.add.container(40 * (index + 1) + 30 * index, 0);
     const image = this.add
       .image(0, 0, "items", putItemList(oneItemInfo.name)?.number)
       .setOrigin(0, 0.5);
-    const itemNumberString = this.add.text(17, 0, String(oneItemInfo.count));
+    const itemNumberString = this.add.text(30, -10, String(oneItemInfo.count), {
+      color: "white",
+      font: "20px bold",
+    });
     parent.add([image, itemNumberString]);
     item.add(parent);
     return {
@@ -347,6 +312,21 @@ export class map extends Phaser.Scene {
             desc: "果実をとる",
             eventFunc: () => {
               this.itemHundle("rowFluit", 1);
+            },
+          },
+          {
+            desc: "何もしない",
+            eventFunc: () => {},
+          },
+        ],
+      },
+      {
+        number: [10, 11, 19, 20],
+        dialog: [
+          {
+            desc: "果実をとる",
+            eventFunc: () => {
+              this.itemHundle("treeFluit", 1);
             },
           },
           {
