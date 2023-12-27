@@ -370,6 +370,72 @@ export class map extends Phaser.Scene {
           },
         ],
       },
+      {
+        number: [12, 13, 21, 22],
+        dialog: [
+          {
+            desc: "木をゆする",
+            eventFunc: () => {
+              this.itemHundle("treeBranch", Math.floor(Math.random() * 3 + 1));
+              this.showRichDialog(
+                ["わかった"],
+                "木の枝が落ちてきた",
+                "/chara/fishing/header/item/items/treeBranch.png"
+              );
+            },
+          },
+          {
+            desc: "何もしない",
+            eventFunc: () => {},
+          },
+        ],
+      },
+      {
+        number: [53],
+        dialog: [
+          {
+            desc: "バスに乗る",
+            eventFunc: async () => {
+              //バスの画面に遷移する
+              const townList = ["蔵町", "川町", "浜町", "湖町", "田舎"];
+              const town = await this.showRichDialog(
+                townList.filter(
+                  (oneTown) => oneTown !== this.setting.currentMapName
+                ),
+                `バス停名 : ${this.setting.currentMapName} <br><br>どの町に行きますか？（運賃一律10pt）`,
+                "/chara/fishing/otherImage/バス停.png"
+              );
+              this.scene.start("map", {
+                ...this.setting,
+                currentMapName: town,
+                positionOfMap: "bus",
+              });
+            },
+          },
+          {
+            desc: "金がないのでバスには乗らない",
+            eventFunc: () => {
+              this.showRichDialog(
+                ["理解した"],
+                "お金の稼ぎ方がわからない場合は、画面下のゲームの遊び方を読みましょう。"
+              );
+            },
+          },
+          {
+            desc: "気分じゃないのでバスにならない",
+            eventFunc: () => {
+              this.showRichDialog(
+                ["はい"],
+                "またのご利用をお待ちしております。"
+              );
+            },
+          },
+          {
+            desc: "その他の理由でバスに乗らない",
+            eventFunc: () => {},
+          },
+        ],
+      },
     ];
 
     this.eventStopper = false;

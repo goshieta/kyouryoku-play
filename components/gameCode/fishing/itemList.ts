@@ -40,6 +40,10 @@ export default function putItemList(
       name: "stoneLugworm",
       number: 6,
     },
+    {
+      name: "treeBranch",
+      number: 7,
+    },
   ];
 
   if (name === undefined) return itemList;
