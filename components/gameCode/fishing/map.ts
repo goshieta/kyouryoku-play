@@ -263,6 +263,50 @@ export class map extends Phaser.Scene {
       });
     });
   }
+  showRichDialog(choices: string[], desc?: string, imagePath?: string) {
+    if (this.eventStopper) return;
+    this.eventStopper = false;
+    //リッチなダイアログ
+    if (this.mapDom === undefined) return;
+    const dialog = <HTMLDivElement>this.mapDom.getChildByID("fm_rich_dialog");
+    dialog.style.display = "flex";
+    const descArea = <HTMLDivElement>dialog.querySelector("#fm_descArea");
+    if (desc !== undefined || imagePath !== undefined) {
+      descArea.style.display = "flex";
+      const img = <HTMLImageElement>descArea.querySelector("#fm_desc_img");
+      const p = <HTMLPreElement>descArea.querySelector("#fm_desc_p");
+      img.style.display = "none";
+      p.style.display = "none";
+      if (imagePath !== undefined) {
+        img.style.display = "block";
+        img.src = imagePath;
+      }
+      if (desc !== undefined) {
+        p.style.display = "block";
+        p.innerHTML = desc;
+      }
+    } else {
+      descArea.style.display = "none";
+    }
+    //ボタンを表示
+    const buttonArea = <HTMLDivElement>(
+      dialog.querySelector("#fm_dialog_button_area")
+    );
+    this.eventStopper = false;
+    return new Promise((resolve) => {
+      choices.forEach((val) => {
+        const button = document.createElement("button");
+        button.innerHTML = val;
+        button.addEventListener("click", () => {
+          buttonArea.innerHTML = "";
+          dialog?.setAttribute("style", "display:none;");
+
+          resolve(val);
+        });
+        buttonArea.appendChild(button);
+      });
+    });
+  }
 
   itemHundle(name: string, size: number) {
     //アイテムに関する操作を提供する
@@ -293,6 +337,11 @@ export class map extends Phaser.Scene {
             desc: "果実をとる",
             eventFunc: () => {
               this.itemHundle("rowFluit", 1);
+              this.showRichDialog(
+                ["わかった"],
+                "低木の実を獲得した。",
+                "/chara/fishing/header/item/items/rowFluit.png"
+              );
             },
           },
           {
@@ -308,6 +357,11 @@ export class map extends Phaser.Scene {
             desc: "果実をとる",
             eventFunc: () => {
               this.itemHundle("treeFluit", 1);
+              this.showRichDialog(
+                ["わかった"],
+                "普通の木の実を獲得した。",
+                "/chara/fishing/header/item/items/treeFluit.png"
+              );
             },
           },
           {
@@ -329,10 +383,10 @@ export class map extends Phaser.Scene {
             const descArray = oneEvent.dialog.map((oneDialg) => oneDialg.desc);
             const result = await this.showDialog(descArray);
             if (result === null || result === undefined) return;
+            this.eventStopper = false;
             oneEvent.dialog
               .find((oneDialog) => oneDialog.desc === result)
               ?.eventFunc();
-            this.eventStopper = false;
           };
 
           if (this.eventStopper) return;

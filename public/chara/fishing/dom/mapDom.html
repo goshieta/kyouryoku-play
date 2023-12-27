@@ -2,6 +2,15 @@
   <div id="fm_dialog" style="display: none">
     <div id="fm_dialog_center"></div>
   </div>
+  <div id="fm_rich_dialog" style="display: none">
+    <div id="fm_rich_dialog_box">
+      <div id="fm_descArea" style="display: flex">
+        <img src="" alt="" id="fm_desc_img" width="100" height="100" />
+        <p id="fm_desc_p"></p>
+      </div>
+      <div id="fm_dialog_button_area"></div>
+    </div>
+  </div>
   <div id="fm_header">
     <div id="fm_state">
       <div>
@@ -38,7 +47,7 @@
     position: relative;
   }
   #fm_dialog {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     width: 900px;
     height: 600px;
     position: absolute;
@@ -69,6 +78,55 @@
   #fm_dialog_center > button:hover {
     transition: background-color 0.3s;
     background-color: #c4d5ff;
+  }
+  /*リッチなダイアログ*/
+  #fm_rich_dialog {
+    z-index: 20;
+    width: 900px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: relative;
+  }
+  #fm_rich_dialog_box {
+    background-color: #f2f9ff;
+    border-radius: 5px;
+    padding: 50px 0;
+  }
+  #fm_descArea {
+    width: 500px;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+  #fm_desc_img {
+    width: 100px;
+    height: 100px;
+    image-rendering: pixelated;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+  }
+  #fm_dialog_button_area {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+  #fm_dialog_button_area button {
+    background-color: #bddeff;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+  }
+  #fm_dialog_button_area button:hover {
+    background-color: #8fc7ff;
+    transition: background-color 0.2s;
   }
 
   /*ヘッダー*/
