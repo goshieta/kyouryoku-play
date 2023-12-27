@@ -7,25 +7,25 @@ export class map extends Phaser.Scene {
   setting: settingType;
   player?: Phaser.Physics.Arcade.Sprite;
   eventStopper: boolean;
-  header?: Phaser.GameObjects.Container;
+  header?: HTMLDivElement;
   headerMainObject?: {
     state: {
-      health: Phaser.GameObjects.Rectangle;
-      hunger: Phaser.GameObjects.Rectangle;
+      health: HTMLDivElement;
+      hunger: HTMLDivElement;
     };
     items: {
-      gameContainer: Phaser.GameObjects.Container;
-      itemNumberString: Phaser.GameObjects.Text;
+      gameContainer: HTMLDivElement;
+      itemNumberString: HTMLParagraphElement;
       itemName: string;
     }[];
-    itemContainer: Phaser.GameObjects.Container;
+    itemContainer: HTMLDivElement;
   };
   uiCamera?: Phaser.Cameras.Scene2D.Camera;
 
   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasdCursors?: any;
 
-  choicesDialog?: Phaser.GameObjects.DOMElement;
+  mapDom?: Phaser.GameObjects.DOMElement;
 
   constructor() {
     super({ key: "map" });
@@ -122,43 +122,29 @@ export class map extends Phaser.Scene {
       right: "D",
     });
 
-    //画面上のプレイヤーのステートの表示
-    this.header = this.add.container();
-    const state = this.add.container(15, 10);
-    const item = this.add.container(200, 35);
-    const stateGameObj = ["health", "hunger"].map((oneStateName, index) => {
-      const parent = this.add.container();
-      const image = this.add.image(0, 0, oneStateName).setOrigin(0, 0.5);
-      const baseRect = this.add
-        .rectangle(35, 0, 100, 15, 0xffc7de)
-        .setOrigin(0, 0.5);
-      const relativeRect = this.add
-        .rectangle(35, 0, 100, 15, 0xff0069)
-        .setOrigin(0, 0.5);
-
-      parent.setPosition(0, 10 * (index + 1) + 20 * index);
-
-      parent.add([image, baseRect, relativeRect]);
-      state.add(parent);
-
-      return relativeRect;
-    });
-    const itemList = putItemList();
+    //選択用ダイアログ、ヘッダーなどの各種DOM
+    this.mapDom = this.add.dom(450, 300).createFromCache("mapDom");
+    this.header = <HTMLDivElement>this.mapDom.getChildByID("fm_header");
+    //アイテム
     const itemGameObj = this.setting.playerState.items.map((oneItem, index) => {
-      return this.makeHeaderItem(index, oneItem, item);
+      return this.makeHeaderItem(
+        index,
+        oneItem,
+        <HTMLDivElement>this.mapDom?.getChildByID("fm_items")
+      );
     });
-    this.header.add([state, item]);
     this.headerMainObject = {
       state: {
-        health: stateGameObj[0],
-        hunger: stateGameObj[1],
+        health: <HTMLDivElement>(
+          this.mapDom.getChildByID("fm_state_progress_health")
+        ),
+        hunger: <HTMLDivElement>(
+          this.mapDom.getChildByID("fm_state_progress_hunger")
+        ),
       },
       items: itemGameObj,
-      itemContainer: item,
+      itemContainer: <HTMLDivElement>this.mapDom.getChildByID("fm_items"),
     };
-
-    //選択用ダイアログ
-    this.choicesDialog = this.add.dom(450, 300).createFromCache("mapDom");
 
     //カメラ
     this.cameras.main.startFollow(this.player);
@@ -166,7 +152,7 @@ export class map extends Phaser.Scene {
     this.uiCamera = this.cameras.add(0, 0, 900, 600);
 
     this.uiCamera.ignore([this.player, <any>layer]);
-    this.cameras.main.ignore([this.header, this.choicesDialog]);
+    this.cameras.main.ignore([this.mapDom]);
   }
 
   update(time: number, delta: number): void {
@@ -192,17 +178,15 @@ export class map extends Phaser.Scene {
     this.player?.body?.velocity.normalize().scale(speed);
 
     //ヘッダーを更新
-    this.headerMainObject?.state.health.setSize(
-      this.setting.playerState.health,
-      15
-    );
-    this.headerMainObject?.state.hunger.setSize(
-      this.setting.playerState.hunger,
-      15
-    );
+    if (this.headerMainObject === undefined) return;
+    this.headerMainObject.state.health.style.width = `${
+      this.setting.playerState.health * 1.5
+    }px`;
+    this.headerMainObject.state.hunger.style.width = `${
+      this.setting.playerState.hunger * 1.5
+    }px`;
     //アイテムを更新
     let restItemList = this.setting.playerState.items;
-    if (this.headerMainObject === undefined) return;
     this.headerMainObject.items = this.headerMainObject.items.filter(
       (oneItem, index) => {
         const itemInfo = restItemList.find(
@@ -212,7 +196,7 @@ export class map extends Phaser.Scene {
           this.headerMainObject?.items.splice(index, 1);
           return false;
         }
-        oneItem.itemNumberString.setText(String(itemInfo.count));
+        oneItem.itemNumberString.innerHTML = itemInfo.count.toString();
         restItemList = restItemList.filter(
           (searchSubject) => searchSubject !== itemInfo
         );
@@ -238,19 +222,17 @@ export class map extends Phaser.Scene {
   makeHeaderItem(
     index: number,
     oneItemInfo: { name: string; count: number },
-    item: Phaser.GameObjects.Container
+    item: HTMLDivElement
   ) {
     //ヘッダーのアイテムのUIを新規作成する。
-    const parent = this.add.container(40 * (index + 1) + 30 * index, 0);
-    const image = this.add
-      .image(0, 0, "items", putItemList(oneItemInfo.name)?.number)
-      .setOrigin(0, 0.5);
-    const itemNumberString = this.add.text(30, -10, String(oneItemInfo.count), {
-      color: "white",
-      font: "20px bold",
-    });
-    parent.add([image, itemNumberString]);
-    item.add(parent);
+    const parent = document.createElement("div");
+    const image = document.createElement("img");
+    image.src = `/chara/fishing/header/item/items/${oneItemInfo.name}.png`;
+    const itemNumberString = document.createElement("p");
+    itemNumberString.innerHTML = String(index);
+    parent.appendChild(image);
+    parent.appendChild(itemNumberString);
+    item.appendChild(parent);
     return {
       gameContainer: parent,
       itemNumberString: itemNumberString,
@@ -260,10 +242,9 @@ export class map extends Phaser.Scene {
 
   showDialog(choices: string[]): Promise<string> | undefined {
     //イベントをプロミスで処理する
-    const dialogElement = this.choicesDialog?.getChildByID("fm_dialog");
-    const centerDialogElement =
-      this.choicesDialog?.getChildByID("fm_dialog_center");
-    this.choicesDialog?.setPosition(450, 300);
+    const dialogElement = this.mapDom?.getChildByID("fm_dialog");
+    const centerDialogElement = this.mapDom?.getChildByID("fm_dialog_center");
+    this.mapDom?.setPosition(450, 300);
     dialogElement?.setAttribute("style", "display:block;");
     if (centerDialogElement === null || centerDialogElement === undefined)
       return;

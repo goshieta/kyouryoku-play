@@ -1,13 +1,50 @@
-<div id="fm_dialog" style="display: none">
-  <div id="fm_dialog_center"></div>
+<div id="all_parent">
+  <div id="fm_dialog" style="display: none">
+    <div id="fm_dialog_center"></div>
+  </div>
+  <div id="fm_header">
+    <div id="fm_state">
+      <div>
+        <img
+          src="/chara/fishing/header/state/health.svg"
+          alt=""
+          width="20"
+          height="20"
+        />
+        <div class="fm_state_progress">
+          <div id="fm_state_progress_health"></div>
+        </div>
+      </div>
+      <div>
+        <img
+          src="/chara/fishing/header/state/hunger.svg"
+          alt=""
+          width="20"
+          height="20"
+        />
+        <div class="fm_state_progress">
+          <div id="fm_state_progress_hunger"></div>
+        </div>
+      </div>
+    </div>
+    <div id="fm_items"></div>
+  </div>
 </div>
+
 <style>
+  #all_parent {
+    width: 900px;
+    height: 600px;
+    position: relative;
+  }
   #fm_dialog {
     background-color: rgba(0, 0, 0, 0.6);
     width: 900px;
     height: 600px;
     position: absolute;
-    transform: translate(-50%, -50%);
+    top: 0px;
+    left: 0px;
+    z-index: 10;
   }
   #fm_dialog_center {
     position: relative;
@@ -32,5 +69,82 @@
   #fm_dialog_center > button:hover {
     transition: background-color 0.3s;
     background-color: #c4d5ff;
+  }
+
+  /*ヘッダー*/
+  #fm_header_adjustment {
+    width: 900px;
+    height: 600px;
+    position: relative;
+  }
+  #fm_header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+  }
+  #fm_state {
+    width: 300px;
+  }
+  #fm_state > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px 0px;
+  }
+  .fm_state_progress {
+    height: 20px;
+    width: 150px;
+    background-color: white;
+    border-radius: 10px;
+    position: relative;
+  }
+  .fm_state_progress div {
+    height: 20px;
+    border-radius: 10px;
+    background-color: #ff0088;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  #fm_state img {
+    background-color: white;
+    padding: 10px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+  }
+  #fm_items {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  #fm_items div {
+    background-color: white;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    line-height: 15px;
+  }
+  #fm_items p {
+    font-weight: bold;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    margin: 0;
+    font-size: 15px;
+    height: 15px;
+  }
+  #fm_items img {
+    display: block;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    margin: auto auto;
   }
 </style>
