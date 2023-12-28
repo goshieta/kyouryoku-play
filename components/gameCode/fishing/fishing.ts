@@ -1,4 +1,5 @@
 import { settingType } from "./setting";
+import { header } from "./header";
 
 export class fishing extends Phaser.Scene {
   setting: settingType = {
@@ -16,5 +17,11 @@ export class fishing extends Phaser.Scene {
   }
   init(config: settingType) {
     this.setting = config;
+  }
+
+  create() {
+    this.cameras.main.setBackgroundColor("#0384fc");
+
+    new header(this, this.setting);
   }
 }

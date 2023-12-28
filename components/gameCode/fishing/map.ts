@@ -1,6 +1,6 @@
 import { settingType } from "./setting";
 import putItemList from "./itemList";
-import { count } from "console";
+import { header } from "./header";
 
 export class map extends Phaser.Scene {
   mapArray: string[];
@@ -26,7 +26,7 @@ export class map extends Phaser.Scene {
   private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
   private wasdCursors?: any;
 
-  mapDom?: Phaser.GameObjects.DOMElement;
+  mapDom?: header;
 
   constructor() {
     super({ key: "map" });
@@ -124,28 +124,7 @@ export class map extends Phaser.Scene {
     });
 
     //選択用ダイアログ、ヘッダーなどの各種DOM
-    this.mapDom = this.add.dom(450, 300).createFromCache("mapDom");
-    this.header = <HTMLDivElement>this.mapDom.getChildByID("fm_header");
-    //アイテム
-    const itemGameObj = this.setting.playerState.items.map((oneItem, index) => {
-      return this.makeHeaderItem(
-        index,
-        oneItem,
-        <HTMLDivElement>this.mapDom?.getChildByID("fm_items")
-      );
-    });
-    this.headerMainObject = {
-      state: {
-        health: <HTMLDivElement>(
-          this.mapDom.getChildByID("fm_state_progress_health")
-        ),
-        hunger: <HTMLDivElement>(
-          this.mapDom.getChildByID("fm_state_progress_hunger")
-        ),
-      },
-      items: itemGameObj,
-      itemContainer: <HTMLDivElement>this.mapDom.getChildByID("fm_items"),
-    };
+    this.mapDom = new header(this, this.setting);
 
     //カメラ
     this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
@@ -185,135 +164,8 @@ export class map extends Phaser.Scene {
       Math.floor(this.player.y)
     );
 
-    //ヘッダーを更新
-    if (this.headerMainObject === undefined) return;
-    this.headerMainObject.state.health.style.width = `${
-      this.setting.playerState.health * 1.5
-    }px`;
-    this.headerMainObject.state.hunger.style.width = `${
-      this.setting.playerState.hunger * 1.5
-    }px`;
-    //アイテムを更新
-    let restItemList = this.setting.playerState.items;
-    this.headerMainObject.items = this.headerMainObject.items.filter(
-      (oneItem, index) => {
-        const itemInfo = restItemList.find(
-          (oneItemInfo) => oneItemInfo.name === oneItem.itemName
-        );
-        if (itemInfo === undefined) {
-          this.headerMainObject?.items.splice(index, 1);
-          return false;
-        }
-        oneItem.itemNumberString.innerHTML = itemInfo.count.toString();
-        restItemList = restItemList.filter(
-          (searchSubject) => searchSubject !== itemInfo
-        );
-        return true;
-      }
-    );
-    //新規アイテムの作成
-    restItemList.forEach((restItem, index) => {
-      if (this.headerMainObject === undefined) return;
-      this.headerMainObject.items.push(
-        this.makeHeaderItem(
-          this.headerMainObject?.items.length + index,
-          restItem,
-          this.headerMainObject.itemContainer
-        )
-      );
-    });
-
     //ステートの更新
     //this.setting.playerState.hunger -= 0.01;
-  }
-
-  makeHeaderItem(
-    index: number,
-    oneItemInfo: { name: string; count: number },
-    item: HTMLDivElement
-  ) {
-    //ヘッダーのアイテムのUIを新規作成する。
-    const parent = document.createElement("div");
-    const image = document.createElement("img");
-    image.src = `/chara/fishing/header/item/items/${oneItemInfo.name}.png`;
-    const itemNumberString = document.createElement("p");
-    itemNumberString.innerHTML = String(index);
-    parent.appendChild(image);
-    parent.appendChild(itemNumberString);
-    item.appendChild(parent);
-    return {
-      gameContainer: parent,
-      itemNumberString: itemNumberString,
-      itemName: oneItemInfo.name,
-    };
-  }
-
-  showDialog(choices: string[]): Promise<string> | undefined {
-    //イベントをプロミスで処理する
-    const dialogElement = this.mapDom?.getChildByID("fm_dialog");
-    const centerDialogElement = this.mapDom?.getChildByID("fm_dialog_center");
-    this.mapDom?.setPosition(450, 300);
-    dialogElement?.setAttribute("style", "display:block;");
-    if (centerDialogElement === null || centerDialogElement === undefined)
-      return;
-
-    return new Promise((resolve) => {
-      choices.forEach((val) => {
-        const button = document.createElement("button");
-        button.innerHTML = val;
-        button.addEventListener("click", () => {
-          centerDialogElement.innerHTML = "";
-          dialogElement?.setAttribute("style", "display:none;");
-
-          resolve(val);
-        });
-        centerDialogElement?.appendChild(button);
-      });
-    });
-  }
-  showRichDialog(choices: string[], desc?: string, imagePath?: string) {
-    if (this.eventStopper) return;
-    this.eventStopper = false;
-    //リッチなダイアログ
-    if (this.mapDom === undefined) return;
-    const dialog = <HTMLDivElement>this.mapDom.getChildByID("fm_rich_dialog");
-    dialog.style.display = "flex";
-    const descArea = <HTMLDivElement>dialog.querySelector("#fm_descArea");
-    if (desc !== undefined || imagePath !== undefined) {
-      descArea.style.display = "flex";
-      const img = <HTMLImageElement>descArea.querySelector("#fm_desc_img");
-      const p = <HTMLPreElement>descArea.querySelector("#fm_desc_p");
-      img.style.display = "none";
-      p.style.display = "none";
-      if (imagePath !== undefined) {
-        img.style.display = "block";
-        img.src = imagePath;
-      }
-      if (desc !== undefined) {
-        p.style.display = "block";
-        p.innerHTML = desc;
-      }
-    } else {
-      descArea.style.display = "none";
-    }
-    //ボタンを表示
-    const buttonArea = <HTMLDivElement>(
-      dialog.querySelector("#fm_dialog_button_area")
-    );
-    this.eventStopper = false;
-    return new Promise((resolve) => {
-      choices.forEach((val) => {
-        const button = document.createElement("button");
-        button.innerHTML = val;
-        button.addEventListener("click", () => {
-          buttonArea.innerHTML = "";
-          dialog?.setAttribute("style", "display:none;");
-
-          resolve(val);
-        });
-        buttonArea.appendChild(button);
-      });
-    });
   }
 
   itemHundle(name: string, size: number) {
@@ -335,6 +187,9 @@ export class map extends Phaser.Scene {
     }
   }
 
+  setEventStopper = (newEventStopper: boolean) =>
+    (this.eventStopper = newEventStopper);
+
   eventManager(layer: Phaser.Tilemaps.TilemapLayer) {
     //イベント自体はここで定義
     const eventlist: {
@@ -351,8 +206,10 @@ export class map extends Phaser.Scene {
             desc: "果実をとる",
             eventFunc: () => {
               this.itemHundle("rowFluit", 1);
-              this.showRichDialog(
+              this.mapDom?.showRichDialog(
                 ["わかった"],
+                this.eventStopper,
+                this.setEventStopper,
                 "低木の実を獲得した。",
                 "/chara/fishing/header/item/items/rowFluit.png"
               );
@@ -370,8 +227,10 @@ export class map extends Phaser.Scene {
             desc: "果実をとる",
             eventFunc: () => {
               this.itemHundle("treeFluit", 1);
-              this.showRichDialog(
+              this.mapDom?.showRichDialog(
                 ["わかった"],
+                this.eventStopper,
+                this.setEventStopper,
                 "普通の木の実を獲得した。",
                 "/chara/fishing/header/item/items/treeFluit.png"
               );
@@ -389,8 +248,10 @@ export class map extends Phaser.Scene {
             desc: "木をゆする",
             eventFunc: () => {
               this.itemHundle("treeBranch", Math.floor(Math.random() * 3 + 1));
-              this.showRichDialog(
+              this.mapDom?.showRichDialog(
                 ["わかった"],
+                this.eventStopper,
+                this.setEventStopper,
                 "木の枝が落ちてきた",
                 "/chara/fishing/header/item/items/treeBranch.png"
               );
@@ -409,10 +270,12 @@ export class map extends Phaser.Scene {
             eventFunc: async () => {
               //バスの画面に遷移する
               const townList = ["蔵町", "川町", "浜町", "湖町", "田舎"];
-              const town = await this.showRichDialog(
+              const town = await this.mapDom?.showRichDialog(
                 townList.filter(
                   (oneTown) => oneTown !== this.setting.currentMapName
                 ),
+                this.eventStopper,
+                this.setEventStopper,
                 `バス停名 : ${this.setting.currentMapName} <br><br>どの町に行きますか？（運賃一律10pt）`,
                 "/chara/fishing/otherImage/バス停.png"
               );
@@ -426,8 +289,10 @@ export class map extends Phaser.Scene {
           {
             desc: "金がないのでバスには乗らない",
             eventFunc: () => {
-              this.showRichDialog(
+              this.mapDom?.showRichDialog(
                 ["理解した"],
+                this.eventStopper,
+                this.setEventStopper,
                 "お金の稼ぎ方がわからない場合は、画面下のゲームの遊び方を読みましょう。"
               );
             },
@@ -435,8 +300,10 @@ export class map extends Phaser.Scene {
           {
             desc: "気分じゃないのでバスにならない",
             eventFunc: () => {
-              this.showRichDialog(
+              this.mapDom?.showRichDialog(
                 ["はい"],
+                this.eventStopper,
+                this.setEventStopper,
                 "またのご利用をお待ちしております。"
               );
             },
@@ -471,7 +338,7 @@ export class map extends Phaser.Scene {
           const processForDialog = async () => {
             this.eventStopper = true;
             const descArray = oneEvent.dialog.map((oneDialg) => oneDialg.desc);
-            const result = await this.showDialog(descArray);
+            const result = await this.mapDom?.showDialog(descArray);
             if (result === null || result === undefined) return;
             this.eventStopper = false;
             const desc = oneEvent.dialog.find(
