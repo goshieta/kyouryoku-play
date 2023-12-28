@@ -337,7 +337,13 @@ export class map extends Phaser.Scene {
 
   eventManager(layer: Phaser.Tilemaps.TilemapLayer) {
     //イベント自体はここで定義
-    const eventlist = [
+    const eventlist: {
+      number: number[];
+      dialog: {
+        desc: string;
+        eventFunc?: () => void;
+      }[];
+    }[] = [
       {
         number: [4, 5],
         dialog: [
@@ -354,7 +360,6 @@ export class map extends Phaser.Scene {
           },
           {
             desc: "何もしない",
-            eventFunc: () => {},
           },
         ],
       },
@@ -374,7 +379,6 @@ export class map extends Phaser.Scene {
           },
           {
             desc: "何もしない",
-            eventFunc: () => {},
           },
         ],
       },
@@ -394,7 +398,6 @@ export class map extends Phaser.Scene {
           },
           {
             desc: "何もしない",
-            eventFunc: () => {},
           },
         ],
       },
@@ -440,7 +443,20 @@ export class map extends Phaser.Scene {
           },
           {
             desc: "その他の理由でバスに乗らない",
-            eventFunc: () => {},
+          },
+        ],
+      },
+      {
+        number: [2],
+        dialog: [
+          {
+            desc: "釣りをする",
+            eventFunc: () => {
+              this.scene.start("fishing", this.setting);
+            },
+          },
+          {
+            desc: "釣りをしない",
           },
         ],
       },
@@ -458,9 +474,12 @@ export class map extends Phaser.Scene {
             const result = await this.showDialog(descArray);
             if (result === null || result === undefined) return;
             this.eventStopper = false;
-            oneEvent.dialog
-              .find((oneDialog) => oneDialog.desc === result)
-              ?.eventFunc();
+            const desc = oneEvent.dialog.find(
+              (oneDialog) => oneDialog.desc === result
+            );
+            if (desc?.eventFunc) {
+              desc?.eventFunc();
+            }
           };
 
           if (this.eventStopper) return;
