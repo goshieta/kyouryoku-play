@@ -6,6 +6,7 @@ export class map extends Phaser.Scene {
   mapArray: string[];
   setting: settingType;
   player?: Phaser.Physics.Arcade.Sprite;
+  cameraDolly?: Phaser.Geom.Point;
   eventStopper: boolean;
   header?: HTMLDivElement;
   headerMainObject?: {
@@ -147,7 +148,8 @@ export class map extends Phaser.Scene {
     };
 
     //カメラ
-    this.cameras.main.startFollow(this.player);
+    this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
+    this.cameras.main.startFollow(this.cameraDolly);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.uiCamera = this.cameras.add(0, 0, 900, 600);
 
@@ -176,6 +178,12 @@ export class map extends Phaser.Scene {
     }
     //斜めに移動したとき速くならないように標準化
     this.player?.body?.velocity.normalize().scale(speed);
+
+    if (this.player === undefined) return;
+    this.cameraDolly?.setTo(
+      Math.floor(this.player.x),
+      Math.floor(this.player.y)
+    );
 
     //ヘッダーを更新
     if (this.headerMainObject === undefined) return;
