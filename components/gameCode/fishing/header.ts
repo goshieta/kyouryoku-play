@@ -15,8 +15,29 @@ export class header extends Phaser.GameObjects.DOMElement {
     }[];
     itemContainer: HTMLDivElement;
   };
+  otherMainDomObj: {
+    specialItemsImg: HTMLImageElement[];
+  } = { specialItemsImg: [] };
+  specialItems?: {
+    itemName: string;
+    canSetItem: string[];
+    currentItem: null | string;
+    setEvent: (newSet: string) => void;
+  }[];
 
-  constructor(scene: Phaser.Scene, setting: settingType) {
+  constructor(
+    scene: Phaser.Scene,
+    setting: settingType,
+    additionalSetting?: {
+      specialItem?: {
+        itemName: string;
+        //セットできるアイテムの名前を書いた配列
+        canSetItem: string[];
+        //セットされたときに発動するイベント
+        setEvent: (newSet: string) => void;
+      }[];
+    }
+  ) {
     super(scene, 450, 300);
     this.createFromCache("mapDom");
     scene.add.existing(this);
@@ -40,6 +61,30 @@ export class header extends Phaser.GameObjects.DOMElement {
       items: itemGameObj,
       itemContainer: <HTMLDivElement>this.getChildByID("fm_items"),
     };
+
+    //スペシャルなアイテム
+    if (
+      additionalSetting !== undefined &&
+      additionalSetting.specialItem !== undefined
+    ) {
+      this.specialItems = additionalSetting.specialItem.map((oneItem) => {
+        return { ...oneItem, currentItem: null };
+      });
+      const parentDiv = <HTMLDivElement>this.getChildByID("fm_special_item");
+      parentDiv.style.display = "flex";
+      this.specialItems.forEach((oneItem) => {
+        const template = <HTMLTemplateElement>(
+          parentDiv.querySelector("#fm_special_item_temp")
+        );
+        const clone = <HTMLDivElement>template.content.cloneNode(true);
+        (<HTMLParagraphElement>clone.querySelector("p")).innerHTML =
+          oneItem.itemName;
+        this.otherMainDomObj.specialItemsImg.push(
+          <HTMLImageElement>clone.querySelector("div")
+        );
+        parentDiv.appendChild(clone);
+      });
+    }
   }
 
   updateSetting = (newSetting: settingType) => (this.setting = newSetting);
@@ -82,6 +127,18 @@ export class header extends Phaser.GameObjects.DOMElement {
         )
       );
     });
+
+    //スペシャルアイテムの更新
+    if (this.specialItems !== undefined) {
+      this.specialItems.map((oneItem, index) => {
+        if (oneItem === null)
+          this.otherMainDomObj.specialItemsImg[index].src = "";
+        else
+          this.otherMainDomObj.specialItemsImg[
+            index
+          ].src = `/chara/fishing/item/items/${oneItem.itemName}.png`;
+      });
+    }
   }
 
   makeHeaderItem(

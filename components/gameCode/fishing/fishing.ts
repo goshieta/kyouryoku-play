@@ -11,7 +11,6 @@ export class fishing extends Phaser.Scene {
       hunger: 0,
     },
   };
-  waterShader?: Phaser.GameObjects.Shader;
 
   fishShadows: { obj: Phaser.GameObjects.Sprite; time: number }[] = [];
 
@@ -33,7 +32,20 @@ export class fishing extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor("#0384fc");
 
-    new header(this, this.setting);
+    new header(this, this.setting, {
+      specialItem: [
+        {
+          itemName: "釣り竿",
+          canSetItem: ["treeBranch"],
+          setEvent(newSet) {},
+        },
+        {
+          itemName: "エサ",
+          canSetItem: ["aoiisome", "redIsome", "chirori", "stoneLugworm"],
+          setEvent(newSet) {},
+        },
+      ],
+    });
 
     //魚影作成
     for (let i = 0; i < 1; i++) {
@@ -53,7 +65,6 @@ export class fishing extends Phaser.Scene {
 
   update(time: number, delta: number) {
     this.fishShadows = this.fishShadows.filter((oneFish) => {
-      console.log(oneFish.obj.alpha);
       //alphaと削除
       if (oneFish.time <= 1) oneFish.obj.alpha = oneFish.time;
       if (oneFish.time >= 19) oneFish.obj.alpha = -oneFish.time + 20;

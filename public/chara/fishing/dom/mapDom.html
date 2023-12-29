@@ -38,6 +38,16 @@
     </div>
     <div id="fm_items"></div>
   </div>
+  <div id="fm_special_item" style="display: none">
+    <template id="fm_special_item_temp">
+      <div>
+        <p></p>
+        <div>
+          <img src="" alt="" width="40" height="40" />
+        </div>
+      </div>
+    </template>
+  </div>
 </div>
 
 <style>
@@ -206,5 +216,39 @@
     height: 25px;
     position: relative;
     margin: auto auto;
+  }
+  #fm_special_item {
+    display: flex;
+    gap: 50px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+  }
+  #fm_special_item > div {
+    background-color: rgb(224, 234, 255);
+    display: flex;
+    padding: 10px 20px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+  #fm_special_item img {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  #fm_special_item img[src=""] {
+    display: none;
+  }
+  #fm_special_item > div > div {
+    width: 40px;
+    height: 40px;
+    background-color: rgb(153, 194, 255);
+    border-radius: 5px;
   }
 </style>
