@@ -1,3 +1,4 @@
+import putItemList from "./itemList";
 import { settingType } from "./setting";
 
 export class header extends Phaser.GameObjects.DOMElement {
@@ -24,10 +25,14 @@ export class header extends Phaser.GameObjects.DOMElement {
     currentItem: null | string;
     setEvent: (newSet: string) => void;
   }[];
+  getEventStopper: () => boolean;
+  setEventStopper: (newVal: boolean) => any;
 
   constructor(
     scene: Phaser.Scene,
     setting: settingType,
+    getEventStopper: () => boolean,
+    setEventStopper: (newVal: boolean) => any,
     additionalSetting?: {
       specialItem?: {
         itemName: string;
@@ -42,6 +47,8 @@ export class header extends Phaser.GameObjects.DOMElement {
     this.createFromCache("mapDom");
     scene.add.existing(this);
     this.setting = setting;
+    this.getEventStopper = getEventStopper;
+    this.setEventStopper = setEventStopper;
 
     this.header = <HTMLDivElement>this.getChildByID("fm_header");
 
@@ -155,6 +162,94 @@ export class header extends Phaser.GameObjects.DOMElement {
     parent.appendChild(image);
     parent.appendChild(itemNumberString);
     item.appendChild(parent);
+
+    //アイテムがクリックされたとき特定のイベントが発動する
+    parent.addEventListener("click", async () => {
+      type eventEventFunction = (
+        setting: settingType,
+        thisItemInfo: { name: string; count: number },
+        itemHundle: (name: string, size: number) => void,
+        specialItems:
+          | {
+              itemName: string;
+              canSetItem: string[];
+              currentItem: null | string;
+              setEvent: (newSet: string) => void;
+            }[]
+          | undefined
+      ) => void;
+      //イベントは、3種類ある
+      //1. すべてのアイテムに対して発動されるイベント
+      const allItemEvent: {
+        eventName: string;
+        event: eventEventFunction;
+      }[] = [
+        {
+          eventName: "捨てる",
+          event(setting, thisItemInfo, itemHundle) {
+            itemHundle(thisItemInfo.name, -1);
+          },
+        },
+        {
+          eventName: "何もしない",
+          event() {},
+        },
+      ];
+      const allItemEventName = allItemEvent.map((oneEve) => oneEve.eventName);
+      //2. 特定のアイテムの固有のイベント
+      const thisItmeInfo = putItemList(oneItemInfo.name);
+      const thisItemEvent = thisItmeInfo
+        ? thisItmeInfo.eventList
+          ? thisItmeInfo.eventList
+          : []
+        : [];
+      const thisItemEventName = thisItemEvent
+        ? thisItemEvent.map((oneEve) => oneEve.eventName)
+        : [];
+      //3. スペシャルアイテムの設定イベント
+      const allSpecialItemEvent = this.specialItems?.filter(
+        (oneItem) => !oneItem.canSetItem.indexOf(oneItemInfo.name)
+      );
+      const specialItemEvent: {
+        eventName: string;
+        event: eventEventFunction;
+      }[] = allSpecialItemEvent
+        ? allSpecialItemEvent.map((oneEve) => {
+            return {
+              eventName: oneEve.itemName,
+              event: (setting, thisItemInfo, itemHundle, specialItems) => {
+                oneEve.currentItem = oneItemInfo.name;
+                oneEve.setEvent(oneItemInfo.name);
+              },
+            };
+          })
+        : [];
+      const specialItemEventName = specialItemEvent.map(
+        (oneEve) => oneEve.eventName
+      );
+
+      const events = allItemEvent
+        .concat(thisItemEvent)
+        .concat(specialItemEvent);
+
+      //ダイアログ見せちゃう
+      const result = await this.showRichDialog(
+        events.map((oneEve) => oneEve.eventName),
+        this.getEventStopper(),
+        this.setEventStopper,
+        `このアイテムに対して何をしますか？`,
+        `/chara/fishing/header/item/items/${oneItemInfo.name}.png`
+      );
+      events
+        .find((oneEve) => oneEve.eventName === result)
+        ?.event(
+          this.setting,
+          oneItemInfo,
+          this.itemHundle.bind(this),
+          this.specialItems
+        );
+    });
+
     return {
       gameContainer: parent,
       itemNumberString: itemNumberString,
@@ -234,5 +329,24 @@ export class header extends Phaser.GameObjects.DOMElement {
         buttonArea.appendChild(button);
       });
     });
+  }
+
+  itemHundle(name: string, size: number) {
+    //アイテムに関する操作を提供する
+    //nameにアイテムの名前、sizeに増減の数を記述する
+    const item = this.setting.playerState.items.find(
+      (oneItem) => oneItem.name === name
+    );
+    if (item === undefined) {
+      if (size >= 0)
+        this.setting.playerState.items.push({ name: name, count: size });
+      return;
+    }
+    item.count += size;
+    if (item.count <= 0) {
+      this.setting.playerState.items = this.setting.playerState.items.filter(
+        (searchSubject) => searchSubject !== item
+      );
+    }
   }
 }

@@ -1,6 +1,12 @@
+import { settingType } from "./setting";
+
 type itemType = {
   name: string;
   number: number;
+  eventList?: {
+    eventName: string;
+    event: (setting: settingType) => void;
+  }[];
 };
 type itemListType = itemType[];
 

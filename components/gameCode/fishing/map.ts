@@ -124,7 +124,12 @@ export class map extends Phaser.Scene {
     });
 
     //選択用ダイアログ、ヘッダーなどの各種DOM
-    this.mapDom = new header(this, this.setting);
+    this.mapDom = new header(
+      this,
+      this.setting,
+      () => this.eventStopper,
+      (newVal) => (this.eventStopper = newVal)
+    );
 
     //カメラ
     this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
@@ -168,25 +173,6 @@ export class map extends Phaser.Scene {
     //this.setting.playerState.hunger -= 0.01;
   }
 
-  itemHundle(name: string, size: number) {
-    //アイテムに関する操作を提供する
-    //nameにアイテムの名前、sizeに増減の数を記述する
-    const item = this.setting.playerState.items.find(
-      (oneItem) => oneItem.name === name
-    );
-    if (item === undefined) {
-      if (size >= 0)
-        this.setting.playerState.items.push({ name: name, count: size });
-      return;
-    }
-    item.count += size;
-    if (item.count <= 0) {
-      this.setting.playerState.items = this.setting.playerState.items.filter(
-        (searchSubject) => searchSubject !== item
-      );
-    }
-  }
-
   setEventStopper = (newEventStopper: boolean) =>
     (this.eventStopper = newEventStopper);
 
@@ -205,7 +191,7 @@ export class map extends Phaser.Scene {
           {
             desc: "果実をとる",
             eventFunc: () => {
-              this.itemHundle("rowFluit", 1);
+              this.mapDom?.itemHundle("rowFluit", 1);
               this.mapDom?.showRichDialog(
                 ["わかった"],
                 this.eventStopper,
@@ -226,7 +212,7 @@ export class map extends Phaser.Scene {
           {
             desc: "果実をとる",
             eventFunc: () => {
-              this.itemHundle("treeFluit", 1);
+              this.mapDom?.itemHundle("treeFluit", 1);
               this.mapDom?.showRichDialog(
                 ["わかった"],
                 this.eventStopper,
@@ -247,7 +233,10 @@ export class map extends Phaser.Scene {
           {
             desc: "木をゆする",
             eventFunc: () => {
-              this.itemHundle("treeBranch", Math.floor(Math.random() * 3 + 1));
+              this.mapDom?.itemHundle(
+                "treeBranch",
+                Math.floor(Math.random() * 3 + 1)
+              );
               this.mapDom?.showRichDialog(
                 ["わかった"],
                 this.eventStopper,
