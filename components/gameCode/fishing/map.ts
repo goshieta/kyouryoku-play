@@ -1,6 +1,7 @@
 import { settingType } from "./setting";
 import putItemList from "./itemList";
 import { header } from "./header";
+import player from "./map/player";
 
 export class map extends Phaser.Scene {
   mapArray: string[];
@@ -22,9 +23,6 @@ export class map extends Phaser.Scene {
     itemContainer: HTMLDivElement;
   };
   uiCamera?: Phaser.Cameras.Scene2D.Camera;
-
-  private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
-  private wasdCursors?: any;
 
   mapDom?: header;
 
@@ -93,35 +91,9 @@ export class map extends Phaser.Scene {
       faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
     });*/
 
-    //スポーンする座標の処理
-    const spawnpoint = map.findObject(
-      "objects",
-      (obj) => obj.name === "spawnPoint"
-    );
-    const spawnPointPosition =
-      spawnpoint === null ||
-      spawnpoint.x === undefined ||
-      spawnpoint.y === undefined
-        ? { x: 100, y: 100 }
-        : { x: spawnpoint.x, y: spawnpoint.y };
-    const firstPlayerPosition =
-      this.setting.positionOfMap == "bus"
-        ? spawnPointPosition
-        : this.setting.positionOfMap;
-    //プレイヤーを追加
-    this.player = this.physics.add
-      .sprite(firstPlayerPosition.x, firstPlayerPosition.y, "player", 0)
-      .setSize(30, 30);
+    //プレイヤー
+    this.player = new player(this, map);
     this.physics.add.collider(this.player, <any>layer);
-
-    //キーボード
-    this.cursors = this.input.keyboard?.createCursorKeys();
-    this.wasdCursors = this.input.keyboard?.addKeys({
-      up: "W",
-      left: "A",
-      down: "S",
-      right: "D",
-    });
 
     //選択用ダイアログ、ヘッダーなどの各種DOM
     this.mapDom = new header(
@@ -130,6 +102,8 @@ export class map extends Phaser.Scene {
       () => this.eventStopper,
       (newVal) => (this.eventStopper = newVal)
     );
+
+    this.make.tilemap();
 
     //カメラ
     this.cameraDolly = new Phaser.Geom.Point(this.player.x, this.player.y);
@@ -142,28 +116,8 @@ export class map extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    //プレイヤーを動かす
-    this.player?.setVelocity(0);
-    if (this.eventStopper) return;
-    const speed = 150;
-    if (this.cursors?.left.isDown || this.wasdCursors?.left.isDown) {
-      this.player?.setVelocityX(-speed);
-      this.player?.setFrame(3);
-    } else if (this.cursors?.right.isDown || this.wasdCursors?.right.isDown) {
-      this.player?.setVelocityX(speed);
-      this.player?.setFrame(1);
-    }
-    if (this.cursors?.up.isDown || this.wasdCursors?.up.isDown) {
-      this.player?.setVelocityY(-speed);
-      this.player?.setFrame(2);
-    } else if (this.cursors?.down.isDown || this.wasdCursors?.down.isDown) {
-      this.player?.setVelocityY(speed);
-      this.player?.setFrame(0);
-    }
-    //斜めに移動したとき速くならないように標準化
-    this.player?.body?.velocity.normalize().scale(speed);
-
     if (this.player === undefined) return;
+
     this.cameraDolly?.setTo(
       Math.floor(this.player.x),
       Math.floor(this.player.y)
