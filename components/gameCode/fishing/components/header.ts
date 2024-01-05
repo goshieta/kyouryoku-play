@@ -1,5 +1,5 @@
-import putItemList from "./itemList";
-import { settingType } from "./setting";
+import putItemList from "../itemList";
+import { settingType } from "../setting";
 
 export class header extends Phaser.GameObjects.DOMElement {
   header: HTMLDivElement;

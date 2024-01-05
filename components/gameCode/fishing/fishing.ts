@@ -1,5 +1,5 @@
 import { settingType } from "./setting";
-import { header } from "./header";
+import { header } from "./components/header";
 
 export class fishing extends Phaser.Scene {
   setting: settingType = {

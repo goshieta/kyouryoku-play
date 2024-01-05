@@ -1,6 +1,6 @@
 import { settingType } from "./setting";
 import putItemList from "./itemList";
-import { header } from "./header";
+import { header } from "./components/header";
 import player from "./map/player";
 
 export class map extends Phaser.Scene {
