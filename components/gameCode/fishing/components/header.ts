@@ -1,14 +1,11 @@
 import putItemList from "../itemList";
 import { settingType } from "../setting";
+import stateManage from "./header/state";
 
 export class header extends Phaser.GameObjects.DOMElement {
   header: HTMLDivElement;
   setting: settingType;
   headerMainObject: {
-    state: {
-      health: HTMLDivElement;
-      hunger: HTMLDivElement;
-    };
     items: {
       gameContainer: HTMLDivElement;
       itemNumberString: HTMLParagraphElement;
@@ -27,6 +24,11 @@ export class header extends Phaser.GameObjects.DOMElement {
   }[];
   getEventStopper: () => boolean;
   setEventStopper: (newVal: boolean) => any;
+
+  //管理クラス
+  domMangeClass: {
+    state: stateManage;
+  };
 
   constructor(
     scene: Phaser.Scene,
@@ -61,10 +63,6 @@ export class header extends Phaser.GameObjects.DOMElement {
       );
     });
     this.headerMainObject = {
-      state: {
-        health: <HTMLDivElement>this.getChildByID("fm_state_progress_health"),
-        hunger: <HTMLDivElement>this.getChildByID("fm_state_progress_hunger"),
-      },
       items: itemGameObj,
       itemContainer: <HTMLDivElement>this.getChildByID("fm_items"),
     };
@@ -92,19 +90,19 @@ export class header extends Phaser.GameObjects.DOMElement {
         parentDiv.appendChild(clone);
       });
     }
+
+    //管理クラスの管理
+    this.domMangeClass = {
+      state: new stateManage(
+        <HTMLDivElement>this.header.querySelector("#fm_state"),
+        this
+      ),
+    };
   }
 
   updateSetting = (newSetting: settingType) => (this.setting = newSetting);
 
   preUpdate() {
-    //ヘッダーを更新
-    if (this.headerMainObject === undefined) return;
-    this.headerMainObject.state.health.style.width = `${
-      this.setting.playerState.health * 1.5
-    }px`;
-    this.headerMainObject.state.hunger.style.width = `${
-      this.setting.playerState.hunger * 1.5
-    }px`;
     //アイテムを更新
     let restItemList = this.setting.playerState.items;
     this.headerMainObject.items = this.headerMainObject.items.filter(
@@ -146,6 +144,9 @@ export class header extends Phaser.GameObjects.DOMElement {
           ].src = `/chara/fishing/item/items/${oneItem.itemName}.png`;
       });
     }
+
+    //管理クラスのアップデート
+    this.domMangeClass.state.update();
   }
 
   makeHeaderItem(
