@@ -1,18 +1,11 @@
 import putItemList from "../itemList";
 import { settingType } from "../setting";
+import iconsManage from "./header/items";
 import stateManage from "./header/state";
 
 export class header extends Phaser.GameObjects.DOMElement {
   header: HTMLDivElement;
   setting: settingType;
-  headerMainObject: {
-    items: {
-      gameContainer: HTMLDivElement;
-      itemNumberString: HTMLParagraphElement;
-      itemName: string;
-    }[];
-    itemContainer: HTMLDivElement;
-  };
   otherMainDomObj: {
     specialItemsImg: HTMLImageElement[];
   } = { specialItemsImg: [] };
@@ -24,10 +17,12 @@ export class header extends Phaser.GameObjects.DOMElement {
   }[];
   getEventStopper: () => boolean;
   setEventStopper: (newVal: boolean) => any;
+  itemHundle: (name: string, size: number) => void;
 
   //管理クラス
   domMangeClass: {
     state: stateManage;
+    items: iconsManage;
   };
 
   constructor(
@@ -53,19 +48,6 @@ export class header extends Phaser.GameObjects.DOMElement {
     this.setEventStopper = setEventStopper;
 
     this.header = <HTMLDivElement>this.getChildByID("fm_header");
-
-    //アイテム
-    const itemGameObj = this.setting.playerState.items.map((oneItem, index) => {
-      return this.makeHeaderItem(
-        index,
-        oneItem,
-        <HTMLDivElement>this.getChildByID("fm_items")
-      );
-    });
-    this.headerMainObject = {
-      items: itemGameObj,
-      itemContainer: <HTMLDivElement>this.getChildByID("fm_items"),
-    };
 
     //スペシャルなアイテム
     if (
@@ -97,42 +79,21 @@ export class header extends Phaser.GameObjects.DOMElement {
         <HTMLDivElement>this.header.querySelector("#fm_state"),
         this
       ),
+      items: new iconsManage(
+        <HTMLDivElement>this.header.querySelector("#fm_items"),
+        this
+      ),
     };
+
+    //メソッドの登録
+    this.itemHundle = this.domMangeClass.items.itemHundle.bind(
+      this.domMangeClass.items
+    );
   }
 
   updateSetting = (newSetting: settingType) => (this.setting = newSetting);
 
   preUpdate() {
-    //アイテムを更新
-    let restItemList = this.setting.playerState.items;
-    this.headerMainObject.items = this.headerMainObject.items.filter(
-      (oneItem, index) => {
-        const itemInfo = restItemList.find(
-          (oneItemInfo) => oneItemInfo.name === oneItem.itemName
-        );
-        if (itemInfo === undefined) {
-          this.headerMainObject?.items.splice(index, 1);
-          return false;
-        }
-        oneItem.itemNumberString.innerHTML = itemInfo.count.toString();
-        restItemList = restItemList.filter(
-          (searchSubject) => searchSubject !== itemInfo
-        );
-        return true;
-      }
-    );
-    //新規アイテムの作成
-    restItemList.forEach((restItem, index) => {
-      if (this.headerMainObject === undefined) return;
-      this.headerMainObject.items.push(
-        this.makeHeaderItem(
-          this.headerMainObject?.items.length + index,
-          restItem,
-          this.headerMainObject.itemContainer
-        )
-      );
-    });
-
     //スペシャルアイテムの更新
     if (this.specialItems !== undefined) {
       this.specialItems.map((oneItem, index) => {
@@ -147,115 +108,7 @@ export class header extends Phaser.GameObjects.DOMElement {
 
     //管理クラスのアップデート
     this.domMangeClass.state.update();
-  }
-
-  makeHeaderItem(
-    index: number,
-    oneItemInfo: { name: string; count: number },
-    item: HTMLDivElement
-  ) {
-    //ヘッダーのアイテムのUIを新規作成する。
-    const parent = document.createElement("div");
-    const image = document.createElement("img");
-    image.src = `/chara/fishing/header/item/items/${oneItemInfo.name}.png`;
-    const itemNumberString = document.createElement("p");
-    itemNumberString.innerHTML = String(index);
-    parent.appendChild(image);
-    parent.appendChild(itemNumberString);
-    item.appendChild(parent);
-
-    //アイテムがクリックされたとき特定のイベントが発動する
-    parent.addEventListener("click", async () => {
-      type eventEventFunction = (
-        setting: settingType,
-        thisItemInfo: { name: string; count: number },
-        itemHundle: (name: string, size: number) => void,
-        specialItems:
-          | {
-              itemName: string;
-              canSetItem: string[];
-              currentItem: null | string;
-              setEvent: (newSet: string) => void;
-            }[]
-          | undefined
-      ) => void;
-      //イベントは、3種類ある
-      //1. すべてのアイテムに対して発動されるイベント
-      const allItemEvent: {
-        eventName: string;
-        event: eventEventFunction;
-      }[] = [
-        {
-          eventName: "捨てる",
-          event(setting, thisItemInfo, itemHundle) {
-            itemHundle(thisItemInfo.name, -1);
-          },
-        },
-        {
-          eventName: "何もしない",
-          event() {},
-        },
-      ];
-      const allItemEventName = allItemEvent.map((oneEve) => oneEve.eventName);
-      //2. 特定のアイテムの固有のイベント
-      const thisItmeInfo = putItemList(oneItemInfo.name);
-      const thisItemEvent = thisItmeInfo
-        ? thisItmeInfo.eventList
-          ? thisItmeInfo.eventList
-          : []
-        : [];
-      const thisItemEventName = thisItemEvent
-        ? thisItemEvent.map((oneEve) => oneEve.eventName)
-        : [];
-      //3. スペシャルアイテムの設定イベント
-      const allSpecialItemEvent = this.specialItems?.filter(
-        (oneItem) => !oneItem.canSetItem.indexOf(oneItemInfo.name)
-      );
-      const specialItemEvent: {
-        eventName: string;
-        event: eventEventFunction;
-      }[] = allSpecialItemEvent
-        ? allSpecialItemEvent.map((oneEve) => {
-            return {
-              eventName: oneEve.itemName,
-              event: (setting, thisItemInfo, itemHundle, specialItems) => {
-                oneEve.currentItem = oneItemInfo.name;
-                oneEve.setEvent(oneItemInfo.name);
-              },
-            };
-          })
-        : [];
-      const specialItemEventName = specialItemEvent.map(
-        (oneEve) => oneEve.eventName
-      );
-
-      const events = allItemEvent
-        .concat(thisItemEvent)
-        .concat(specialItemEvent);
-
-      //ダイアログ見せちゃう
-      const result = await this.showRichDialog(
-        events.map((oneEve) => oneEve.eventName),
-        this.getEventStopper(),
-        this.setEventStopper,
-        `このアイテムに対して何をしますか？`,
-        `/chara/fishing/header/item/items/${oneItemInfo.name}.png`
-      );
-      events
-        .find((oneEve) => oneEve.eventName === result)
-        ?.event(
-          this.setting,
-          oneItemInfo,
-          this.itemHundle.bind(this),
-          this.specialItems
-        );
-    });
-
-    return {
-      gameContainer: parent,
-      itemNumberString: itemNumberString,
-      itemName: oneItemInfo.name,
-    };
+    this.domMangeClass.items.update();
   }
 
   showDialog(choices: string[]): Promise<string> | undefined {
@@ -330,24 +183,5 @@ export class header extends Phaser.GameObjects.DOMElement {
         buttonArea.appendChild(button);
       });
     });
-  }
-
-  itemHundle(name: string, size: number) {
-    //アイテムに関する操作を提供する
-    //nameにアイテムの名前、sizeに増減の数を記述する
-    const item = this.setting.playerState.items.find(
-      (oneItem) => oneItem.name === name
-    );
-    if (item === undefined) {
-      if (size >= 0)
-        this.setting.playerState.items.push({ name: name, count: size });
-      return;
-    }
-    item.count += size;
-    if (item.count <= 0) {
-      this.setting.playerState.items = this.setting.playerState.items.filter(
-        (searchSubject) => searchSubject !== item
-      );
-    }
   }
 }
