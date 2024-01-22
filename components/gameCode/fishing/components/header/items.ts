@@ -65,6 +65,13 @@ export default class itemsManage {
     parent.appendChild(itemNumberString);
     item.appendChild(parent);
 
+    parent.addEventListener("click", async () => {
+      const allEventJson: {
+        function: () => void;
+        name: string;
+      }[] = [];
+    });
+
     //アイテムがクリックされたとき特定のイベントが発動する
     /*parent.addEventListener("click", async () => {
       type eventEventFunction = (
