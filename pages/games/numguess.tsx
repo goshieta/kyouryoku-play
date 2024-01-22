@@ -8,7 +8,7 @@ export default function numguess() {
       fileName="numguess"
       width={500}
       height={500}
-      otherGames={["fishing", "flyfly", "othello", "flash"]}
+      otherGames={["westeastbuttle", "flyfly", "othello", "flash"]}
     >
       <h2>遊び方</h2>
       <p>
