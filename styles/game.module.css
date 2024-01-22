@@ -35,6 +35,18 @@
 #mdArea > div {
   margin: 30px 20px;
 }
+#mdArea > table {
+  border-collapse: collapse;
+  margin: 40px 0;
+}
+#mdArea td,
+#mdArea th {
+  border: solid #9000ff 1px;
+  padding: 15px;
+}
+#mdArea th {
+  text-align: center;
+}
 
 #otherGame {
   margin: 30px auto;
