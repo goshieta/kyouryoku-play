@@ -54,6 +54,7 @@ export class score extends Phaser.Scene {
             flex-flow:column;
             justify-content:center;
             align-items:center;
+            text-align:center;
           }
           #ns_main *{
             color:white;
@@ -103,6 +104,8 @@ export class score extends Phaser.Scene {
             display:block;
             cursor:pointer;
             margin: 20px auto;
+            border:none;
+            outline:none;
           }
           #ns_buttonArea button:hover{
             background-color:#c20054;

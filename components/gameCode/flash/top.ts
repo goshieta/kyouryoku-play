@@ -41,6 +41,9 @@ export class top extends Phaser.Scene {
       <button id="ft_start">スタート</button>
     </div>
     <style>
+      #ft_parent{
+        text-align:center;
+      }
       #ft_parent p{
         color:#00ffa2;
         font-size:20px;
@@ -51,6 +54,7 @@ export class top extends Phaser.Scene {
         color:white;
         padding:10px 20px;
         border:solid 1px #00ffa2;
+        outline:none;
       }
       #ft_selLev option{
         color:white;
@@ -65,6 +69,8 @@ export class top extends Phaser.Scene {
         border-radius:5px;
         color:white;
         margin:50px auto;
+        outline:none;
+        border:none;
       }
       #ft_start:hover{
         background-color:#00b573;

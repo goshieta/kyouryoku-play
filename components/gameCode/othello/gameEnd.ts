@@ -33,7 +33,7 @@ export class gameEnd extends Phaser.Scene {
     else resultString = "白の勝ち！";
 
     const result = `
-      <div>
+      <div id="rge_top">
         <h2>${resultString}</h2>
         <div id="rge_scoreArea">
           <div id="rge_blackScoreArea">
@@ -46,6 +46,9 @@ export class gameEnd extends Phaser.Scene {
         <button id="rge_backToTop">トップに戻る</button>
       </div>
       <style>
+      #rge_top{
+        text-align:center;
+      }
       #rge_scoreArea{
         display:flex;
         gap:20px;
@@ -79,6 +82,7 @@ export class gameEnd extends Phaser.Scene {
         height:60px;
         font-size:20px;
         font-weight:bold;
+        border:none;
       }
     </style>
     `;

@@ -73,6 +73,8 @@ export class checkingAnswer extends Phaser.Scene {
           border-radius:5px;
           color:white;
           margin:30px auto;
+          border:none;
+          outline:none;
         }
       </style>
     `;

@@ -33,6 +33,9 @@ export class gameAnswer extends Phaser.Scene {
         <button id="fga_enter" type="submit">回答</button>
       </div>
       <style>
+        #fga_parent{
+          text-align:center;
+        }
         #fga_answer{
           display:block;
           border-radius:3px;
@@ -46,6 +49,7 @@ export class gameAnswer extends Phaser.Scene {
           font-size:20px;
           box-sizing:border-box;
           -moz-appearance:textfield;
+          outline:none;
         }
         #fga_answer::-webkit-inner-spin-button,
         #fga_answer::-webkit-outer-spin-button {
@@ -62,6 +66,8 @@ export class gameAnswer extends Phaser.Scene {
           border-radius:5px;
           color:white;
           margin:0px auto;
+          border:none;
+          outline:none;
         }
       </style>
     `;

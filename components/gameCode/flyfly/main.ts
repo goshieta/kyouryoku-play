@@ -64,6 +64,7 @@ export class main extends Phaser.Scene {
           display:flex;
           justify-content:center;
           align-items:center;
+          text-align:center;
         }
         #f_menu button,#f_menu_retry_button{
           width:100px;
@@ -73,6 +74,8 @@ export class main extends Phaser.Scene {
           border-radius:3px;
           cursor:pointer;
           color:white;
+          border:none;
+          outline:none;
         }
         #f_menu button:hover,#f_menu_retry_button:hover{
           background-color:#7900de;

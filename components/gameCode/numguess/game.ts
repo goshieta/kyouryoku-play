@@ -78,6 +78,7 @@ export class game extends Phaser.Scene {
           height:500px;
           display:grid;
           grid-template-rows: 2fr 2fr 1fr;
+          text-align:center;
         }
         #ng_main *{
           color:white;
@@ -101,6 +102,7 @@ export class game extends Phaser.Scene {
           width:300px;
           padding:0 20px;
           -moz-appearance:textfield;
+          outline:none;
         }
         #ng_input_area input[type="number"]::-webkit-inner-spin-button,
         #ng_input_area input[type="number"]::-webkit-outer-spin-button {
@@ -116,6 +118,8 @@ export class game extends Phaser.Scene {
           font-size:15px;
           display:block;
           cursor:pointer;
+          border:none;
+          outline:none;
         }
         #ng_input_area button:hover{
           background-color:#c20054;

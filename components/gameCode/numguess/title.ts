@@ -28,6 +28,7 @@ export class title extends Phaser.Scene {
           font-size:15px;
           display:block;
           cursor:pointer;
+          border:none;
         }
         #nt_title button:hover{
           width:220px;
