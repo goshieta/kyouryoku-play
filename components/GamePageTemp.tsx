@@ -3,6 +3,8 @@ import { ReactNode, useRef, useEffect, useState } from "react";
 import Head from "next/head";
 import GameTile from "./GameTile";
 import { useRouter } from "next/router";
+import Script from "next/script";
+import dynamic from "next/dynamic";
 
 export default function GamePageTemp(props: {
   title: string;
@@ -17,7 +19,7 @@ export default function GamePageTemp(props: {
   const gameArea = useRef<HTMLDivElement>(null);
 
   //const [isReadPhaser, setIsReadPhaser] = useState<boolean>(false);
-  const [phaserObj, setPhaserObj] = useState<any>(null);
+  /*const [phaserObj, setPhaserObj] = useState<any>(null);
 
   //canvasを取得して、それをゲームのclassに渡す
   useEffect(() => {
@@ -71,7 +73,12 @@ export default function GamePageTemp(props: {
     return () => {
       router.events.off("routeChangeStart", pageChangeEvent);
     };
-  }, []);
+  }, []);*/
+
+  const DynamicPhaser = dynamic(() => import("@/components/phaserGame"), {
+    loading: () => <p>...loading</p>,
+    ssr: false,
+  });
 
   return (
     <>
@@ -80,7 +87,7 @@ export default function GamePageTemp(props: {
       </Head>
       <div id={styles.gameSet}>
         <h1 id={styles.gameSetTitle}>{props.title}</h1>
-        {phaserObj === null ? (
+        {/*phaserObj === null ? (
           <div id={styles.loadingGame}>
             <div id={styles.loadingFlex}>
               <div className={styles.roundLoader}></div>
@@ -91,8 +98,9 @@ export default function GamePageTemp(props: {
           </div>
         ) : (
           <></>
-        )}
+        )*/}
         <div id={styles.gameArea} ref={gameArea}></div>
+        <DynamicPhaser></DynamicPhaser>
         <div id={styles.mdArea}>{props.children}</div>
         <div id={styles.otherGame}>
           <h2>おすすめのゲーム</h2>
