@@ -4,6 +4,7 @@ declare module "*/gameInfo.json" {
     catchCopy?: string;
     description?: string;
     gameCode: string;
+    color: string;
   };
 
   const gameInfoJson: {

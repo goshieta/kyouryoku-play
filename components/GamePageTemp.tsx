@@ -2,9 +2,8 @@ import styles from "@/styles/game.module.css";
 import { ReactNode, useRef, useEffect, useState } from "react";
 import Head from "next/head";
 import GameTile from "./GameTile";
-import { useRouter } from "next/router";
-import Script from "next/script";
 import dynamic from "next/dynamic";
+import gameInfo from "@/public/gameInfo.json";
 
 export default function GamePageTemp(props: {
   title: string;
@@ -16,8 +15,6 @@ export default function GamePageTemp(props: {
   otherGames: string[];
   additionalConfig?: Phaser.Types.Core.GameConfig;
 }) {
-  const gameArea = useRef<HTMLDivElement>(null);
-
   //const [isReadPhaser, setIsReadPhaser] = useState<boolean>(false);
   /*const [phaserObj, setPhaserObj] = useState<any>(null);
 
@@ -76,9 +73,29 @@ export default function GamePageTemp(props: {
   }, []);*/
 
   const DynamicPhaser = dynamic(() => import("@/components/phaserGame"), {
-    loading: () => <p>...loading</p>,
+    loading: () => (
+      <div id={styles.loadingGame}>
+        <div id={styles.loadingFlex}>
+          <div className={styles.roundLoader}></div>
+          <div className={styles.roundLoader}></div>
+          <div className={styles.roundLoader}></div>
+        </div>
+        <p>ゲームを読み込み中...</p>
+      </div>
+    ),
     ssr: false,
   });
+
+  type TypeGameInfo = {
+    title: string;
+    catchCopy?: string;
+    description?: string;
+    gameCode: string;
+    color: string;
+  };
+  const onTypeGameInfo: {
+    [key: string]: TypeGameInfo;
+  } = gameInfo;
 
   return (
     <>
@@ -87,20 +104,22 @@ export default function GamePageTemp(props: {
       </Head>
       <div id={styles.gameSet}>
         <h1 id={styles.gameSetTitle}>{props.title}</h1>
-        {/*phaserObj === null ? (
-          <div id={styles.loadingGame}>
-            <div id={styles.loadingFlex}>
-              <div className={styles.roundLoader}></div>
-              <div className={styles.roundLoader}></div>
-              <div className={styles.roundLoader}></div>
-            </div>
-            <p>ゲームを読み込み中...</p>
-          </div>
-        ) : (
-          <></>
-        )*/}
-        <div id={styles.gameArea} ref={gameArea}></div>
-        <DynamicPhaser></DynamicPhaser>
+        <div
+          id={styles.gameArea}
+          style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
+        >
+          <img
+            src={`/gamesImage/${props.fileName}.svg`}
+            alt={props.title}
+            width={80}
+            height={80}
+          />
+          <button
+            style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
+          >
+            <span>Play</span>
+          </button>
+        </div>
         <div id={styles.mdArea}>{props.children}</div>
         <div id={styles.otherGame}>
           <h2>おすすめのゲーム</h2>
@@ -117,6 +136,9 @@ export default function GamePageTemp(props: {
           </div>
         </div>
       </div>
+      <dialog id={styles.gameScreen} style={{ display: "none" }}>
+        <DynamicPhaser></DynamicPhaser>
+      </dialog>
     </>
   );
 }
