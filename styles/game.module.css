@@ -156,3 +156,18 @@
   justify-content: center;
   align-items: center;
 }
+#closeGameScreen {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

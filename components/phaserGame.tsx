@@ -1,5 +1,6 @@
+import { useRouter } from "next/router";
 import Phaser from "phaser";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function phaserGame(props: {
   title: string;
@@ -10,6 +11,7 @@ export default function phaserGame(props: {
   additionalConfig?: Phaser.Types.Core.GameConfig;
 }) {
   const gameArea = useRef<HTMLDivElement>(null);
+  const [phaserobj, setPhaserobj] = useState<Phaser.Game>();
 
   useEffect(() => {
     const makeGame = async () => {
@@ -35,10 +37,16 @@ export default function phaserGame(props: {
         },
         ...props.additionalConfig,
       };
-      const game = new Phaser.Game(config);
+      setPhaserobj(new Phaser.Game(config));
     };
     makeGame();
-  });
+  }, [gameArea]);
+
+  useEffect(() => {
+    return () => {
+      phaserobj?.destroy(true);
+    };
+  }, []);
 
   return <div ref={gameArea}></div>;
 }

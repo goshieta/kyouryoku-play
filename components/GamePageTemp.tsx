@@ -15,63 +15,6 @@ export default function GamePageTemp(props: {
   otherGames: string[];
   additionalConfig?: Phaser.Types.Core.GameConfig;
 }) {
-  //const [isReadPhaser, setIsReadPhaser] = useState<boolean>(false);
-  /*const [phaserObj, setPhaserObj] = useState<any>(null);
-
-  //canvasを取得して、それをゲームのclassに渡す
-  useEffect(() => {
-    async function initPhaser() {
-      //一回のみ実行されるように書く
-      //if (isReadPhaser) return;
-
-      if (gameArea.current === null) return;
-      const Phaser = await import("phaser");
-
-      phaserObj?.destroy(true);
-
-      //シーンの読み込み。Promiseの関係でmapを使えなかったのでfor文
-      const scenesArray: Phaser.Scene[] = [];
-      for (let i = 0; i < props.scenes.length; i++) {
-        const readModule = await import(
-          `@/components/gameCode/${props.fileName}/${props.scenes[i]}`
-        );
-        scenesArray.push(readModule[props.scenes[i]]);
-      }
-
-      //ゲームのプログラム
-      const config: Phaser.Types.Core.GameConfig = {
-        title: props.title,
-        type: Phaser.AUTO,
-        width: props.width,
-        height: props.height,
-        parent: gameArea.current,
-        scene: scenesArray,
-        dom: {
-          createContainer: true,
-        },
-        ...(props.additionalConfig === undefined ? {} : props.additionalConfig),
-      };
-
-      setPhaserObj(new Phaser.Game(config));
-
-      //読み込み完了
-      //setIsReadPhaser(true);
-    }
-    initPhaser();
-  }, []);
-
-  //ページ遷移をした場合phaserオブジェクトを破棄する
-  const router = useRouter();
-  const pageChangeEvent = () => {
-    phaserObj?.destroy(true);
-  };
-  useEffect(() => {
-    router.events.on("routeChangeStart", pageChangeEvent);
-    return () => {
-      router.events.off("routeChangeStart", pageChangeEvent);
-    };
-  }, []);*/
-
   const [isOpen, setIsOpen] = useState(false);
 
   const DynamicPhaser = dynamic(() => import("@/components/phaserGame"), {
@@ -140,6 +83,15 @@ export default function GamePageTemp(props: {
         </div>
       </div>
       <div id={styles.gameScreen} style={{ display: isOpen ? "flex" : "none" }}>
+        <button id={styles.closeGameScreen}>
+          <img
+            src="/navigation/close.svg"
+            alt="閉じる"
+            width={25}
+            height={25}
+            onClick={() => setIsOpen(false)}
+          />
+        </button>
         <div id={styles.gameScreenIn}>
           <DynamicPhaser
             title={props.title}
