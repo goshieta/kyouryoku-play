@@ -72,6 +72,8 @@ export default function GamePageTemp(props: {
     };
   }, []);*/
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const DynamicPhaser = dynamic(() => import("@/components/phaserGame"), {
     loading: () => (
       <div id={styles.loadingGame}>
@@ -116,6 +118,7 @@ export default function GamePageTemp(props: {
           />
           <button
             style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
+            onClick={() => setIsOpen(true)}
           >
             <span>Play</span>
           </button>
@@ -136,9 +139,18 @@ export default function GamePageTemp(props: {
           </div>
         </div>
       </div>
-      <dialog id={styles.gameScreen} style={{ display: "none" }}>
-        <DynamicPhaser></DynamicPhaser>
-      </dialog>
+      <div id={styles.gameScreen} style={{ display: isOpen ? "flex" : "none" }}>
+        <div id={styles.gameScreenIn}>
+          <DynamicPhaser
+            title={props.title}
+            width={props.width}
+            height={props.height}
+            scenes={props.scenes}
+            fileName={props.fileName}
+            additionalConfig={props.additionalConfig}
+          ></DynamicPhaser>
+        </div>
+      </div>
     </>
   );
 }

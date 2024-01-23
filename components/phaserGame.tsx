@@ -1,26 +1,43 @@
 import Phaser from "phaser";
 import { useEffect, useRef } from "react";
 
-export default function phaserGame() {
-  console.log("game");
+export default function phaserGame(props: {
+  title: string;
+  width: number;
+  height: number;
+  scenes: string[];
+  fileName: string;
+  additionalConfig?: Phaser.Types.Core.GameConfig;
+}) {
   const gameArea = useRef<HTMLDivElement>(null);
-  console.log(gameArea.current);
 
   useEffect(() => {
-    if (gameArea.current !== null) {
+    const makeGame = async () => {
+      if (gameArea.current == null) return;
+      //シーンの読み込み。Promiseの関係でmapを使えなかったのでfor文
+      const scenesArray: Phaser.Scene[] = [];
+      for (let i = 0; i < props.scenes.length; i++) {
+        const readModule = await import(
+          `@/components/gameCode/${props.fileName}/${props.scenes[i]}`
+        );
+        scenesArray.push(readModule[props.scenes[i]]);
+      }
+
       const config: Phaser.Types.Core.GameConfig = {
-        title: "props.title",
+        title: props.title,
         type: Phaser.AUTO,
-        width: 500,
-        height: 500,
+        width: props.width,
+        height: props.height,
         parent: gameArea.current,
-        scene: [],
+        scene: scenesArray,
         dom: {
           createContainer: true,
         },
+        ...props.additionalConfig,
       };
       const game = new Phaser.Game(config);
-    }
+    };
+    makeGame();
   });
 
   return <div ref={gameArea}></div>;
