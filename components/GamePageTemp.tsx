@@ -61,7 +61,26 @@ export default function GamePageTemp(props: {
           />
           <button
             style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              const defaultScreenSize = [window.innerWidth, window.innerHeight];
+              //小さかったら全画面、さらにゲームの向きと画面の向きがあっていなかったら、横向きにさせる。
+              if (
+                defaultScreenSize[0] < props.width ||
+                defaultScreenSize[1] < props.height
+              ) {
+                if (
+                  defaultScreenSize[0] < defaultScreenSize[1] !==
+                  props.width < props.height
+                ) {
+                  //横向き強制
+                  alert("画面の向きを回転させてください");
+                  return;
+                }
+                //フルスクリーン強制
+                document.documentElement.requestFullscreen();
+              }
+              setIsOpen(true);
+            }}
           >
             <span>Play</span>
           </button>
@@ -82,7 +101,10 @@ export default function GamePageTemp(props: {
           </div>
         </div>
       </div>
-      <div id={styles.gameScreen} style={{ display: isOpen ? "flex" : "none" }}>
+      <div
+        id={styles.gameScreen}
+        style={{ display: isOpen ? "block" : "none" }}
+      >
         <button id={styles.closeGameScreen}>
           <img
             src="/navigation/close.svg"

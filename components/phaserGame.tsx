@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import Phaser from "phaser";
 import { useEffect, useRef, useState } from "react";
 
@@ -28,10 +27,22 @@ export default function phaserGame(props: {
       const config: Phaser.Types.Core.GameConfig = {
         title: props.title,
         type: Phaser.AUTO,
-        width: props.width,
-        height: props.height,
         parent: gameArea.current,
         scene: scenesArray,
+        scale: {
+          mode: Phaser.Scale.FIT,
+          autoCenter: Phaser.Scale.CENTER_BOTH,
+          width: props.width,
+          height: props.height,
+          max: {
+            width: props.width,
+            height: props.height,
+          },
+          min: {
+            width: 10,
+            height: 10,
+          },
+        },
         dom: {
           createContainer: true,
         },
