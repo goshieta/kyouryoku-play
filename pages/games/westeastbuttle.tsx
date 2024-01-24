@@ -1,4 +1,5 @@
 import GamePageTemp from "@/components/GamePageTemp";
+import Image from "next/image";
 
 export default function westeastbuttle() {
   return (
@@ -41,7 +42,7 @@ export default function westeastbuttle() {
         <tbody>
           <tr>
             <td>
-              <img
+              <Image
                 src="/chara/westeastbuttle/items/recovery.png"
                 alt="回復"
                 width={30}
@@ -52,7 +53,7 @@ export default function westeastbuttle() {
           </tr>
           <tr>
             <td>
-              <img
+              <Image
                 src="/chara/westeastbuttle/items/speedup.png"
                 alt="速度上昇"
                 width={30}
@@ -63,7 +64,7 @@ export default function westeastbuttle() {
           </tr>
           <tr>
             <td>
-              <img
+              <Image
                 src="/chara/westeastbuttle/items/protect.png"
                 alt="盾"
                 width={30}
@@ -74,7 +75,7 @@ export default function westeastbuttle() {
           </tr>
           <tr>
             <td>
-              <img
+              <Image
                 src="/chara/westeastbuttle/items/stalker.png"
                 alt="ストーカー"
                 width={30}

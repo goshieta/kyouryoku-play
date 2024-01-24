@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 export default function report() {
   return (
@@ -19,13 +20,13 @@ export default function report() {
           <li>サイトの機能改善の要望</li>
         </ul>
         <h2 style={{ textAlign: "center" }}>
-          <a
+          <Link
             href="https://docs.google.com/forms/d/e/1FAIpQLSdaZz9zai6JSEa1zi9yqTfc2A0XtjS8WjYUwYGwWS1lM_0lwA/viewform?usp=sf_link"
             target="_blank"
             rel="norefferrer"
           >
             報告・提案 - 峡緑プレイ
-          </a>
+          </Link>
         </h2>
       </div>
     </>

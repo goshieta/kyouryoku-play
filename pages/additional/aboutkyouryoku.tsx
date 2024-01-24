@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 export default function aboutkyouryoku() {
   return (
@@ -16,22 +17,22 @@ export default function aboutkyouryoku() {
         <p>一応下に運営している各サイトのリンクを載せます。</p>
         <ul>
           <li>
-            <a href="/">峡緑プレイ（KyouRyoku Play）</a>
+            <Link href="/">峡緑プレイ（KyouRyoku Play）</Link>
           </li>
           <li>
-            <a href="https://iyqzbugtwfgzyugaybuxxa.on.drv.tw/Indorde%20top/InT.html">
+            <Link href="https://iyqzbugtwfgzyugaybuxxa.on.drv.tw/Indorde%20top/InT.html">
               Inforde Top
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="https://iyqzbugtwfgzyugaybuxxa.on.drv.tw/Indorde%20top/InT/Ing/Ing.html">
+            <Link href="https://iyqzbugtwfgzyugaybuxxa.on.drv.tw/Indorde%20top/InT/Ing/Ing.html">
               Inforde Game
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="https://iyqzbugtwfgzyugaybuxxa.on.drv.tw/Indorde%20top/InT/%E7%B0%A1%E5%8D%98!%E8%AA%B0%E3%81%A7%E3%82%82!Javascript%E5%85%A5%E9%96%80/%E5%85%A5%E9%96%80.html">
+            <Link href="https://iyqzbugtwfgzyugaybuxxa.on.drv.tw/Indorde%20top/InT/%E7%B0%A1%E5%8D%98!%E8%AA%B0%E3%81%A7%E3%82%82!Javascript%E5%85%A5%E9%96%80/%E5%85%A5%E9%96%80.html">
               簡単！JavaScript入門
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

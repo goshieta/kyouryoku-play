@@ -1,4 +1,5 @@
 import styles from "@/styles/components/footer.module.css";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,7 +7,7 @@ export default function Footer() {
       <div id={styles.f_logoArea}>
         <div id={styles.fl_logo}>
           <div id={styles.fll_icon}>
-            <img src="/KyouRyoku.png" alt="" />
+            <Image src="/KyouRyoku.png" alt="" width={50} height={50} />
           </div>
           <div id={styles.fll_string}>
             <p>KyouRyoku</p>

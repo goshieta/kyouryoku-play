@@ -4,6 +4,7 @@ import Head from "next/head";
 import GameTile from "./GameTile";
 import dynamic from "next/dynamic";
 import gameInfo from "@/public/gameInfo.json";
+import Image from "next/image";
 
 export default function GamePageTemp(props: {
   title: string;
@@ -53,7 +54,7 @@ export default function GamePageTemp(props: {
           id={styles.gameArea}
           style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
         >
-          <img
+          <Image
             src={`/gamesImage/${props.fileName}.svg`}
             alt={props.title}
             width={80}
@@ -103,13 +104,12 @@ export default function GamePageTemp(props: {
       </div>
       <div id={styles.gameScreen} style={{ display: isOpen ? "flex" : "none" }}>
         <button id={styles.closeGameScreen}>
-          <img
+          <Image
             src="/navigation/close.svg"
             alt="閉じる"
             width={25}
             height={25}
             onClick={() => {
-              document.exitFullscreen();
               setIsOpen(false);
             }}
           />

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 export default function about() {
   return (
@@ -38,7 +39,7 @@ export default function about() {
         </p>
         <p>
           またソースコードは
-          <a href="https://github.com/goshieta/kyouryoku-play">Github</a>
+          <Link href="https://github.com/goshieta/kyouryoku-play">Github</Link>
           にあげています。興味のある人は見てみてください。また、Phaser.jsのために毎回3.5MBくらいの読み込みが発生するのですが、減らす方法を知っている人は教えてくれると嬉しいです。
         </p>
         <h2>アクセス解析ツールについて</h2>

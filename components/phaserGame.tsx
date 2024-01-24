@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { useEffect, useRef, useState } from "react";
 
-export default function phaserGame(props: {
+export default function PhaserGame(props: {
   title: string;
   width: number;
   height: number;

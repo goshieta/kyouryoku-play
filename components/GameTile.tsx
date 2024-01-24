@@ -1,6 +1,7 @@
 import styles from "@/styles/components/gameTile.module.css";
 import Link from "next/link";
 import gameInfo from "@/public/gameInfo.json";
+import Image from "next/image";
 
 type gameTilePropsType = {
   gameCode: string;
@@ -49,7 +50,7 @@ export default function GameTile(props: gameTilePropsType) {
           id={styles.right}
           className={props.size == "big" ? styles.big : ""}
         >
-          <img
+          <Image
             src={`/gamesImage/${thisGameInfo.gameCode}.svg`}
             alt={thisGameInfo.title}
             width={100}
