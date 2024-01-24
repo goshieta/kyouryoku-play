@@ -53,3 +53,28 @@ body {
   margin: 0 10px;
   padding-top: 100px;
 }
+
+/*記述エリア*/
+.explainArea {
+  max-width: 600px;
+  margin: 20px auto;
+}
+.explainArea a {
+  color: var(--link-color);
+}
+.explainArea p {
+  line-height: 40px;
+  font-size: 15px;
+  margin: 20px 0;
+}
+.explainArea h1 {
+  text-align: center;
+}
+.explainArea h2 {
+  margin-top: 50px;
+}
+@media screen and (max-width: 640px) {
+  .explainArea {
+    margin: 20px;
+  }
+}

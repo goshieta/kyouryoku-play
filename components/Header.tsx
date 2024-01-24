@@ -6,9 +6,9 @@ export default function Header() {
     <>
       {" "}
       <Link href="/">トップ</Link>
-      <Link href="">このサイトについて</Link>
-      <Link href="">報告・提案</Link>
-      <Link href="">峡緑について</Link>
+      <Link href="/additional/about">このサイトについて</Link>
+      <Link href="/additional/report">報告・提案</Link>
+      <Link href="/additional/aboutkyouryoku">峡緑について</Link>
     </>
   );
 
