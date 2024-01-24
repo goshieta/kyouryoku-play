@@ -35,16 +35,15 @@ export default function GameTile(props: gameTilePropsType) {
           : {}),
       }}
     >
-      <div id={styles.top}>
+      <div
+        id={styles.top}
+        className={props.size == "big" ? styles.bigTile : styles.smallTile}
+      >
         <div id={styles.left}>
-          {props.size == "big" ? <h2>{thisGameInfo.catchCopy}</h2> : <></>}
+          <h2>{thisGameInfo.catchCopy}</h2>
           <h3>{thisGameInfo.title}</h3>
-          {props.size == "big" ? <p>{thisGameInfo.description}</p> : <></>}
-          {props.size == "small" ? (
-            <Link href={`/games/${thisGameInfo.gameCode}`}>プレイ ＞</Link>
-          ) : (
-            <></>
-          )}
+          <p>{thisGameInfo.description}</p>
+          <Link href={`/games/${thisGameInfo.gameCode}`}>プレイ ＞</Link>
         </div>
         <div
           id={styles.right}
@@ -58,13 +57,12 @@ export default function GameTile(props: gameTilePropsType) {
           />
         </div>
       </div>
-      {props.size == "big" ? (
-        <div id={styles.bottom}>
-          <Link href={`/games/${thisGameInfo.gameCode}`}>プレイ ＞</Link>
-        </div>
-      ) : (
-        <></>
-      )}
+      <div
+        id={styles.bottom}
+        className={props.size == "big" ? styles.bigTile : styles.smallTile}
+      >
+        <Link href={`/games/${thisGameInfo.gameCode}`}>プレイ ＞</Link>
+      </div>
     </div>
   );
 }

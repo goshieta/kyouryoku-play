@@ -4,6 +4,9 @@ import styles from "../styles/components/header.module.css";
 export default function Header() {
   return (
     <div id={styles.Header}>
+      <button id={styles.openMenu}>
+        <img src="/navigation/menu.svg" alt="メニュー" />
+      </button>
       <a id={styles.titleArea} href="/">
         <div id={styles.titleIconArea}>
           <img src="/icon.png" alt="" width="50" height="50" />

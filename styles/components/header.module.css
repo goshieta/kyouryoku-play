@@ -11,6 +11,16 @@
   backdrop-filter: blur(5px);
 }
 
+#openMenu {
+  display: none;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+  margin: 0 10px;
+}
+#openMenu button {
+  display: block;
+}
 /*タイトルエリア*/
 #titleArea {
   display: flex;
@@ -60,4 +70,14 @@
 #linkArea a:hover {
   color: var(--link-color);
   transition: color 0.2s;
+}
+
+/*レスポンシブCSS*/
+@media screen and (max-width: 720px) {
+  #openMenu {
+    display: block;
+  }
+  #linkArea {
+    display: none;
+  }
 }
