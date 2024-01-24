@@ -21,14 +21,14 @@ body {
   --link-color: rgb(0, 132, 255);
 }
 /*ダークモード対応*/
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
   :root {
     --font-color: #ffffff;
     --background-color: #000b22;
     --alpha-background-color: #000b22e5;
     --special-bg: #00173c;
   }
-}
+}*/
 
 ::-webkit-scrollbar {
   width: 6px;
