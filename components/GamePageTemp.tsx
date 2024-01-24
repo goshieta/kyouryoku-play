@@ -71,7 +71,7 @@ export default function GamePageTemp(props: {
               ) {
                 if (
                   defaultScreenSize[0] < defaultScreenSize[1] !==
-                  props.width < props.height
+                  props.width <= props.height
                 ) {
                   //横向き強制
                   alert("画面の向きを回転させてください");
