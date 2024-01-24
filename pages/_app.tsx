@@ -25,6 +25,8 @@ const App = ({ Component, pageProps }: AppProps) => (
       src="https://www.googletagmanager.com/gtag/js?id=G-CJT63ZRL0E"
     ></Script>
     <Script
+      id="gtag-init"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: `
           window.dataLayer = window.dataLayer || [];
