@@ -9,7 +9,7 @@ export default function report() {
       <div className="explainArea">
         <h1>報告・提案</h1>
         <p>
-          このサイトに対して報告や提案をしたい方は、以下のフォームから報告・提案をしてください。
+          このサイトに対して報告や提案をしたい方は、以下のURLから報告・提案をしてください。
         </p>
         <p>ここで言う報告・提案とは以下の内容などのことです。</p>
         <ul>
@@ -18,14 +18,15 @@ export default function report() {
           <li>追加してほしいゲームの希望</li>
           <li>サイトの機能改善の要望</li>
         </ul>
-        <iframe
-          src="https://docs.google.com/forms/d/e/1FAIpQLSdaZz9zai6JSEa1zi9yqTfc2A0XtjS8WjYUwYGwWS1lM_0lwA/viewform?embedded=true"
-          width="640"
-          height="577"
-          style={{ border: "none" }}
-        >
-          読み込んでいます…
-        </iframe>
+        <h2 style={{ textAlign: "center" }}>
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdaZz9zai6JSEa1zi9yqTfc2A0XtjS8WjYUwYGwWS1lM_0lwA/viewform?usp=sf_link"
+            target="_blank"
+            rel="norefferrer"
+          >
+            報告・提案 - 峡緑プレイ
+          </a>
+        </h2>
       </div>
     </>
   );
