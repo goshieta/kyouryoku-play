@@ -17,9 +17,10 @@
   border: none;
   outline: none;
   margin: 0 10px;
+  cursor: pointer;
 }
-#openMenu button {
-  display: block;
+#linkAreaNaviInput {
+  display: none;
 }
 /*タイトルエリア*/
 #titleArea {
@@ -79,5 +80,28 @@
   }
   #linkArea {
     display: none;
+    position: absolute;
+    left: 0px;
+    top: 85px;
+    background-color: var(--background-color);
+    width: 100vw;
+    text-align: center;
+  }
+  #linkArea a {
+    display: block;
+    padding: 20px 0;
+  }
+  #linkAreaNaviInput:checked ~ #linkArea {
+    display: block;
+    transform-origin: 0px 0px;
+    animation: transformMenu 0.3s;
+  }
+  @keyframes transformMenu {
+    0% {
+      transform: scaleY(0);
+    }
+    100% {
+      transform: scaleY(1);
+    }
   }
 }

@@ -101,10 +101,7 @@ export default function GamePageTemp(props: {
           </div>
         </div>
       </div>
-      <div
-        id={styles.gameScreen}
-        style={{ display: isOpen ? "block" : "none" }}
-      >
+      <div id={styles.gameScreen} style={{ display: isOpen ? "flex" : "none" }}>
         <button id={styles.closeGameScreen}>
           <img
             src="/navigation/close.svg"
@@ -114,7 +111,10 @@ export default function GamePageTemp(props: {
             onClick={() => setIsOpen(false)}
           />
         </button>
-        <div id={styles.gameScreenIn}>
+        <div
+          id={styles.gameScreenIn}
+          style={{ maxWidth: props.width, maxHeight: props.height }}
+        >
           <DynamicPhaser
             title={props.title}
             width={props.width}
