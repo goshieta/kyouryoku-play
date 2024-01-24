@@ -8,56 +8,62 @@ export default function phaserGame(props: {
   scenes: string[];
   fileName: string;
   additionalConfig?: Phaser.Types.Core.GameConfig;
+  isOpen: boolean;
 }) {
   const gameArea = useRef<HTMLDivElement>(null);
-  const [phaserobj, setPhaserobj] = useState<Phaser.Game>();
+  const [sceneArray, setSceneArray] = useState<Phaser.Scene[]>([]);
 
   useEffect(() => {
-    const makeGame = async () => {
-      if (gameArea.current == null) return;
+    const readScenes = async () => {
       //シーンの読み込み。Promiseの関係でmapを使えなかったのでfor文
-      const scenesArray: Phaser.Scene[] = [];
+      const readScenesArray: Phaser.Scene[] = [];
       for (let i = 0; i < props.scenes.length; i++) {
         const readModule = await import(
           `@/components/gameCode/${props.fileName}/${props.scenes[i]}`
         );
-        scenesArray.push(readModule[props.scenes[i]]);
+        readScenesArray.push(readModule[props.scenes[i]]);
       }
 
-      const config: Phaser.Types.Core.GameConfig = {
-        title: props.title,
-        type: Phaser.AUTO,
-        parent: gameArea.current,
-        scene: scenesArray,
-        scale: {
-          mode: Phaser.Scale.FIT,
-          autoCenter: Phaser.Scale.CENTER_BOTH,
-          width: props.width,
-          height: props.height,
-          max: {
-            width: props.width,
-            height: props.height,
-          },
-          min: {
-            width: 10,
-            height: 10,
-          },
-        },
-        dom: {
-          createContainer: true,
-        },
-        ...props.additionalConfig,
-      };
-      setPhaserobj(new Phaser.Game(config));
+      setSceneArray(readScenesArray);
     };
-    makeGame();
-  }, [gameArea]);
+    readScenes();
+  }, []);
 
   useEffect(() => {
-    return () => {
-      phaserobj?.destroy(true);
+    if (gameArea.current == null) return;
+    if (sceneArray.length == 0) return;
+    if (!props.isOpen) return;
+
+    const config: Phaser.Types.Core.GameConfig = {
+      title: props.title,
+      type: Phaser.AUTO,
+      parent: gameArea.current,
+      scene: sceneArray,
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: props.width,
+        height: props.height,
+        max: {
+          width: props.width,
+          height: props.height,
+        },
+        min: {
+          width: 10,
+          height: 10,
+        },
+      },
+      dom: {
+        createContainer: true,
+      },
+      ...props.additionalConfig,
     };
-  }, []);
+    const phaserObj = new Phaser.Game(config);
+
+    return () => {
+      phaserObj.destroy(true, false);
+    };
+  }, [gameArea, sceneArray]);
 
   return <div ref={gameArea}></div>;
 }

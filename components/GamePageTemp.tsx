@@ -122,6 +122,7 @@ export default function GamePageTemp(props: {
             scenes={props.scenes}
             fileName={props.fileName}
             additionalConfig={props.additionalConfig}
+            isOpen={isOpen}
           ></DynamicPhaser>
         </div>
       </div>
