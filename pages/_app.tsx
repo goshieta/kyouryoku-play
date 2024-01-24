@@ -10,21 +10,6 @@ const App = ({ Component, pageProps }: AppProps) => (
     <Head>
       <title>峡緑プレイ | KyouRyoku Play</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <Script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-CJT63ZRL0E"
-      ></Script>
-      <Script
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-CJT63ZRL0E');
-      `,
-        }}
-      ></Script>
     </Head>
     <div id="rootParent">
       <div id="noneFooterContent">
@@ -35,6 +20,21 @@ const App = ({ Component, pageProps }: AppProps) => (
       </div>
       <Footer></Footer>
     </div>
+    <Script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-CJT63ZRL0E"
+    ></Script>
+    <Script
+      dangerouslySetInnerHTML={{
+        __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-CJT63ZRL0E');
+      `,
+      }}
+    ></Script>
   </>
 );
 
