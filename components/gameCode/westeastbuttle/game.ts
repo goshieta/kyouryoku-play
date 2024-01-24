@@ -14,6 +14,11 @@ export class game extends Phaser.Scene {
   isMeTurn: boolean = true;
   isGaming: boolean = false;
 
+  backmusic?:
+    | Phaser.Sound.NoAudioSound
+    | Phaser.Sound.HTML5AudioSound
+    | Phaser.Sound.WebAudioSound;
+
   constructor() {
     super("game");
   }
@@ -23,7 +28,8 @@ export class game extends Phaser.Scene {
     this.createSprite();
     new header(this);
     //bgm再生
-    this.sound.add("bgm", { loop: true }).play();
+    this.backmusic = this.sound.add("bgm", { loop: true });
+    this.backmusic.play();
 
     //ゲームスタート
     this.isGaming = true;
@@ -145,6 +151,7 @@ export class game extends Phaser.Scene {
   }
 
   gameEnd(result: boolean) {
+    this.backmusic?.stop();
     this.scene.start("score", { resultForMe: result });
   }
 }

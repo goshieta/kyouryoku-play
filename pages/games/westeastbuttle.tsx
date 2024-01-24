@@ -5,7 +5,7 @@ export default function westeastbuttle() {
   return (
     <GamePageTemp
       title="東西大決戦"
-      scenes={["title", "game", "score"]}
+      scenes={["load", "title", "game", "score"]}
       fileName="westeastbuttle"
       width={800}
       height={600}

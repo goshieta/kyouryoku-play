@@ -28,10 +28,9 @@ export class spriteMain extends Phaser.Physics.Arcade.Sprite {
 
     if (this.sprite.destination[0] !== 0 || this.sprite.destination[1] !== 0) {
       this.setAngle(
-        360 -
-          Math.atan(this.sprite.destination[0] / this.sprite.destination[1]) *
-            (180 / Math.PI) +
-          (Math.sign(this.sprite.destination[1]) === 1 ? 180 : 0)
+        180 -
+          Math.atan2(this.sprite.destination[0], this.sprite.destination[1]) *
+            (180 / Math.PI)
       );
     } else this.setAngle(this.sprite.isMe ? 90 : 270);
   }
