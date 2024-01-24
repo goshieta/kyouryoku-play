@@ -108,7 +108,10 @@ export default function GamePageTemp(props: {
             alt="閉じる"
             width={25}
             height={25}
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              document.exitFullscreen();
+              setIsOpen(false);
+            }}
           />
         </button>
         <div

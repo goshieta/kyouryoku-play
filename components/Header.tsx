@@ -1,7 +1,11 @@
 import Link from "next/link";
 import styles from "../styles/components/header.module.css";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const [mobileMenu, setmobileMenu] = useState(false);
+
   const links = (
     <>
       {" "}
@@ -12,13 +16,24 @@ export default function Header() {
     </>
   );
 
+  const router = useRouter();
+  const pageEnter = () => setmobileMenu(false);
+  useEffect(() => {
+    router.events.on("routeChangeStart", pageEnter);
+    return () => router.events.off("routeChangeStart", pageEnter);
+  }, []);
+
   return (
     <>
       <div id={styles.Header}>
-        <label id={styles.openMenu} htmlFor={styles.linkAreaNaviInput}>
+        <button id={styles.openMenu} onClick={() => setmobileMenu(!mobileMenu)}>
           <img src="/navigation/menu.svg" alt="メニュー" />
-        </label>
-        <input type="checkbox" id={styles.linkAreaNaviInput} />
+        </button>
+        <input
+          type="checkbox"
+          id={styles.linkAreaNaviInput}
+          checked={mobileMenu}
+        />
         <a id={styles.titleArea} href="/">
           <div id={styles.titleIconArea}>
             <img src="/icon.png" alt="" width="50" height="50" />
