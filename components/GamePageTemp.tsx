@@ -78,7 +78,7 @@ export default function GamePageTemp(props: {
                   return;
                 }
                 //フルスクリーン強制
-                document.documentElement.requestFullscreen();
+                //document.documentElement.requestFullscreen();
               }
               setIsOpen(true);
             }}
