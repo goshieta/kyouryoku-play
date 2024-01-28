@@ -17,6 +17,7 @@ export default function GamePageTemp(props: {
   additionalConfig?: Phaser.Types.Core.GameConfig;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const gameScreen = useRef<HTMLDivElement>(null);
 
   const DynamicPhaser = dynamic(() => import("@/components/phaserGame"), {
     loading: () => (
@@ -31,6 +32,29 @@ export default function GamePageTemp(props: {
     ),
     ssr: false,
   });
+
+  const gameAccess = () => {
+    const defaultScreenSize = [window.innerWidth, window.innerHeight];
+    //小さかったら全画面、さらにゲームの向きと画面の向きがあっていなかったら、横向きにさせる。
+    if (
+      defaultScreenSize[0] < props.width ||
+      defaultScreenSize[1] < props.height
+    ) {
+      //フルスクリーン強制
+      const elem = gameScreen.current;
+      if (elem) {
+        if (document.fullscreenEnabled) elem.requestFullscreen();
+      }
+    }
+    setIsOpen(true);
+  };
+  const gameExit = () => {
+    //フルスクリーン解除
+    if (document.fullscreenEnabled && document.fullscreenElement)
+      document.exitFullscreen();
+
+    setIsOpen(false);
+  };
 
   type TypeGameInfo = {
     title: string;
@@ -50,10 +74,7 @@ export default function GamePageTemp(props: {
       </Head>
       <div id={styles.gameSet}>
         <h1 id={styles.gameSetTitle}>{props.title}</h1>
-        <div
-          id={styles.gameArea}
-          style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
-        >
+        <div id={styles.gameArea}>
           <Image
             src={`/gamesImage/${props.fileName}.svg`}
             alt={props.title}
@@ -62,28 +83,9 @@ export default function GamePageTemp(props: {
           />
           <button
             style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}
-            onClick={() => {
-              const defaultScreenSize = [window.innerWidth, window.innerHeight];
-              //小さかったら全画面、さらにゲームの向きと画面の向きがあっていなかったら、横向きにさせる。
-              if (
-                defaultScreenSize[0] < props.width ||
-                defaultScreenSize[1] < props.height
-              ) {
-                if (
-                  defaultScreenSize[0] < defaultScreenSize[1] !==
-                  props.width <= props.height
-                ) {
-                  //横向き強制
-                  alert("画面の向きを回転させてください");
-                  return;
-                }
-                //フルスクリーン強制
-                //document.documentElement.requestFullscreen();
-              }
-              setIsOpen(true);
-            }}
+            onClick={gameAccess}
           >
-            <span>Play</span>
+            Play
           </button>
         </div>
         <div id={styles.mdArea}>{props.children}</div>
@@ -102,16 +104,18 @@ export default function GamePageTemp(props: {
           </div>
         </div>
       </div>
-      <div id={styles.gameScreen} style={{ display: isOpen ? "flex" : "none" }}>
+      <div
+        id={styles.gameScreen}
+        style={{ display: isOpen ? "flex" : "none" }}
+        ref={gameScreen}
+      >
         <button id={styles.closeGameScreen}>
           <Image
             src="/navigation/close.svg"
             alt="閉じる"
             width={25}
             height={25}
-            onClick={() => {
-              setIsOpen(false);
-            }}
+            onClick={gameExit}
           />
         </button>
         <div

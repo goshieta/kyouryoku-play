@@ -3,13 +3,12 @@
 }
 
 #gameSetTitle {
-  padding: 1em 6em;
+  padding: 0.2em 6em;
   margin: 50px auto;
 }
 
 #gameArea {
-  width: 500px;
-  height: 500px;
+  height: 250px;
   margin: 10px auto;
   text-align: center;
   position: relative;
@@ -17,15 +16,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-#gameArea::before {
-  content: "";
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
 }
 #gameArea * {
   color: black;
@@ -44,14 +34,12 @@
   height: 40px;
   border-radius: 5px;
   cursor: pointer;
+  color: white;
+  font-size: 17px;
 }
 #gameArea button:hover {
   width: 150px;
   transition: 0.3s width;
-}
-#gameArea button span {
-  color: white;
-  font-size: 17px;
 }
 
 #mdArea {
@@ -109,6 +97,7 @@
 }
 #loadingGame p {
   text-align: center;
+  color: white;
 }
 
 .roundLoader {
@@ -149,7 +138,7 @@
   top: 0px;
   left: 0px;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: black;
   width: 100%;
   height: 100vh;
   display: flex;
