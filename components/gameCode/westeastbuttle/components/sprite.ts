@@ -17,8 +17,8 @@ export class spriteMain extends Phaser.Physics.Arcade.Sprite {
 
     if (!(game.playerMode === 1 && !sprite.isMe)) {
       this.setInteractive();
-      this.on("pointerover", () => sprite.circle.setVisible(true));
-      this.on("pointerout", () => sprite.circle.setVisible(false));
+      this.on("pointerover", () => (sprite.isPointerOver = true));
+      this.on("pointerout", () => (sprite.isPointerOver = false));
       this.on("pointerup", () => sprite.spriteClickEvent());
     }
   }
@@ -78,6 +78,7 @@ export default class sprite extends Phaser.GameObjects.Container {
   isMe: boolean;
   isKing: boolean;
   destination: [number, number];
+  isPointerOver: boolean = false;
   tracking: boolean = false;
   itemEffect = {
     speedup: 0,
@@ -226,6 +227,9 @@ export default class sprite extends Phaser.GameObjects.Container {
         });
       });
     }
+    //クリックされたとき
+    if (this.tracking || this.isPointerOver) this.circle.setVisible(true);
+    else this.circle.setVisible(false);
   }
 
   wayOfOperationForBot(x: number, y: number) {

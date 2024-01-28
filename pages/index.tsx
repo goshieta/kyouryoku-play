@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/page.module.css";
 import GameTile from "@/components/GameTile";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -19,6 +20,9 @@ export default function Home() {
         <GameTile gameCode="flyfly" size="small"></GameTile>
         <GameTile gameCode="flash" size="small"></GameTile>
       </div>
+      <Link href="/additional/update" id={styles.updateInfoLink}>
+        アップデート情報
+      </Link>
     </div>
   );
 }

@@ -73,6 +73,9 @@ body {
 .explainArea h2 {
   margin-top: 50px;
 }
+.explainArea .block {
+  margin-top: 40px;
+}
 @media screen and (max-width: 640px) {
   .explainArea {
     margin: 20px;
