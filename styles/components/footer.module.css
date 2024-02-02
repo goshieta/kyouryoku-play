@@ -6,6 +6,22 @@
   margin-top: 40px;
 }
 
+/*リンクエリア*/
+#f_linkArea {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+#f_linkArea a {
+  text-decoration: none;
+}
+#f_linkArea a:hover {
+  color: var(--link-color);
+  transition: color 0.2s;
+}
+
 /*アイコンエリア*/
 #f_logoArea {
   text-align: center;

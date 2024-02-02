@@ -22,9 +22,6 @@ export default function Home() {
         <GameTile gameCode="flash" size="small"></GameTile>
         <GameTile size="small" gameCode="othello"></GameTile>
       </div>
-      <Link href="/additional/update" id={styles.updateInfoLink}>
-        アップデート情報
-      </Link>
     </div>
   );
 }

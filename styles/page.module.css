@@ -5,14 +5,3 @@
   grid-template-columns: 1fr 1fr;
   gap: 30px;
 }
-#updateInfoLink {
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  margin: 30px 0;
-  margin-top: 50px;
-}
-#updateInfoLink:hover {
-  color: var(--link-color);
-  transition: color 0.2s;
-}
