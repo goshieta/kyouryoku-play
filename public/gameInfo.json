@@ -30,5 +30,17 @@
     "title": "東西大決戦",
     "gameCode": "westeastbuttle",
     "color": "#00ffcaff"
+  },
+  "soccer": {
+    "title": "ヘマヘマサッカー",
+    "catchCopy": "熱狂しよう",
+    "description": "ボールは友達！一人の時でも、二人の時でも、このゲームをプレイしているときあなたは一人じゃない。友達と一緒に熱狂しよう。",
+    "gameCode": "soccer",
+    "color": "#000000"
+  },
+  "castlerun": {
+    "title": "走る城",
+    "gameCode": "castlerun",
+    "color": "#545454"
   }
 }

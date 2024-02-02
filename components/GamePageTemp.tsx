@@ -80,6 +80,7 @@ export default function GamePageTemp(props: {
             alt={props.title}
             width={80}
             height={80}
+            priority={true}
           />
           <button
             style={{ backgroundColor: onTypeGameInfo[props.fileName].color }}

@@ -14,11 +14,13 @@ export default function Home() {
         />
       </Head>
       <div id={styles.gridGameArea}>
-        <GameTile size="big" gameCode="othello"></GameTile>
+        <GameTile size="big" gameCode="soccer"></GameTile>
         <GameTile size="small" gameCode="westeastbuttle"></GameTile>
+        <GameTile size="small" gameCode="castlerun"></GameTile>
         <GameTile size="small" gameCode="numguess"></GameTile>
         <GameTile gameCode="flyfly" size="small"></GameTile>
         <GameTile gameCode="flash" size="small"></GameTile>
+        <GameTile size="small" gameCode="othello"></GameTile>
       </div>
       <Link href="/additional/update" id={styles.updateInfoLink}>
         アップデート情報

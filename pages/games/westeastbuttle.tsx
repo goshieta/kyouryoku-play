@@ -9,7 +9,7 @@ export default function westeastbuttle() {
       fileName="westeastbuttle"
       width={800}
       height={600}
-      otherGames={["flash", "numguess", "othello", "flyfly"]}
+      otherGames={["soccer", "flash", "othello", "flyfly"]}
       additionalConfig={{
         physics: {
           default: "arcade",

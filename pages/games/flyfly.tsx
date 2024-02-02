@@ -8,7 +8,7 @@ export default function FlyFly() {
       fileName="flyfly"
       width={800}
       height={600}
-      otherGames={["othello", "flash", "westeastbuttle", "numguess"]}
+      otherGames={["castlerun", "soccer", "westeastbuttle", "numguess"]}
       additionalConfig={{
         physics: {
           default: "arcade",

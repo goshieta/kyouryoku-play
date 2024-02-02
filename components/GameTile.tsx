@@ -55,6 +55,7 @@ export default function GameTile(props: gameTilePropsType) {
             alt={thisGameInfo.title}
             width={100}
             height={100}
+            priority={true}
           />
         </div>
       </div>
