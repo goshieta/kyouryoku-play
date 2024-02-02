@@ -19,6 +19,11 @@
   margin: 0 10px;
   cursor: pointer;
 }
+@media (prefers-color-scheme: dark) {
+  #openMenu img {
+    filter: invert(0.7);
+  }
+}
 #linkAreaNaviInput {
   display: none;
 }

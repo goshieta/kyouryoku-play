@@ -10,23 +10,12 @@
 }
 @media (prefers-color-scheme: dark) {
   .tile_big {
-    background-color: rgba(0, 255, 174, 0.9);
-  }
-  .tile_big * {
-    color: black !important;
+    background-color: rgba(0, 255, 179, 0.4);
   }
 }
 .tile_small {
   border-width: 2px;
   background-color: rgba(0, 106, 255, 0.1);
-}
-@media (prefers-color-scheme: dark) {
-  .tile_small {
-    background-color: rgb(109, 104, 255);
-  }
-  .tile_small * {
-    color: black !important;
-  }
 }
 #tile a {
   text-decoration: none;
