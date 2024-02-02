@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://kyouryoku-play.vercel.app/
+
+# Sitemaps
+Sitemap: https://kyouryoku-play.vercel.app/sitemap.xml
