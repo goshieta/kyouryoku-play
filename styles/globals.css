@@ -18,15 +18,24 @@ body {
   --background-color: #f6f9ff;
   --alpha-background-color: #f6f9ffb4;
   --special-bg: rgb(227, 235, 255);
+
+  --theme-color-level-1: rgb(191, 209, 255);
+  --theme-color-level-2: rgb(163, 189, 255);
+  --theme-color-level-3: rgb(112, 152, 255);
+
   --link-color: rgb(0, 132, 255);
 }
 /*ダークモード対応*/
 @media (prefers-color-scheme: dark) {
   :root {
-    --font-color: #c9c0e2;
+    --font-color: #dcd7eb;
     --background-color: #000b22;
     --alpha-background-color: #000b22e5;
     --special-bg: #00173c;
+
+    --theme-color-level-1: #002a6e;
+    --theme-color-level-2: #000f7d;
+    --theme-color-level-3: #1700aa;
   }
   img {
     filter: brightness(70%);

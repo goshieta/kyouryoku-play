@@ -1,6 +1,6 @@
 {
-  "name": "kyouryoku-game",
-  "version": "0.1.0",
+  "name": "kyouryoku-play",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
