@@ -1,0 +1,13 @@
+#accountPage {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#accountInfo {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 50px;
+}
+#ai_image_area img {
+  border-radius: 50%;
+}
