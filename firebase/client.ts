@@ -24,7 +24,8 @@ if (!getApps()?.length) {
 }
 
 // 他ファイルで使うために機能をエクスポート
-export const analytics = getAnalytics();
+//ssrが原因のエラーが出るためいったんgoogleAnalyticsは停止
+//export const analytics = getAnalytics();
 export const db = getFirestore();
 export const storage = getStorage();
 export const auth = getAuth();

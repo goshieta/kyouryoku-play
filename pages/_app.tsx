@@ -4,9 +4,10 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import "@/styles/globals.css";
 import Script from "next/script";
+import Auth from "@/components/context/auth";
 
 const App = ({ Component, pageProps }: AppProps) => (
-  <>
+  <Auth>
     <Head>
       <title>峡緑プレイ | KyouRyoku Play</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,7 +38,7 @@ const App = ({ Component, pageProps }: AppProps) => (
       `,
       }}
     ></Script>
-  </>
+  </Auth>
 );
 
 export default App;

@@ -1,4 +1,5 @@
 import Filter from "@/components/community/filter";
+import { useAuth } from "@/components/context/auth";
 import styles from "@/styles/components/community.module.css";
 
 //コミュニティグループの一覧画面
