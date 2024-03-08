@@ -3,6 +3,7 @@ import Head from "next/head";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import "@/styles/globals.css";
+import "@/styles/globalicons.css";
 import Script from "next/script";
 import Auth from "@/components/context/auth";
 

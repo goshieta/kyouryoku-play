@@ -11,22 +11,6 @@
   backdrop-filter: blur(5px);
 }
 
-#openMenu {
-  display: none;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  outline: none;
-  margin: 0 10px;
-  cursor: pointer;
-}
-@media (prefers-color-scheme: dark) {
-  #openMenu img {
-    filter: invert(0.7);
-  }
-}
-#linkAreaNaviInput {
-  display: none;
-}
 /*タイトルエリア*/
 #titleArea {
   display: flex;
@@ -64,7 +48,7 @@
 /*リンクエリア*/
 #linkArea {
   display: flex;
-  gap: 30px;
+  gap: 20px;
   margin-left: auto;
   margin-right: 30px;
 }
@@ -72,41 +56,37 @@
   color: var(--font-color);
   text-decoration: none;
   font-weight: 500;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#linkArea span {
+  font-size: 28px;
+}
+#linkArea img {
+  border-radius: 50%;
+}
+#linkArea button {
+  background-color: var(--theme-color-level-1);
+  border: none;
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+  width: 100px;
+}
+#linkArea button:hover {
+  background-color: var(--theme-color-level-2);
+  transition: background-color 0.2s;
+}
+#linkArea button:active {
+  background-color: var(--theme-color-level-3);
+  transition: background-color 0.2s;
 }
 #linkArea a:hover {
-  color: var(--link-color);
-  transition: color 0.2s;
-}
-
-/*レスポンシブCSS*/
-@media screen and (max-width: 720px) {
-  #openMenu {
-    display: block;
-  }
-  #linkArea {
-    display: none;
-    position: absolute;
-    left: 0px;
-    top: 85px;
-    background-color: var(--background-color);
-    width: 100vw;
-    text-align: center;
-  }
-  #linkArea a {
-    display: block;
-    padding: 20px 0;
-  }
-  #linkAreaNaviInput:checked ~ #linkArea {
-    display: block;
-    transform-origin: 0px 0px;
-    animation: transformMenu 0.3s;
-  }
-  @keyframes transformMenu {
-    0% {
-      transform: scaleY(0);
-    }
-    100% {
-      transform: scaleY(1);
-    }
-  }
+  background-color: var(--theme-color-level-1);
+  transition: background-color 0.2s;
 }

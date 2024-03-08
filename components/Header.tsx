@@ -1,45 +1,40 @@
 import Link from "next/link";
 import styles from "../styles/components/header.module.css";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
+import { login } from "@/lib/auth";
+import { useAuth } from "./context/auth";
 
 export default function Header() {
-  const [mobileMenu, setmobileMenu] = useState(false);
-
-  const links = (
-    <>
-      <Link href="/">トップ</Link>
-      <Link href="/additional/about">このサイトについて</Link>
-      <Link href="/additional/report">報告・提案</Link>
-      <Link href="/additional/aboutkyouryoku">峡緑について</Link>
-    </>
+  const authInfo = useAuth();
+  const userArea = authInfo ? (
+    <Link href="/account">
+      <Image
+        src={authInfo.photoURL}
+        alt={authInfo.name}
+        width={30}
+        height={30}
+      ></Image>
+    </Link>
+  ) : (
+    <button onClick={login}>ログイン</button>
   );
 
-  const router = useRouter();
-  const pageEnter = () => setmobileMenu(false);
-  useEffect(() => {
-    router.events.on("routeChangeStart", pageEnter);
-    return () => router.events.off("routeChangeStart", pageEnter);
-  }, []);
+  console.log(useAuth());
+  const links = (
+    <>
+      <Link href="/additional/about">
+        <span className="material-symbols-outlined">help</span>
+      </Link>
+      <Link href="/additional/report">
+        <span className="material-symbols-outlined">report</span>
+      </Link>
+      {userArea}
+    </>
+  );
 
   return (
     <>
       <div id={styles.Header}>
-        <button id={styles.openMenu} onClick={() => setmobileMenu(!mobileMenu)}>
-          <Image
-            src="/navigation/menu.svg"
-            alt="メニュー"
-            width={30}
-            height={30}
-          />
-        </button>
-        <input
-          type="checkbox"
-          id={styles.linkAreaNaviInput}
-          checked={mobileMenu}
-          onChange={(event) => setmobileMenu(!mobileMenu)}
-        />
         <Link id={styles.titleArea} href="/">
           <div id={styles.titleIconArea}>
             <Image src="/icon.png" alt="" width="50" height="50" />
