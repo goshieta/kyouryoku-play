@@ -82,3 +82,51 @@
   opacity: 0;
   position: absolute;
 }
+
+/*カード*/
+.card {
+  display: flex;
+  margin: 30px auto;
+  gap: 30px;
+  align-items: center;
+}
+.cardIconArea {
+  display: flex;
+  flex-flow: column;
+  gap: 4px;
+}
+.community_icon_row {
+  display: flex;
+  gap: 4px;
+}
+.community_icon_pixel {
+  border-radius: 3px;
+  width: 10px;
+  height: 10px;
+}
+.cardDescArea {
+  text-align: left;
+}
+.cardDescArea p {
+  color: var(--pale-font-color);
+}
+.cardButtonArea {
+  margin-left: auto;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 20px;
+}
+.cardButtonArea button {
+  border-radius: 5px;
+  width: 100px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+.cardButtonArea span {
+  font-size: 18px;
+}

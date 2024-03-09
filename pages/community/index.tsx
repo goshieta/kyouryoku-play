@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 
 export type communityType = {
   admin: string;
+  icon: string[];
   name: string;
+  description: string;
   message: {
     user: string;
     value: string;
@@ -23,7 +25,12 @@ export default function CommunityAll() {
   const [communityInfo, setCommunityInfo] = useState<communityType[]>([]);
 
   const isCommunityType = (arg: any): arg is communityType => {
-    return arg.admin !== undefined && arg.name !== undefined;
+    return (
+      arg.admin !== undefined &&
+      arg.name !== undefined &&
+      arg.icon != undefined &&
+      arg.description !== undefined
+    );
   };
 
   useEffect(() => {

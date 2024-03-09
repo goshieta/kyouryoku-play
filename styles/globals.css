@@ -14,6 +14,7 @@ body {
 /*テーマカラーなど*/
 :root {
   --font-color: #00114f;
+  --pale-font-color: #162456;
   --black-font-color: #00114f;
   --background-color: #f6f9ff;
   --alpha-background-color: #f6f9ffb4;
@@ -29,6 +30,7 @@ body {
 @media (prefers-color-scheme: dark) {
   :root {
     --font-color: #dcd7eb;
+    --pale-font-color: rgb(166, 156, 201);
     --background-color: #000b22;
     --alpha-background-color: #000b22e5;
     --special-bg: #00173c;
