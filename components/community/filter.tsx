@@ -45,7 +45,6 @@ export default function Filter({
             type="radio"
             name="filterSearchFromAtt"
             id="fsfsfa_popular"
-            defaultChecked
             value="popular"
             checked={searchOption == "popular"}
             onChange={onChange}
