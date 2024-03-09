@@ -1,7 +1,7 @@
 import { initializeApp, getApps } from "firebase/app";
 
 // 必要な機能をインポート
-import { getAnalytics } from "firebase/analytics";
+//import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";

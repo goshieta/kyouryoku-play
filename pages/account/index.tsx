@@ -6,7 +6,14 @@ import styles from "@/styles/pages/account.module.css";
 export default function Account() {
   const authInfo = useAuth();
   if (!authInfo) {
-    return <button onClick={login}>ログイン</button>;
+    return (
+      <button
+        onClick={login}
+        style={{ margin: "100px auto", display: "block" }}
+      >
+        ログイン
+      </button>
+    );
   }
 
   return (

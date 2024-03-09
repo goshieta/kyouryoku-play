@@ -19,7 +19,6 @@ export default function Header() {
     <button onClick={login}>ログイン</button>
   );
 
-  console.log(useAuth());
   const links = (
     <>
       <Link href="/additional/about">

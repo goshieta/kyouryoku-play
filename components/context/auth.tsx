@@ -6,7 +6,7 @@ import {
   useState,
   createContext,
 } from "react";
-import { auth, db } from "@/firebase/client";
+import { auth, db } from "@/lib/firebase/client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 type userType = {
