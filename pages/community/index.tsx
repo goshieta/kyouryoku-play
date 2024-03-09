@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export type communityType = {
   admin: string;
-  icon: string[];
+  icon: string;
   name: string;
   description: string;
   message: {
