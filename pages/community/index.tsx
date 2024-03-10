@@ -1,5 +1,6 @@
 import CommunityCard from "@/components/community/communityCard";
 import Filter, { Options } from "@/components/community/filter";
+import Loading from "@/components/tips/loading";
 import { db } from "@/lib/firebase/client";
 import styles from "@/styles/components/community.module.css";
 import { collection, getDocs } from "firebase/firestore";
@@ -22,7 +23,9 @@ export default function CommunityAll() {
   const [searchString, setSearchString] = useState("");
   const [searchOption, setSearchOption] = useState<Options>("popular");
 
-  const [communityInfo, setCommunityInfo] = useState<communityType[]>([]);
+  const [communityInfo, setCommunityInfo] = useState<
+    communityType[] | undefined
+  >(undefined);
 
   const isCommunityType = (arg: any): arg is communityType => {
     return (
@@ -60,13 +63,23 @@ export default function CommunityAll() {
           setSearchOption={setSearchOption}
         ></Filter>
       </div>
+      <div id={styles.add}>
+        <button>
+          <span className="material-symbols-outlined">add</span>
+          コミュニティを作成
+        </button>
+      </div>
       <div id={styles.bottom}>
-        {communityInfo.map((oneCommunity) => (
-          <CommunityCard
-            communityInfo={oneCommunity}
-            key={oneCommunity.name}
-          ></CommunityCard>
-        ))}
+        {communityInfo ? (
+          communityInfo.map((oneCommunity) => (
+            <CommunityCard
+              communityInfo={oneCommunity}
+              key={oneCommunity.name}
+            ></CommunityCard>
+          ))
+        ) : (
+          <Loading></Loading>
+        )}
       </div>
     </div>
   );

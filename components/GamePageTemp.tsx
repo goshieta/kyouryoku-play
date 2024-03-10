@@ -1,10 +1,11 @@
 import styles from "@/styles/game.module.css";
-import { ReactNode, useRef, useEffect, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import Head from "next/head";
 import GameTile from "./GameTile";
 import dynamic from "next/dynamic";
 import gameInfo from "@/public/gameInfo.json";
 import Image from "next/image";
+import Loading from "./tips/loading";
 
 export default function GamePageTemp(props: {
   title: string;
@@ -20,16 +21,7 @@ export default function GamePageTemp(props: {
   const gameScreen = useRef<HTMLDivElement>(null);
 
   const DynamicPhaser = dynamic(() => import("@/components/phaserGame"), {
-    loading: () => (
-      <div id={styles.loadingGame}>
-        <div id={styles.loadingFlex}>
-          <div className={styles.roundLoader}></div>
-          <div className={styles.roundLoader}></div>
-          <div className={styles.roundLoader}></div>
-        </div>
-        <p>ゲームを読み込み中...</p>
-      </div>
-    ),
+    loading: () => <Loading></Loading>,
     ssr: false,
   });
 

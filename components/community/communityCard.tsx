@@ -18,6 +18,9 @@ export default function CommunityCard({
       </div>
       <div className={styles.cardButtonArea}>
         <button>
+          <span className="material-symbols-outlined">visibility</span>見学
+        </button>
+        <button>
           <span className="material-symbols-outlined">group_add</span>参加
         </button>
       </div>
