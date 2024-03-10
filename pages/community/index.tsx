@@ -4,6 +4,7 @@ import Loading from "@/components/tips/loading";
 import { db } from "@/lib/firebase/client";
 import styles from "@/styles/components/community.module.css";
 import { collection, getDocs } from "firebase/firestore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export type communityType = {
@@ -64,10 +65,10 @@ export default function CommunityAll() {
         ></Filter>
       </div>
       <div id={styles.add}>
-        <button>
+        <Link href="./community/new">
           <span className="material-symbols-outlined">add</span>
           コミュニティを作成
-        </button>
+        </Link>
       </div>
       <div id={styles.bottom}>
         {communityInfo ? (

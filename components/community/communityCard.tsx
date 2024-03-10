@@ -4,8 +4,10 @@ import styles from "@/styles/components/community.module.css";
 //コミュニティ一覧に表示する一つのコミュニティのカード
 export default function CommunityCard({
   communityInfo,
+  preview,
 }: {
   communityInfo: communityType;
+  preview?: boolean;
 }) {
   return (
     <div className={styles.card}>
