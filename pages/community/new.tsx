@@ -12,16 +12,14 @@ export default function New() {
   const authInfo = useAuth();
   const router = useRouter();
 
-  if (!authInfo) {
-    console.log(authInfo);
-    useEffect(() => {
+  useEffect(() => {
+    if (!authInfo) {
       router.push("/");
-    }, []);
-    return <h1>ログインしてください</h1>;
-  }
+    }
+  }, []);
 
   const [newCom, setNewCom] = useState<communityType>({
-    admin: authInfo.id,
+    admin: authInfo ? authInfo.id : "unknown",
     icon: "",
     name: "",
     description: "",
@@ -115,8 +113,8 @@ export default function New() {
             className={styles.error}
             style={{ display: errorInfo.icon.length == 0 ? "none" : "block" }}
           >
-            {errorInfo.icon.map((oneError) => (
-              <p>{oneError}</p>
+            {errorInfo.icon.map((oneError, index) => (
+              <p key={`error_icon_${oneError}_${index}`}>{oneError}</p>
             ))}
           </div>
           <div>
@@ -131,8 +129,8 @@ export default function New() {
             className={styles.error}
             style={{ display: errorInfo.name.length == 0 ? "none" : "block" }}
           >
-            {errorInfo.name.map((oneError) => (
-              <p>{oneError}</p>
+            {errorInfo.name.map((oneError, index) => (
+              <p key={`error_name_${oneError}_${index}`}>{oneError}</p>
             ))}
           </div>
           <div>
@@ -151,8 +149,8 @@ export default function New() {
               display: errorInfo.description.length == 0 ? "none" : "block",
             }}
           >
-            {errorInfo.description.map((oneError) => (
-              <p>{oneError}</p>
+            {errorInfo.description.map((oneError, index) => (
+              <p key={`error_description_${oneError}_${index}`}>{oneError}</p>
             ))}
           </div>
         </div>
