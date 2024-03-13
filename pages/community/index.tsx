@@ -22,6 +22,15 @@ export type communityType = {
   createdAt: number;
 };
 
+export const isCommunityType = (arg: any): arg is communityType => {
+  return (
+    arg.admin !== undefined &&
+    arg.name !== undefined &&
+    arg.icon != undefined &&
+    arg.description !== undefined
+  );
+};
+
 //コミュニティグループの一覧画面
 export default function CommunityAll() {
   //クエリ
@@ -31,15 +40,6 @@ export default function CommunityAll() {
   const [communityInfo, setCommunityInfo] = useState<
     communityType[] | undefined
   >(undefined);
-
-  const isCommunityType = (arg: any): arg is communityType => {
-    return (
-      arg.admin !== undefined &&
-      arg.name !== undefined &&
-      arg.icon != undefined &&
-      arg.description !== undefined
-    );
-  };
 
   const getCommunityInfo = async () => {
     const communitesRef = collection(db, "community");
