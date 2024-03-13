@@ -143,6 +143,14 @@
 }
 .cardDescArea p {
   color: var(--pale-font-color);
+  margin-top: 5px;
+}
+.cardDescArea h3 {
+  margin-bottom: 5px;
+}
+.time {
+  margin: 0;
+  font-size: 14px;
 }
 .cardButtonArea {
   margin-left: auto;

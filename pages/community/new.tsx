@@ -23,7 +23,7 @@ export default function New() {
     icon: "",
     name: "",
     description: "",
-    message: [],
+    createdAt: new Date().getTime(),
   });
   type errorInfoType = {
     icon: string[];
@@ -67,7 +67,7 @@ export default function New() {
     };
     Object.keys(checkArr).forEach((oneItem) => {
       const regArray = checkArr[oneItem];
-      const copyNewCom: { [key: string]: string | any[] } = newCom;
+      const copyNewCom: { [key: string]: string | number } = newCom;
       regArray.forEach((oneReg) => {
         const data = copyNewCom[oneItem];
         if (typeof data !== "string") return;
