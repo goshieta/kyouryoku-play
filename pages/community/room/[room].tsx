@@ -12,13 +12,15 @@ import {
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
 import { communityType, isCommunityType } from "..";
-import Layout from "@/components/layouts/layout";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
+import styles from "@/styles/components/chatroom.module.css";
+import OneMessage from "@/components/community/oneMessage";
+import { DocumentData, QueryDocumentSnapshot } from "firebase-admin/firestore";
 
 type roomInfo = communityType & {
   permissions: "readonly" | "readwrite";
 };
-type messageType = {
+export type messageType = {
   createdAt: number;
   room: string;
   user: string;
@@ -40,9 +42,9 @@ export default function Room() {
   const [roomInfo, setRoomInfo] = useState<roomInfo | undefined | null>(
     undefined
   );
-  const [messages, setMessages] = useState<messageType[] | undefined>(
-    undefined
-  );
+  const [messages, setMessages] = useState<
+    QueryDocumentSnapshot<DocumentData, DocumentData>[] | undefined
+  >(undefined);
 
   useEffect(() => {
     //部屋の情報の取得
@@ -67,12 +69,11 @@ export default function Room() {
         where("room", "==", roomID)
       );
       const querySnapshot = await getDocs(q);
-      const newMessages: messageType[] = [];
+      const newMessages: QueryDocumentSnapshot<DocumentData, DocumentData>[] =
+        [];
       querySnapshot.forEach((result) => {
-        const data = result.data();
-        if (isMessageType(data)) {
-          newMessages.push(data);
-        }
+        const nr: any = result;
+        newMessages.push(nr);
       });
       setMessages(newMessages);
     };
@@ -83,7 +84,39 @@ export default function Room() {
     });
   }, [roomID]);
 
-  return <></>;
+  const normalRoom = (
+    <>
+      <div id={styles.messageArea}>
+        {messages?.map((oneMessage) => {
+          const data = oneMessage.data();
+          if (!isMessageType(data)) {
+            return <></>;
+          }
+          return (
+            <OneMessage messageInfo={data} key={oneMessage.id}></OneMessage>
+          );
+        })}
+      </div>
+      <div id={styles.footArea}>
+        <div id={styles.inputArea}>
+          <input type="text" />
+          <button>
+            <span className="material-symbols-outlined">send</span>
+          </button>
+        </div>
+        <div id={styles.navigationArea}>
+          <div className={styles.iconArea}>
+            <p>{roomInfo?.icon}</p>
+          </div>
+          <h1>{roomInfo?.name}</h1>
+        </div>
+      </div>
+    </>
+  );
+
+  return (
+    <div>{roomInfo !== null ? normalRoom : <p>存在しない部屋です。</p>}</div>
+  );
 }
 
 Room.getLayout = function getLayout(page: ReactElement) {
