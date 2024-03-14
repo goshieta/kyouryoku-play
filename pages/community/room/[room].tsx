@@ -10,11 +10,27 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { communityType, isCommunityType } from "..";
+import Layout from "@/components/layouts/layout";
+import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 
 type roomInfo = communityType & {
   permissions: "readonly" | "readwrite";
+};
+type messageType = {
+  createdAt: number;
+  room: string;
+  user: string;
+  val: string;
+};
+const isMessageType = (val: any): val is messageType => {
+  return (
+    typeof val.createdAt == "number" &&
+    typeof val.room == "string" &&
+    typeof val.user == "string" &&
+    typeof val.val == "string"
+  );
 };
 
 export default function Room() {
@@ -22,6 +38,9 @@ export default function Room() {
   const roomID = router.query.room;
 
   const [roomInfo, setRoomInfo] = useState<roomInfo | undefined | null>(
+    undefined
+  );
+  const [messages, setMessages] = useState<messageType[] | undefined>(
     undefined
   );
 
@@ -48,9 +67,14 @@ export default function Room() {
         where("room", "==", roomID)
       );
       const querySnapshot = await getDocs(q);
+      const newMessages: messageType[] = [];
       querySnapshot.forEach((result) => {
-        console.log(result.data());
+        const data = result.data();
+        if (isMessageType(data)) {
+          newMessages.push(data);
+        }
       });
+      setMessages(newMessages);
     };
 
     getRoomInfo().then((result) => {
@@ -61,3 +85,7 @@ export default function Room() {
 
   return <></>;
 }
+
+Room.getLayout = function getLayout(page: ReactElement) {
+  return <ChatRoomLayhout>{page}</ChatRoomLayhout>;
+};
