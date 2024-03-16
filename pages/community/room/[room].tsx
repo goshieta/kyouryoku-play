@@ -18,7 +18,7 @@ import { communityType, isCommunityType } from "..";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
-import { DocumentData, QueryDocumentSnapshot } from "firebase-admin/firestore";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { useAuth } from "@/components/context/auth";
 import createUUID from "@/lib/uuid";
 
@@ -44,8 +44,10 @@ export default function Room() {
   const router = useRouter();
   const roomID = router.query.room;
 
-  const [isChangeTrigerOn, setIsChangeTrigerOn] = useState(false);
-
+  const [snapShot, setSnapshot] = useState<QuerySnapshot<
+    DocumentData,
+    DocumentData
+  > | null>(null);
   const [roomInfo, setRoomInfo] = useState<roomInfoType | undefined | null>(
     undefined
   );
@@ -71,22 +73,12 @@ export default function Room() {
       const queryLimit = limit(20);
       const q = query(
         messageRef,
-        orderBy("createdAt"),
+        orderBy("createdAt", "desc"),
         queryLimit,
         where("room", "==", roomID)
       );
-      if (!isChangeTrigerOn) {
-        onSnapshot(q, reload);
-        setIsChangeTrigerOn(true);
-      }
       const querySnapshot = await getDocs(q);
-      const newMessages: QueryDocumentSnapshot<DocumentData, DocumentData>[] =
-        [];
-      querySnapshot.forEach((result) => {
-        const nr: any = result;
-        newMessages.push(nr);
-      });
-      setMessages(newMessages);
+      reload(querySnapshot);
     };
 
     getRoomInfo().then((result) => {
@@ -95,9 +87,86 @@ export default function Room() {
     });
   }, [roomID]);
 
-  const reload = (
-    querySnapshot: QuerySnapshot<DocumentData, DocumentData>
-  ) => {};
+  useEffect(() => {
+    if (!roomID) return;
+    const q = query(
+      collection(db, "message"),
+      orderBy("createdAt", "desc"),
+      limit(20),
+      where("room", "==", roomID)
+    );
+    return onSnapshot(q, (thisSnapShot) => {
+      setSnapshot(thisSnapShot);
+    });
+  }, [roomID]);
+
+  useEffect(() => {
+    //なぜかこのuseEffectがないと動かない。
+    if (snapShot) {
+      reload(snapShot);
+    }
+  }, [snapShot]);
+
+  const reload = (querySnapshot: QuerySnapshot<DocumentData, DocumentData>) => {
+    //渡されたデータをもとにmessagesを更新する。
+    const documentArray: QueryDocumentSnapshot<DocumentData, DocumentData>[] =
+      [];
+    querySnapshot.forEach((oneDoc) => documentArray.push(oneDoc));
+    documentArray.reverse();
+    if (!messages) {
+      setMessages(documentArray);
+      return;
+    }
+    const defaultMessagesArray = messages ? messages : [];
+    const newMessageArray: QueryDocumentSnapshot<DocumentData, DocumentData>[] =
+      [];
+
+    while (!(documentArray.length === 0 && defaultMessagesArray.length === 0)) {
+      //documentArrayの一番目に格納されているメッセージとdefaultMessagesArrayの一番目に格納されているメッセージのうち、
+      //タイムスタンプが早いものを先に配列に格納する。
+      //そのあとに削除する。
+      type docData =
+        | QueryDocumentSnapshot<DocumentData, DocumentData>
+        | undefined;
+      const latestDoc: docData = documentArray[0];
+      const defaultDoc: docData = defaultMessagesArray[0];
+      //片方の配列の長さがもう0の可能性がある。
+      if (documentArray.length === 0) {
+        newMessageArray.push(defaultDoc);
+        defaultMessagesArray.shift();
+        continue;
+      } else if (defaultMessagesArray.length === 0) {
+        newMessageArray.push(latestDoc);
+        documentArray.shift();
+        continue;
+      }
+      //データ
+      const latestData = latestDoc.data();
+      const defaultData = defaultDoc.data();
+      if (!(isMessageType(latestData) && isMessageType(defaultData))) continue;
+      if (latestData.createdAt < defaultData.createdAt) {
+        newMessageArray.push(latestDoc);
+        documentArray.shift();
+      } else if (latestData.createdAt > defaultData.createdAt) {
+        newMessageArray.push(defaultDoc);
+        defaultMessagesArray.shift();
+      } else if (latestData.createdAt == defaultData.createdAt) {
+        if (latestDoc.id === defaultDoc.id) {
+          //idが一致したら同じメッセージ
+          newMessageArray.push(latestDoc);
+          documentArray.shift();
+          defaultMessagesArray.shift();
+        } else {
+          //idが一致しなかったら違うメッセージ
+          newMessageArray.push(defaultDoc);
+          defaultMessagesArray.shift();
+          newMessageArray.push(latestDoc);
+          documentArray.shift();
+        }
+      }
+    }
+    setMessages(newMessageArray);
+  };
 
   const normalRoom = (
     <>
