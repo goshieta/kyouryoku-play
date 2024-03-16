@@ -33,6 +33,23 @@ export const isCommunityType = (arg: any): arg is communityType => {
   );
 };
 
+export type userType = {
+  createdAt: number;
+  email: string;
+  id: string;
+  name: string;
+  photoURL: string;
+};
+export const isUserType = (arg: any): arg is userType => {
+  return (
+    typeof arg.createdAt === "number" &&
+    typeof arg.email === "string" &&
+    typeof arg.id === "string" &&
+    typeof arg.name === "string" &&
+    typeof arg.photoURL === "string"
+  );
+};
+
 //コミュニティグループの一覧画面
 export default function CommunityAll() {
   //クエリ

@@ -13,8 +13,8 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useState } from "react";
-import { communityType, isCommunityType } from "..";
+import React, { ReactElement, useEffect, useState } from "react";
+import { communityType, isCommunityType, isUserType, userType } from "..";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
@@ -55,6 +55,10 @@ export default function Room() {
     QueryDocumentSnapshot<DocumentData, DocumentData>[] | undefined
   >(undefined);
 
+  const [usersInfo, setUsersInfo] = useState<{
+    [key: string]: userType;
+  } | null>(null);
+
   useEffect(() => {
     //部屋の情報の取得
     const getRoomInfo = async () => {
@@ -92,7 +96,7 @@ export default function Room() {
     const q = query(
       collection(db, "message"),
       orderBy("createdAt", "desc"),
-      limit(20),
+      limit(2),
       where("room", "==", roomID)
     );
     return onSnapshot(q, (thisSnapShot) => {
@@ -168,6 +172,31 @@ export default function Room() {
     setMessages(newMessageArray);
   };
 
+  //通信量を抑えるためにここでユーザーデータを最初に取得する
+  useEffect(() => {
+    const getUsersInfo = async () => {
+      if (!messages) return;
+      if (!usersInfo) {
+        let newUsers: { [key: string]: userType } = {};
+        for (const oneMessage of messages) {
+          const localUserInfo = newUsers[oneMessage.data().user];
+          if (localUserInfo === undefined) {
+            await getDoc(doc(db, "users", oneMessage.data().user)).then(
+              (user) => {
+                const data = user.data();
+                if (isUserType(data)) {
+                  newUsers = { ...newUsers, [oneMessage.data().user]: data };
+                }
+              }
+            );
+          }
+        }
+        setUsersInfo(newUsers);
+      }
+    };
+    getUsersInfo();
+  }, [messages]);
+
   const normalRoom = (
     <>
       <div id={styles.topArea}>
@@ -182,11 +211,16 @@ export default function Room() {
       <div id={styles.messageArea}>
         {messages?.map((oneMessage) => {
           const data = oneMessage.data();
-          if (!isMessageType(data)) {
-            return <></>;
+          if (!isMessageType(data) || usersInfo === null) {
+            return <React.Fragment key={oneMessage.id}></React.Fragment>;
           }
           return (
-            <OneMessage messageInfo={data} key={oneMessage.id}></OneMessage>
+            <OneMessage
+              messageInfo={data}
+              key={oneMessage.id}
+              usersInfo={usersInfo}
+              setUsersInfo={setUsersInfo}
+            ></OneMessage>
           );
         })}
       </div>
