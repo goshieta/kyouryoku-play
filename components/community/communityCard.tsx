@@ -1,5 +1,6 @@
 import { communityType } from "@/pages/community";
 import styles from "@/styles/components/community.module.css";
+import { useRouter } from "next/router";
 
 //コミュニティ一覧に表示する一つのコミュニティのカード
 export default function CommunityCard({
@@ -14,6 +15,8 @@ export default function CommunityCard({
 
   const zeroPadding = (num: number, digit: number) =>
     ("0".repeat(digit) + num).slice(-digit);
+
+  const router = useRouter();
 
   return (
     <div className={styles.card}>
@@ -31,7 +34,11 @@ export default function CommunityCard({
         <p>{communityInfo.description}</p>
       </div>
       <div className={styles.cardButtonArea}>
-        <button>
+        <button
+          onClick={() => {
+            router.push(`./community/room/${communityInfo.id}`);
+          }}
+        >
           <span className="material-symbols-outlined">visibility</span>見学
         </button>
         <button>

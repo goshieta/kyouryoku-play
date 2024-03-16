@@ -1,12 +1,15 @@
 import { db } from "@/lib/firebase/client";
 import {
+  QuerySnapshot,
   collection,
   doc,
   getDoc,
   getDocs,
   limit,
+  onSnapshot,
   orderBy,
   query,
+  setDoc,
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -16,8 +19,10 @@ import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase-admin/firestore";
+import { useAuth } from "@/components/context/auth";
+import createUUID from "@/lib/uuid";
 
-type roomInfo = communityType & {
+type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
 };
 export type messageType = {
@@ -39,7 +44,9 @@ export default function Room() {
   const router = useRouter();
   const roomID = router.query.room;
 
-  const [roomInfo, setRoomInfo] = useState<roomInfo | undefined | null>(
+  const [isChangeTrigerOn, setIsChangeTrigerOn] = useState(false);
+
+  const [roomInfo, setRoomInfo] = useState<roomInfoType | undefined | null>(
     undefined
   );
   const [messages, setMessages] = useState<
@@ -68,6 +75,10 @@ export default function Room() {
         queryLimit,
         where("room", "==", roomID)
       );
+      if (!isChangeTrigerOn) {
+        onSnapshot(q, reload);
+        setIsChangeTrigerOn(true);
+      }
       const querySnapshot = await getDocs(q);
       const newMessages: QueryDocumentSnapshot<DocumentData, DocumentData>[] =
         [];
@@ -84,8 +95,21 @@ export default function Room() {
     });
   }, [roomID]);
 
+  const reload = (
+    querySnapshot: QuerySnapshot<DocumentData, DocumentData>
+  ) => {};
+
   const normalRoom = (
     <>
+      <div id={styles.topArea}>
+        <div id={styles.navigationArea}>
+          <div className={styles.iconArea}>
+            <p>{roomInfo?.icon}</p>
+          </div>
+          <h1>{roomInfo?.name}</h1>
+          <p>{roomInfo?.description}</p>
+        </div>
+      </div>
       <div id={styles.messageArea}>
         {messages?.map((oneMessage) => {
           const data = oneMessage.data();
@@ -98,18 +122,7 @@ export default function Room() {
         })}
       </div>
       <div id={styles.footArea}>
-        <div id={styles.inputArea}>
-          <input type="text" />
-          <button>
-            <span className="material-symbols-outlined">send</span>
-          </button>
-        </div>
-        <div id={styles.navigationArea}>
-          <div className={styles.iconArea}>
-            <p>{roomInfo?.icon}</p>
-          </div>
-          <h1>{roomInfo?.name}</h1>
-        </div>
+        <PostMessageUI roomInfo={roomInfo ? roomInfo : undefined} />
       </div>
     </>
   );
@@ -122,3 +135,42 @@ export default function Room() {
 Room.getLayout = function getLayout(page: ReactElement) {
   return <ChatRoomLayhout>{page}</ChatRoomLayhout>;
 };
+
+function PostMessageUI({ roomInfo }: { roomInfo: roomInfoType | undefined }) {
+  const [message, setMessage] = useState("");
+  const userInfo = useAuth();
+
+  const postMessage = async () => {
+    if (!userInfo) {
+      alert("ユーザー認証情報が不正です");
+      return;
+    }
+    if (!roomInfo) {
+      return;
+    }
+    const newMessage: messageType = {
+      createdAt: new Date().getTime(),
+      room: roomInfo.id,
+      user: userInfo.id,
+      val: message,
+    };
+    await setDoc(doc(db, "message", createUUID()), newMessage);
+    setMessage("");
+  };
+
+  return (
+    <>
+      <div id={styles.inputArea}>
+        <input
+          type="text"
+          placeholder="投稿を入力"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button onClick={postMessage}>
+          <span className="material-symbols-outlined">send</span>
+        </button>
+      </div>
+    </>
+  );
+}

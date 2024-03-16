@@ -1,0 +1,85 @@
+#footArea {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  padding: 20px 0;
+  gap: 20px;
+  background-color: var(--alpha-background-color);
+  backdrop-filter: blur(5px);
+}
+#topArea {
+  padding: 20px;
+  position: fixed;
+  top: 85px;
+  z-index: 20;
+  width: 100%;
+  height: 70px;
+  background-color: var(--alpha-background-color);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+#navigationArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.iconArea {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.iconArea p {
+  font-size: 20px;
+  color: black;
+  font-family: "游明朝", YuMincho, "Hiragino Mincho ProN", "HGS明朝E",
+    "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  font-weight: bold;
+}
+#navigationArea h1 {
+  font-size: 20px;
+}
+#inputArea {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+#inputArea input {
+  height: 40px;
+  width: 400px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  background-color: var(--special-bg);
+  padding: 0 20px;
+}
+#inputArea button {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+#inputArea button span {
+  font-size: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#messageArea {
+  max-width: 700px;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}

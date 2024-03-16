@@ -20,6 +20,7 @@ export type communityType = {
   name: string;
   description: string;
   createdAt: number;
+  id: string;
 };
 
 export const isCommunityType = (arg: any): arg is communityType => {
@@ -27,7 +28,8 @@ export const isCommunityType = (arg: any): arg is communityType => {
     arg.admin !== undefined &&
     arg.name !== undefined &&
     arg.icon != undefined &&
-    arg.description !== undefined
+    arg.description !== undefined &&
+    arg.id !== undefined
   );
 };
 

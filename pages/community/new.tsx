@@ -24,6 +24,7 @@ export default function New() {
     name: "",
     description: "",
     createdAt: new Date().getTime(),
+    id: createUUID(),
   });
   type errorInfoType = {
     icon: string[];
@@ -89,7 +90,7 @@ export default function New() {
   const createCommunity = async () => {
     if (!checkError()) return;
     //コミュニティを登録する。
-    await setDoc(doc(db, "community", createUUID()), newCom);
+    await setDoc(doc(db, "community", newCom.id), newCom);
     router.back();
   };
 
