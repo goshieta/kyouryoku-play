@@ -236,11 +236,14 @@ export default function Room() {
       </button>
       <div id={styles.topArea}>
         <div id={styles.navigationArea}>
+          <button id={styles.naviBack} onClick={() => router.back()}>
+            <span className="material-symbols-outlined">arrow_back_ios</span>
+          </button>
           <div className={styles.iconArea}>
             <p>{roomInfo?.icon}</p>
           </div>
-          <h1>{roomInfo?.name}</h1>
-          <p>{roomInfo?.description}</p>
+          <h1 id={styles.titleDesc}>{roomInfo?.name}</h1>
+          <p id={styles.roomDesc}>{roomInfo?.description}</p>
         </div>
       </div>
       <div id={styles.messageArea}>
