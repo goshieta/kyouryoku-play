@@ -13,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { communityType, isCommunityType, isUserType, userType } from "..";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
@@ -58,6 +58,12 @@ export default function Room() {
   const [usersInfo, setUsersInfo] = useState<{
     [key: string]: userType;
   } | null>(null);
+
+  //trueの時常にスクロールバーを一番下にする。
+  const [isBottom, setIsBottom] = useState<boolean | null>(null);
+  const scrollBottomRef = useRef<HTMLDivElement>(null);
+  const gotoBottom = (behavior: ScrollBehavior) =>
+    scrollBottomRef.current?.scrollIntoView({ behavior: behavior });
 
   useEffect(() => {
     //部屋の情報の取得
@@ -195,10 +201,39 @@ export default function Room() {
       }
     };
     getUsersInfo();
+    if (isBottom || isBottom === null) {
+      gotoBottom(isBottom ? "smooth" : "instant");
+      if (isBottom === null && messages && messages.length > 2)
+        setIsBottom(true);
+    }
   }, [messages]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const isBottom =
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight;
+      setIsBottom(isBottom);
+    };
+
+    // 初回レンダリング時にイベントリスナーを追加
+    window.addEventListener("scroll", handleScroll);
+
+    // コンポーネントがアンマウントされたらイベントリスナーを削除
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const normalRoom = (
-    <>
+    <div id={styles.roomParent}>
+      <button
+        id={styles.gotoBottom}
+        onClick={() => gotoBottom("smooth")}
+        style={{ display: isBottom ? "none" : "flex" }}
+      >
+        <span className="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
       <div id={styles.topArea}>
         <div id={styles.navigationArea}>
           <div className={styles.iconArea}>
@@ -223,11 +258,12 @@ export default function Room() {
             ></OneMessage>
           );
         })}
+        <div ref={scrollBottomRef}></div>
       </div>
       <div id={styles.footArea}>
         <PostMessageUI roomInfo={roomInfo ? roomInfo : undefined} />
       </div>
-    </>
+    </div>
   );
 
   return (
@@ -245,10 +281,14 @@ function PostMessageUI({ roomInfo }: { roomInfo: roomInfoType | undefined }) {
 
   const postMessage = async () => {
     if (!userInfo) {
-      alert("ユーザー認証情報が不正です");
+      alert("エラー : ユーザー認証情報が不正です");
       return;
     }
     if (!roomInfo) {
+      return;
+    }
+    if (message === "") {
+      alert("エラー : 何も入力されていません。");
       return;
     }
     const newMessage: messageType = {

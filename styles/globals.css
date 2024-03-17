@@ -14,13 +14,14 @@ body {
 /*テーマカラーなど*/
 :root {
   --font-color: #00114f;
-  --pale-font-color: #162456;
+  --pale-font-color: #253a88;
   --black-font-color: #00114f;
   --background-color: #f6f9ff;
   --alpha-background-color: #f6f9ffb4;
   --special-bg: rgb(227, 235, 255);
   --alert-color: rgb(255, 0, 64);
   --alert-bg: rgb(255, 205, 205);
+  --white: rgb(219, 222, 241);
 
   --theme-color-level-1: rgb(191, 209, 255);
   --theme-color-level-2: rgb(163, 189, 255);
@@ -37,6 +38,7 @@ body {
     --alpha-background-color: #000b22e5;
     --special-bg: #00173c;
     --alert-bg: rgb(66, 0, 0);
+    --white: rgb(255, 255, 255);
 
     --theme-color-level-1: #002a6e;
     --theme-color-level-2: #000f7d;

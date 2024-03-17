@@ -13,7 +13,6 @@ export class score extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor("rgb(243, 255, 250)");
 
-    console.log(this.resultForMe);
     const domCode = `
       <div id="ws_score">
         <h1 style="color:${this.resultForMe ? "#5203fc" : "#fc0384"}">${
