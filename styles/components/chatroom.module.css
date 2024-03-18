@@ -99,9 +99,9 @@
   text-overflow: ellipsis;
 }
 #navigationArea h2 {
-  font-size: 20px;
+  font-size: 18px;
   background-color: var(--green);
-  padding: 5px 15px;
+  padding: 7px 15px;
   border-radius: 5px;
 }
 

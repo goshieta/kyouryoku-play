@@ -1,6 +1,8 @@
 import { communityType } from "@/pages/community";
 import styles from "@/styles/components/community.module.css";
 import { useRouter } from "next/router";
+import { useAuth } from "../context/auth";
+import { addUserInComunity } from "@/lib/communityUserOperation";
 
 //コミュニティ一覧に表示する一つのコミュニティのカード
 export default function CommunityCard({
@@ -14,9 +16,10 @@ export default function CommunityCard({
   createdTime.setTime(communityInfo.createdAt);
 
   const zeroPadding = (num: number, digit: number) =>
-    ("0".repeat(digit) + num).slice(-digit);
+    String(num).padStart(digit, "0");
 
   const router = useRouter();
+  const userData = useAuth();
 
   return (
     <div className={styles.card}>
@@ -27,7 +30,7 @@ export default function CommunityCard({
         <h3>{communityInfo.name}</h3>
         <p className={styles.time}>{`作成 : ${createdTime.getFullYear()}/${
           createdTime.getMonth() + 1
-        }/${createdTime.getDay()} ${zeroPadding(
+        }/${createdTime.getDate()} ${zeroPadding(
           createdTime.getHours(),
           2
         )}:${zeroPadding(createdTime.getMinutes(), 2)}`}</p>
@@ -36,12 +39,37 @@ export default function CommunityCard({
       <div className={styles.cardButtonArea}>
         <button
           onClick={() => {
+            if (preview) {
+              alert("プレビューです");
+              return;
+            }
             router.push(`./community/room/${communityInfo.id}`);
           }}
         >
           <span className="material-symbols-outlined">visibility</span>見学
         </button>
-        <button>
+        <button
+          onClick={async () => {
+            if (preview) {
+              alert("プレビューです");
+              return;
+            }
+            if (!userData) {
+              alert("認証情報が不正です");
+              return;
+            }
+            const communityState = await addUserInComunity(
+              userData,
+              communityInfo
+            );
+            if (communityState.state) {
+              alert("コミュニティに参加しました");
+              router.push(`./community/room/${communityInfo.id}`);
+            } else {
+              alert(communityState.error);
+            }
+          }}
+        >
           <span className="material-symbols-outlined">group_add</span>参加
         </button>
       </div>

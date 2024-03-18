@@ -22,6 +22,7 @@ export type communityType = {
   createdAt: number;
   id: string;
   topic: string;
+  people: string[];
 };
 
 export const isCommunityType = (arg: any): arg is communityType => {
@@ -31,7 +32,8 @@ export const isCommunityType = (arg: any): arg is communityType => {
     arg.icon != undefined &&
     arg.description !== undefined &&
     arg.id !== undefined &&
-    typeof arg.topic === "string"
+    typeof arg.topic === "string" &&
+    typeof arg.people == "object"
   );
 };
 
@@ -41,6 +43,7 @@ export type userType = {
   id: string;
   name: string;
   photoURL: string;
+  belongCommunity: string[];
 };
 export const isUserType = (arg: any): arg is userType => {
   return (
@@ -48,7 +51,8 @@ export const isUserType = (arg: any): arg is userType => {
     typeof arg.email === "string" &&
     typeof arg.id === "string" &&
     typeof arg.name === "string" &&
-    typeof arg.photoURL === "string"
+    typeof arg.photoURL === "string" &&
+    typeof arg.belongCommunity === "object"
   );
 };
 

@@ -26,6 +26,7 @@ export default function New() {
     createdAt: new Date().getTime(),
     id: createUUID(),
     topic: "",
+    people: authInfo ? [authInfo.id] : [],
   });
   type errorInfoType = {
     icon: string[];
@@ -77,7 +78,7 @@ export default function New() {
     };
     Object.keys(checkArr).forEach((oneItem) => {
       const regArray = checkArr[oneItem];
-      const copyNewCom: { [key: string]: string | number } = newCom;
+      const copyNewCom: { [key: string]: string | number | string[] } = newCom;
       regArray.forEach((oneReg) => {
         const data = copyNewCom[oneItem];
         if (typeof data !== "string") return;
@@ -108,7 +109,7 @@ export default function New() {
     <div id={styles.new_community}>
       <h1>コミュニティを作成</h1>
       <div id={styles.nc_preview}>
-        <CommunityCard communityInfo={newCom}></CommunityCard>
+        <CommunityCard communityInfo={newCom} preview={true}></CommunityCard>
       </div>
       <div id={styles.nc_form}>
         <div id={styles.ncf_text}>
