@@ -25,23 +25,27 @@ export default function New() {
     description: "",
     createdAt: new Date().getTime(),
     id: createUUID(),
+    topic: "",
   });
   type errorInfoType = {
     icon: string[];
     name: string[];
     description: string[];
+    topic: string[];
   };
   const [errorInfo, setErrorInfo] = useState<errorInfoType>({
     icon: [],
     name: [],
     description: [],
+    topic: [],
   });
 
   const checkErrorInfo = (val: any): val is errorInfoType => {
     return (
       val.icon !== undefined &&
       val.name !== undefined &&
-      val.description !== undefined
+      val.description !== undefined &&
+      val.topic !== undefined
     );
   };
 
@@ -60,11 +64,16 @@ export default function New() {
         { regEx: /^$/u, error: "文字を入力してください。" },
         { regEx: /.{41,}/u, error: "40文字より多く入力しないでください。" },
       ],
+      topic: [
+        { regEx: /^$/u, error: "文字を入力してください。" },
+        { regEx: /.{21,}/u, error: "20文字より多く入力しないでください。" },
+      ],
     };
     const newErrorInfo: { [key: string]: string[] } = {
       icon: [],
       name: [],
       description: [],
+      topic: [],
     };
     Object.keys(checkArr).forEach((oneItem) => {
       const regArray = checkArr[oneItem];
@@ -83,7 +92,8 @@ export default function New() {
     return (
       newErrorInfo.icon.length === 0 &&
       newErrorInfo.name.length === 0 &&
-      newErrorInfo.description.length === 0
+      newErrorInfo.description.length === 0 &&
+      newErrorInfo.topic.length === 0
     );
   };
 
@@ -151,6 +161,24 @@ export default function New() {
             }}
           >
             {errorInfo.description.map((oneError, index) => (
+              <p key={`error_description_${oneError}_${index}`}>{oneError}</p>
+            ))}
+          </div>
+          <div>
+            <label>最初のトピック&nbsp;:</label>
+            <input
+              type="text"
+              value={newCom.topic}
+              onChange={(e) => setNewCom({ ...newCom, topic: e.target.value })}
+            ></input>
+          </div>
+          <div
+            className={styles.error}
+            style={{
+              display: errorInfo.topic.length == 0 ? "none" : "block",
+            }}
+          >
+            {errorInfo.topic.map((oneError, index) => (
               <p key={`error_description_${oneError}_${index}`}>{oneError}</p>
             ))}
           </div>

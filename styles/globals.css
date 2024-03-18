@@ -22,6 +22,7 @@ body {
   --alert-color: rgb(255, 0, 64);
   --alert-bg: rgb(255, 205, 205);
   --white: rgb(219, 222, 241);
+  --green: rgb(129, 255, 213);
 
   --theme-color-level-1: rgb(191, 209, 255);
   --theme-color-level-2: rgb(163, 189, 255);
@@ -39,6 +40,7 @@ body {
     --special-bg: #00173c;
     --alert-bg: rgb(66, 0, 0);
     --white: rgb(255, 255, 255);
+    --green: rgb(38, 130, 98);
 
     --theme-color-level-1: #002a6e;
     --theme-color-level-2: #000f7d;

@@ -244,6 +244,7 @@ export default function Room() {
           </div>
           <h1 id={styles.titleDesc}>{roomInfo?.name}</h1>
           <p id={styles.roomDesc}>{roomInfo?.description}</p>
+          <h2>{roomInfo?.topic}</h2>
         </div>
       </div>
       <div id={styles.messageArea}>
