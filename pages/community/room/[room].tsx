@@ -9,7 +9,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  setDoc,
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -19,10 +18,10 @@ import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import { useAuth } from "@/components/context/auth";
-import createUUID from "@/lib/uuid";
+import PostMessageUI from "@/components/community/room/postMessage";
+import NavigationAreaUI from "@/components/community/room/navigationArea";
 
-type roomInfoType = communityType & {
+export type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
 };
 export type messageType = {
@@ -235,17 +234,11 @@ export default function Room() {
         <span className="material-symbols-outlined">keyboard_arrow_down</span>
       </button>
       <div id={styles.topArea}>
-        <div id={styles.navigationArea}>
-          <button id={styles.naviBack} onClick={() => router.back()}>
-            <span className="material-symbols-outlined">arrow_back_ios</span>
-          </button>
-          <div className={styles.iconArea}>
-            <p>{roomInfo?.icon}</p>
-          </div>
-          <h1 id={styles.titleDesc}>{roomInfo?.name}</h1>
-          <p id={styles.roomDesc}>{roomInfo?.description}</p>
-          <h2>{roomInfo?.topic}</h2>
-        </div>
+        {roomInfo ? (
+          <NavigationAreaUI roomInfo={roomInfo}></NavigationAreaUI>
+        ) : (
+          <></>
+        )}
       </div>
       <div id={styles.messageArea}>
         {messages?.map((oneMessage) => {
@@ -278,46 +271,3 @@ export default function Room() {
 Room.getLayout = function getLayout(page: ReactElement) {
   return <ChatRoomLayhout>{page}</ChatRoomLayhout>;
 };
-
-function PostMessageUI({ roomInfo }: { roomInfo: roomInfoType | undefined }) {
-  const [message, setMessage] = useState("");
-  const userInfo = useAuth();
-
-  const postMessage = async () => {
-    if (!userInfo) {
-      alert("エラー : ユーザー認証情報が不正です");
-      return;
-    }
-    if (!roomInfo) {
-      return;
-    }
-    if (message === "") {
-      alert("エラー : 何も入力されていません。");
-      return;
-    }
-    const newMessage: messageType = {
-      createdAt: new Date().getTime(),
-      room: roomInfo.id,
-      user: userInfo.id,
-      val: message,
-    };
-    await setDoc(doc(db, "message", createUUID()), newMessage);
-    setMessage("");
-  };
-
-  return (
-    <>
-      <div id={styles.inputArea}>
-        <input
-          type="text"
-          placeholder="投稿を入力"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button onClick={postMessage}>
-          <span className="material-symbols-outlined">send</span>
-        </button>
-      </div>
-    </>
-  );
-}
