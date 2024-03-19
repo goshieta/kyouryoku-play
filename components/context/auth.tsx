@@ -8,7 +8,7 @@ import {
 } from "react";
 import { auth, db } from "@/lib/firebase/client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { userType } from "@/lib/types/community";
+import { pubUserDataType, userType } from "@/lib/types/communityType";
 
 type userContextType = userType | null | undefined;
 
@@ -35,9 +35,17 @@ export default function Auth({ children }: { children: ReactNode }) {
             createdAt: Date.now(),
             belongCommunity: [],
           };
+          const pubAppUser: pubUserDataType = {
+            createdAt: Date.now(),
+            id: firebaseUser.uid,
+            name: firebaseUser.displayName!,
+            photoURL: firebaseUser.photoURL!,
+          };
           setDoc(ref, appUser).then(() => {
             setUser(appUser);
           });
+          //公開ユーザーデータをセット
+          setDoc(doc(db, "pubUsers", firebaseUser.uid), pubAppUser);
         }
       } else {
         setUser(null);

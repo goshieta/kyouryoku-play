@@ -1,5 +1,11 @@
 import { db } from "@/lib/firebase/client";
-import { isUserType, userType, messageType } from "@/lib/types/community";
+import {
+  isUserType,
+  userType,
+  messageType,
+  pubUserDataType,
+  isPubUserDataType,
+} from "@/lib/types/communityType";
 import styles from "@/styles/components/chatroom.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
@@ -12,17 +18,17 @@ export default function OneMessage({
 }: {
   messageInfo: messageType;
   usersInfo: {
-    [key: string]: userType;
+    [key: string]: pubUserDataType;
   };
-  setUsersInfo: (newInfo: { [key: string]: userType }) => void;
+  setUsersInfo: (newInfo: { [key: string]: pubUserDataType }) => void;
 }) {
-  const [pubUserInfo, setPubUserInfo] = useState<userType | null>(null);
+  const [pubUserInfo, setPubUserInfo] = useState<pubUserDataType | null>(null);
   useEffect(() => {
     const localUserInfo = usersInfo[messageInfo.user];
     if (localUserInfo === undefined) {
-      getDoc(doc(db, "users", messageInfo.user)).then((user) => {
+      getDoc(doc(db, "pubUsers", messageInfo.user)).then((user) => {
         const data = user.data();
-        if (isUserType(data)) {
+        if (isPubUserDataType(data)) {
           setPubUserInfo(data);
           setUsersInfo({ ...usersInfo, [messageInfo.user]: data });
         }

@@ -16,10 +16,10 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import {
   communityType,
   isCommunityType,
-  isUserType,
-  userType,
   isMessageType,
-} from "@/lib/types/community";
+  pubUserDataType,
+  isPubUserDataType,
+} from "@/lib/types/communityType";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
@@ -47,7 +47,7 @@ export default function Room() {
   >(undefined);
 
   const [usersInfo, setUsersInfo] = useState<{
-    [key: string]: userType;
+    [key: string]: pubUserDataType;
   } | null>(null);
 
   //trueの時常にスクロールバーを一番下にする。
@@ -174,14 +174,14 @@ export default function Room() {
     const getUsersInfo = async () => {
       if (!messages) return;
       if (!usersInfo) {
-        let newUsers: { [key: string]: userType } = {};
+        let newUsers: { [key: string]: pubUserDataType } = {};
         for (const oneMessage of messages) {
           const localUserInfo = newUsers[oneMessage.data().user];
           if (localUserInfo === undefined) {
-            await getDoc(doc(db, "users", oneMessage.data().user)).then(
+            await getDoc(doc(db, "pubUsers", oneMessage.data().user)).then(
               (user) => {
                 const data = user.data();
-                if (isUserType(data)) {
+                if (isPubUserDataType(data)) {
                   newUsers = { ...newUsers, [oneMessage.data().user]: data };
                 }
               }

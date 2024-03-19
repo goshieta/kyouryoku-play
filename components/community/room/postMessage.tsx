@@ -3,7 +3,7 @@ import createUUID from "@/lib/uuid";
 import { db } from "@/lib/firebase/client";
 import { doc, setDoc } from "firebase/firestore";
 import { roomInfoType } from "@/pages/community/room/[room]";
-import { messageType } from "@/lib/types/community";
+import { messageType } from "@/lib/types/communityType";
 import { useState } from "react";
 import styles from "@/styles/components/chatroom.module.css";
 

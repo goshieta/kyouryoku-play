@@ -1,7 +1,7 @@
 import CommunityCard from "@/components/community/communityCard";
 import styles from "@/styles/components/community.module.css";
 import { useEffect, useState } from "react";
-import { communityType } from "@/lib/types/community";
+import { communityType } from "@/lib/types/communityType";
 import { useAuth } from "@/components/context/auth";
 import { useRouter } from "next/router";
 import { doc, setDoc } from "firebase/firestore";

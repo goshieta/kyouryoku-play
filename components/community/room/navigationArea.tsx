@@ -1,4 +1,4 @@
-import { communityType } from "@/lib/types/community";
+import { communityType } from "@/lib/types/communityType";
 import styles from "@/styles/components/chatroom.module.css";
 import { useRouter } from "next/router";
 

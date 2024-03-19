@@ -3,7 +3,7 @@ import Filter, { Options } from "@/components/community/filter";
 import Loading from "@/components/tips/loading";
 import { db } from "@/lib/firebase/client";
 import styles from "@/styles/components/community.module.css";
-import { communityType, isCommunityType } from "@/lib/types/community";
+import { communityType, isCommunityType } from "@/lib/types/communityType";
 import {
   Query,
   collection,
