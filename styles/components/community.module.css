@@ -173,6 +173,17 @@
   font-size: 18px;
   display: block;
 }
+.haveCommited {
+  width: 100px;
+  background-color: var(--green);
+  height: 50px;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  cursor: not-allowed;
+}
 
 /*コミュニティを作成*/
 #new_community {

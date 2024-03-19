@@ -46,32 +46,39 @@ export default function CommunityCard({
             router.push(`./community/room/${communityInfo.id}`);
           }}
         >
-          <span className="material-symbols-outlined">visibility</span>見学
+          <span className="material-symbols-outlined">visibility</span>
+          {communityInfo.people.includes(userData ? userData.id : "")
+            ? "訪問"
+            : "見学"}
         </button>
-        <button
-          onClick={async () => {
-            if (preview) {
-              alert("プレビューです");
-              return;
-            }
-            if (!userData) {
-              alert("認証情報が不正です");
-              return;
-            }
-            const communityState = await addUserInComunity(
-              userData,
-              communityInfo
-            );
-            if (communityState.state) {
-              alert("コミュニティに参加しました");
-              router.push(`./community/room/${communityInfo.id}`);
-            } else {
-              alert(communityState.error);
-            }
-          }}
-        >
-          <span className="material-symbols-outlined">group_add</span>参加
-        </button>
+        {communityInfo.people.includes(userData ? userData.id : "") ? (
+          <p className={styles.haveCommited}>参加済み</p>
+        ) : (
+          <button
+            onClick={async () => {
+              if (preview) {
+                alert("プレビューです");
+                return;
+              }
+              if (!userData) {
+                alert("認証情報が不正です");
+                return;
+              }
+              const communityState = await addUserInComunity(
+                userData,
+                communityInfo
+              );
+              if (communityState.state) {
+                alert("コミュニティに参加しました");
+                router.push(`./community/room/${communityInfo.id}`);
+              } else {
+                alert(communityState.error);
+              }
+            }}
+          >
+            <span className="material-symbols-outlined">group_add</span>参加
+          </button>
+        )}
       </div>
     </div>
   );
