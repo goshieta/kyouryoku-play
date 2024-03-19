@@ -16,7 +16,10 @@ export const addUserInComunity = async (
   //コミュニティの情報に登録
   //データを更新する
   const communityRef = doc(db, "community", communityData.id);
-  await updateDoc(communityRef, { people: arrayUnion(userData.id) });
+  await updateDoc(communityRef, {
+    people: arrayUnion(userData.id),
+    peopleNumber: communityData.peopleNumber + 1,
+  });
   //ユーザーの情報に登録
   const userRef = doc(db, "users", userData.id);
   await updateDoc(userRef, { belongCommunity: arrayUnion(communityData.id) });

@@ -148,9 +148,23 @@
 .cardDescArea h3 {
   margin-bottom: 5px;
 }
+.cardDetailArea {
+  display: flex;
+  gap: 25px;
+}
 .time {
   margin: 0;
   font-size: 14px;
+}
+.peopleNumber {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+.peopleNumber span {
+  font-size: 20px;
 }
 .cardButtonArea {
   margin-left: auto;
@@ -183,6 +197,10 @@
   display: flex;
   font-size: 14px;
   cursor: not-allowed;
+  gap: 5px;
+}
+.haveCommited span {
+  font-size: 20px;
 }
 
 /*コミュニティを作成*/

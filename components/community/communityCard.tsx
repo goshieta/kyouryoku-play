@@ -28,12 +28,18 @@ export default function CommunityCard({
       </div>
       <div className={styles.cardDescArea}>
         <h3>{communityInfo.name}</h3>
-        <p className={styles.time}>{`作成 : ${createdTime.getFullYear()}/${
-          createdTime.getMonth() + 1
-        }/${createdTime.getDate()} ${zeroPadding(
-          createdTime.getHours(),
-          2
-        )}:${zeroPadding(createdTime.getMinutes(), 2)}`}</p>
+        <div className={styles.cardDetailArea}>
+          <p className={styles.time}>{`作成 : ${createdTime.getFullYear()}/${
+            createdTime.getMonth() + 1
+          }/${createdTime.getDate()} ${zeroPadding(
+            createdTime.getHours(),
+            2
+          )}:${zeroPadding(createdTime.getMinutes(), 2)}`}</p>
+          <p className={styles.peopleNumber}>
+            <span className="material-symbols-outlined">groups</span>
+            {communityInfo.peopleNumber}人
+          </p>
+        </div>
         <p>{communityInfo.description}</p>
       </div>
       <div className={styles.cardButtonArea}>
@@ -52,7 +58,9 @@ export default function CommunityCard({
             : "見学"}
         </button>
         {communityInfo.people.includes(userData ? userData.id : "") ? (
-          <p className={styles.haveCommited}>参加済み</p>
+          <p className={styles.haveCommited}>
+            <span className="material-symbols-outlined">done</span>参加済
+          </p>
         ) : (
           <button
             onClick={async () => {

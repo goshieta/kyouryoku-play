@@ -31,10 +31,12 @@ export default function CommunityAll() {
     let q: Query | undefined = undefined;
     switch (searchOption) {
       case "popular":
-        q = query(communitesRef, orderBy("createdAt"), queryLimit);
-        break;
-      case "active":
-        q = query(communitesRef, orderBy("createdAt"), queryLimit);
+        q = query(
+          communitesRef,
+          orderBy("peopleNumber", "desc"),
+          orderBy("createdAt", "desc"),
+          queryLimit
+        );
         break;
       case "latest":
         q = query(communitesRef, orderBy("createdAt", "desc"), queryLimit);

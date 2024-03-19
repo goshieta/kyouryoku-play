@@ -1,7 +1,7 @@
 import styles from "@/styles/components/community.module.css";
 import { ChangeEvent } from "react";
 
-export type Options = "popular" | "active" | "latest" | "oldest";
+export type Options = "popular" | "latest" | "oldest";
 
 //コミュニティ検索用のダイアログ
 export default function Filter({
@@ -18,7 +18,6 @@ export default function Filter({
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (
       e.target.value === "popular" ||
-      e.target.value === "active" ||
       e.target.value === "latest" ||
       e.target.value === "oldest"
     ) {
@@ -50,17 +49,6 @@ export default function Filter({
             onChange={onChange}
           />
           <label htmlFor="fsfsfa_popular">人気</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            name="filterSearchFromAtt"
-            id="fsfsfa_active"
-            value="active"
-            checked={searchOption == "active"}
-            onChange={onChange}
-          />
-          <label htmlFor="fsfsfa_active">活発</label>
         </div>
         <div>
           <input
