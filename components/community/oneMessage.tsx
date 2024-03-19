@@ -1,6 +1,5 @@
 import { db } from "@/lib/firebase/client";
-import { isUserType, userType } from "@/pages/community";
-import { messageType } from "@/pages/community/room/[room]";
+import { isUserType, userType, messageType } from "@/lib/types/community";
 import styles from "@/styles/components/chatroom.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";

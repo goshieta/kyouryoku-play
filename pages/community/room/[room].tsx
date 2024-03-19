@@ -13,7 +13,13 @@ import {
 } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
-import { communityType, isCommunityType, isUserType, userType } from "..";
+import {
+  communityType,
+  isCommunityType,
+  isUserType,
+  userType,
+  isMessageType,
+} from "@/lib/types/community";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
@@ -23,20 +29,6 @@ import NavigationAreaUI from "@/components/community/room/navigationArea";
 
 export type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
-};
-export type messageType = {
-  createdAt: number;
-  room: string;
-  user: string;
-  val: string;
-};
-const isMessageType = (val: any): val is messageType => {
-  return (
-    typeof val.createdAt == "number" &&
-    typeof val.room == "string" &&
-    typeof val.user == "string" &&
-    typeof val.val == "string"
-  );
 };
 
 export default function Room() {

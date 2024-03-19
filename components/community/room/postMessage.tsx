@@ -2,7 +2,8 @@ import { useAuth } from "@/components/context/auth";
 import createUUID from "@/lib/uuid";
 import { db } from "@/lib/firebase/client";
 import { doc, setDoc } from "firebase/firestore";
-import { roomInfoType, messageType } from "@/pages/community/room/[room]";
+import { roomInfoType } from "@/pages/community/room/[room]";
+import { messageType } from "@/lib/types/community";
 import { useState } from "react";
 import styles from "@/styles/components/chatroom.module.css";
 

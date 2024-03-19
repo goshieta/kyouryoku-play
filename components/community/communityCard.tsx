@@ -1,4 +1,4 @@
-import { communityType } from "@/pages/community";
+import { communityType } from "@/lib/types/community";
 import styles from "@/styles/components/community.module.css";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/auth";

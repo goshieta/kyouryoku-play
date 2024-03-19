@@ -1,4 +1,4 @@
-import { communityType, userType } from "@/pages/community";
+import { communityType, userType } from "@/lib/types/community";
 import { db } from "@/lib/firebase/client";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 

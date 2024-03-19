@@ -8,7 +8,7 @@ import {
 } from "react";
 import { auth, db } from "@/lib/firebase/client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { userType } from "@/pages/community";
+import { userType } from "@/lib/types/community";
 
 type userContextType = userType | null | undefined;
 
@@ -33,7 +33,7 @@ export default function Auth({ children }: { children: ReactNode }) {
             photoURL: firebaseUser.photoURL!,
             email: firebaseUser.email!,
             createdAt: Date.now(),
-            belogCommunity: [],
+            belongCommunity: [],
           };
           setDoc(ref, appUser).then(() => {
             setUser(appUser);
