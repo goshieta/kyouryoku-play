@@ -244,6 +244,7 @@ export default function Room() {
               key={oneMessage.id}
               usersInfo={usersInfo}
               setUsersInfo={setUsersInfo}
+              communityAdmin={roomInfo?.admin!}
             ></OneMessage>
           );
         })}

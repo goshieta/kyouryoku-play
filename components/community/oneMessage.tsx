@@ -1,7 +1,5 @@
 import { db } from "@/lib/firebase/client";
 import {
-  isUserType,
-  userType,
   messageType,
   pubUserDataType,
   isPubUserDataType,
@@ -15,12 +13,14 @@ export default function OneMessage({
   messageInfo,
   usersInfo,
   setUsersInfo,
+  communityAdmin,
 }: {
   messageInfo: messageType;
   usersInfo: {
     [key: string]: pubUserDataType;
   };
   setUsersInfo: (newInfo: { [key: string]: pubUserDataType }) => void;
+  communityAdmin: string;
 }) {
   const [pubUserInfo, setPubUserInfo] = useState<pubUserDataType | null>(null);
   useEffect(() => {
@@ -55,6 +55,11 @@ export default function OneMessage({
             ></Image>
             <p>{pubUserInfo?.name}</p>
           </>
+        ) : (
+          <></>
+        )}
+        {communityAdmin === pubUserInfo?.id ? (
+          <p className={styles.adminTip}>オーナー</p>
         ) : (
           <></>
         )}

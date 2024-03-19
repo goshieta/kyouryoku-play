@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { communityType } from "@/lib/types/communityType";
 import { useAuth } from "@/components/context/auth";
 import { useRouter } from "next/router";
-import { doc, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import createUUID from "@/lib/uuid";
 
@@ -99,9 +99,12 @@ export default function New() {
   };
 
   const createCommunity = async () => {
-    if (!checkError()) return;
+    if (!checkError() || !authInfo) return;
     //コミュニティを登録する。
     await setDoc(doc(db, "community", newCom.id), newCom);
+    await updateDoc(doc(db, "users", authInfo.id), {
+      belongCommunity: arrayUnion(newCom.id),
+    });
     router.back();
   };
 
