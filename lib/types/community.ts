@@ -46,7 +46,7 @@ export type messageType = {
   user: string;
   val: string;
 };
-const isMessageType = (val: any): val is messageType => {
+export const isMessageType = (val: any): val is messageType => {
   return (
     typeof val.createdAt == "number" &&
     typeof val.room == "string" &&

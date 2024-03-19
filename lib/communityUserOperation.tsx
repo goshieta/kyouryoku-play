@@ -1,6 +1,6 @@
 import { communityType, userType } from "@/lib/types/community";
 import { db } from "@/lib/firebase/client";
-import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 
 export const addUserInComunity = async (
   userData: userType,
