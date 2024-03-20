@@ -24,6 +24,7 @@ export default function Filter({
       e.target.value === "oldest"
     ) {
       setSearchOption(e.target.value);
+      setSearchString("");
     }
   };
 
@@ -35,6 +36,9 @@ export default function Filter({
           placeholder="検索"
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onSearchClicked();
+          }}
         />
         <button onClick={onSearchClicked}>
           <img src="/navigation/search.svg" alt="検索" width={16} height={16} />

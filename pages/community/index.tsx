@@ -14,6 +14,7 @@ import {
   limit,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -27,6 +28,7 @@ export default function CommunityAll() {
   const [communityInfo, setCommunityInfo] = useState<
     communityType[] | undefined
   >(undefined);
+  const [isLast, setIsLast] = useState(false);
 
   const getCommunityInfo = async () => {
     const communitesRef = collection(db, "community");
@@ -57,6 +59,7 @@ export default function CommunityAll() {
         newCommunityInfo.push(data);
       }
     });
+    setIsLast(false);
     setCommunityInfo(newCommunityInfo);
   };
 
@@ -71,7 +74,6 @@ export default function CommunityAll() {
       return;
     }
     const result = await searchNgram(searchString, "searchCommunity");
-    console.log(result);
     setSearchOption(undefined);
     const newCommunitys: communityType[] = [];
     for (let i = 0; i < result.length; i++) {
@@ -83,6 +85,52 @@ export default function CommunityAll() {
       }
     }
     setCommunityInfo(newCommunitys);
+  };
+
+  const moreRead = async () => {
+    if (!communityInfo) return;
+    const communitesRef = collection(db, "community");
+    const queryLimit = limit(5);
+    let q: Query | undefined = undefined;
+    const communityLast = communityInfo[communityInfo.length - 1];
+    switch (searchOption) {
+      case "latest":
+        q = query(
+          communitesRef,
+          orderBy("createdAt", "desc"),
+          where("createdAt", "<", communityLast.createdAt),
+          queryLimit
+        );
+        break;
+      case "oldest":
+        q = query(
+          communitesRef,
+          orderBy("createdAt", "asc"),
+          where("createdAt", ">", communityLast.createdAt),
+          queryLimit
+        );
+        break;
+      case "popular":
+        q = query(
+          communitesRef,
+          orderBy("peopleNumber", "desc"),
+          orderBy("createdAt", "desc"),
+          where("peopleNumber", "<=", communityLast.peopleNumber),
+          where("createdAt", "<", communityLast.createdAt),
+          queryLimit
+        );
+        break;
+    }
+    const querySnapshot = await getDocs(q!);
+    const newCommunityInfo: communityType[] = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (isCommunityType(data)) {
+        newCommunityInfo.push(data);
+      }
+    });
+    if (newCommunityInfo.length < 5) setIsLast(true);
+    setCommunityInfo([...communityInfo, ...newCommunityInfo]);
   };
 
   return (
@@ -113,6 +161,11 @@ export default function CommunityAll() {
           ))
         ) : (
           <Loading></Loading>
+        )}
+        {searchOption && !isLast ? (
+          <button onClick={moreRead}>さらに読み込む</button>
+        ) : (
+          <></>
         )}
       </div>
     </div>
