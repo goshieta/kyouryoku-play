@@ -1,7 +1,7 @@
 import styles from "@/styles/components/community.module.css";
 import { ChangeEvent } from "react";
 
-export type Options = "popular" | "latest" | "oldest";
+export type Options = "popular" | "latest" | "oldest" | undefined;
 
 //コミュニティ検索用のダイアログ
 export default function Filter({
@@ -9,11 +9,13 @@ export default function Filter({
   setSearchString,
   searchOption,
   setSearchOption,
+  onSearchClicked,
 }: {
   searchString: string;
   setSearchString: (val: string) => void;
   searchOption: Options;
   setSearchOption: (val: Options) => void;
+  onSearchClicked: () => void;
 }) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (
@@ -34,7 +36,7 @@ export default function Filter({
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
         />
-        <button>
+        <button onClick={onSearchClicked}>
           <img src="/navigation/search.svg" alt="検索" width={16} height={16} />
         </button>
       </div>

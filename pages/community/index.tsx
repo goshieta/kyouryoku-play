@@ -4,9 +4,12 @@ import Loading from "@/components/tips/loading";
 import { db } from "@/lib/firebase/client";
 import styles from "@/styles/components/community.module.css";
 import { communityType, isCommunityType } from "@/lib/types/communityType";
+import { searchNgram } from "@/lib/firebase/ngram";
 import {
   Query,
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -61,6 +64,27 @@ export default function CommunityAll() {
     getCommunityInfo();
   }, [searchString, searchOption]);
 
+  const searchFromString = async () => {
+    if (searchString === "") return;
+    if (searchString.length === 1) {
+      alert("1文字じゃ検索できん。2文字以上入力して。");
+      return;
+    }
+    const result = await searchNgram(searchString, "searchCommunity");
+    console.log(result);
+    setSearchOption(undefined);
+    const newCommunitys: communityType[] = [];
+    for (let i = 0; i < result.length; i++) {
+      const oneID = result[i];
+      const docRef = await getDoc(doc(db, "community", oneID));
+      const docData = docRef.data();
+      if (isCommunityType(docData)) {
+        newCommunitys.push(docData);
+      }
+    }
+    setCommunityInfo(newCommunitys);
+  };
+
   return (
     <div id={styles.parent}>
       <h1>コミュニティ</h1>
@@ -70,6 +94,7 @@ export default function CommunityAll() {
           setSearchString={setSearchString}
           searchOption={searchOption}
           setSearchOption={setSearchOption}
+          onSearchClicked={searchFromString}
         ></Filter>
       </div>
       <div id={styles.add}>

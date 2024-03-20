@@ -34,13 +34,13 @@ body {
 @media (prefers-color-scheme: dark) {
   :root {
     --font-color: #dcd7eb;
-    --pale-font-color: rgb(166, 156, 201);
+    --pale-font-color: rgb(208, 191, 255);
     --background-color: #000b22;
     --alpha-background-color: #000b22e5;
     --special-bg: #00173c;
     --alert-bg: rgb(66, 0, 0);
-    --white: rgb(255, 255, 255);
-    --green: rgb(38, 130, 98);
+    --white: rgb(214, 214, 214);
+    --green: rgb(0, 182, 130);
 
     --theme-color-level-1: #002a6e;
     --theme-color-level-2: #000f7d;

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import createUUID from "@/lib/uuid";
+import setNgram from "@/lib/firebase/ngram";
 
 export default function New() {
   const authInfo = useAuth();
@@ -106,6 +107,8 @@ export default function New() {
     await updateDoc(doc(db, "users", authInfo.id), {
       belongCommunity: arrayUnion(newCom.id),
     });
+    //コミュニティの説明の全文検索用のドキュメントを作成させる。
+    setNgram(newCom.id, "searchCommunity", [newCom.name, newCom.description]);
     router.back();
   };
 
