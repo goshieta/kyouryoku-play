@@ -12,7 +12,13 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   communityType,
   isCommunityType,
@@ -22,10 +28,11 @@ import {
 } from "@/lib/types/communityType";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
 import styles from "@/styles/components/chatroom.module.css";
+import OneMessage from "@/components/community/oneMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import PostMessageUI from "@/components/community/room/postMessage";
 import NavigationAreaUI from "@/components/community/room/navigationArea";
-import MessageArea from "@/components/community/room/messageArea";
+import InfiniteScroll from "@/components/community/infiniteScroll/componentForScroll";
 
 export type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
@@ -49,6 +56,12 @@ export default function Room() {
   const [usersInfo, setUsersInfo] = useState<{
     [key: string]: pubUserDataType;
   } | null>(null);
+
+  //trueの時常にスクロールバーを一番下にする。
+  const [isBottom, setIsBottom] = useState<boolean | null>(null);
+  const scrollBottomRef = useRef<HTMLDivElement>(null);
+  const gotoBottom = (behavior: ScrollBehavior) =>
+    scrollBottomRef.current?.scrollIntoView({ behavior: behavior });
 
   useEffect(() => {
     //部屋の情報の取得
@@ -186,6 +199,11 @@ export default function Room() {
       }
     };
     getUsersInfo();
+    if (isBottom || isBottom === null) {
+      gotoBottom(isBottom ? "smooth" : "instant");
+      if (isBottom === null && messages && messages.length > 2)
+        setIsBottom(true);
+    }
   }, [messages]);
 
   //追加で読み込む
@@ -208,6 +226,13 @@ export default function Room() {
 
   const normalRoom = (
     <div id={styles.roomParent}>
+      <button
+        id={styles.gotoBottom}
+        onClick={() => gotoBottom("smooth")}
+        style={{ display: isBottom ? "none" : "flex" }}
+      >
+        <span className="material-symbols-outlined">keyboard_arrow_down</span>
+      </button>
       <div id={styles.topArea}>
         {roomInfo ? (
           <NavigationAreaUI roomInfo={roomInfo}></NavigationAreaUI>
@@ -216,7 +241,28 @@ export default function Room() {
         )}
       </div>
       <div id={styles.messageArea}>
-        <MessageArea></MessageArea>
+        {messages ? (
+          <InfiniteScroll
+            data={messages.map((oneMessage) => {
+              const data = oneMessage.data();
+              if (!isMessageType(data) || usersInfo === null) {
+                return <React.Fragment key={oneMessage.id}></React.Fragment>;
+              }
+              return (
+                <OneMessage
+                  messageInfo={data}
+                  key={oneMessage.id}
+                  usersInfo={usersInfo}
+                  setUsersInfo={setUsersInfo}
+                  communityAdmin={roomInfo?.admin!}
+                ></OneMessage>
+              );
+            })}
+            moreLoad={readMore}
+          />
+        ) : (
+          <></>
+        )}
       </div>
       <div id={styles.footArea}>
         <PostMessageUI roomInfo={roomInfo ? roomInfo : undefined} />
