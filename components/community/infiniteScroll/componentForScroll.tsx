@@ -1,4 +1,5 @@
 import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
+import styles from "@/styles/components/chatroom.module.css";
 
 //チャットのために実装。上方向に無限スクロール。仮想スクロールも取り入れる。
 export default function InfiniteScroll({
@@ -8,24 +9,39 @@ export default function InfiniteScroll({
   data: ReactElement[];
   moreLoad: () => void;
 }) {
-  const forScrollToBottom = useRef<HTMLDivElement>(null);
+  const [isTop, setIsTop] = useState<boolean>(true);
 
-  const [isBottom, setIsBottom] = useState<boolean | null>(null);
-
-  const gotoBottom = useCallback(
+  const gotoTop = useCallback(
     (behavior: ScrollBehavior) =>
-      forScrollToBottom.current?.scrollIntoView({ behavior: behavior }),
+      window.scrollTo({ top: 0, behavior: "smooth" }),
     []
   );
 
   useEffect(() => {
-    if (isBottom === null || isBottom) gotoBottom("smooth");
-  });
+    const updateIsTop = () => {
+      const scrollPostion = window.scrollY;
+      if (scrollPostion === 0) setIsTop(true);
+      else setIsTop(false);
+    };
+    window.addEventListener("scroll", updateIsTop);
+    return () => window.removeEventListener("scroll", updateIsTop);
+  }, []);
 
   return (
-    <div>
-      {data}
-      <div ref={forScrollToBottom}></div>
+    <div id={styles.infiniteScrollParent}>
+      <div id={styles.fixedArea}>
+        <button
+          id={styles.gotoTop}
+          onClick={() => gotoTop("smooth")}
+          style={{ display: isTop ? "none" : "block" }}
+        >
+          <span className="material-symbols-outlined">expand_less</span>
+        </button>
+      </div>
+      <div id={styles.dataParent}>
+        <button>さらに読み込む</button>
+        {data}
+      </div>
     </div>
   );
 }
