@@ -105,6 +105,17 @@
   border-radius: 5px;
 }
 
+#showTop {
+  width: fit-content;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 5px;
+}
+
 #inputArea {
   display: flex;
   gap: 20px;
@@ -156,10 +167,12 @@
 }
 
 #messageArea {
-  max-width: 700px;
   margin: 0 auto;
-  margin-top: 150px;
-  margin-bottom: 100px;
+}
+#messageArea canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .message {
   margin: 30px 0;
