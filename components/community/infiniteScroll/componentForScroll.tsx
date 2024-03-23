@@ -5,9 +5,11 @@ import styles from "@/styles/components/chatroom.module.css";
 export default function InfiniteScroll({
   data,
   moreLoad,
+  isCanReadMore,
 }: {
   data: ReactElement[];
   moreLoad: () => void;
+  isCanReadMore: boolean;
 }) {
   const [isTop, setIsTop] = useState<boolean>(true);
 
@@ -39,8 +41,15 @@ export default function InfiniteScroll({
         </button>
       </div>
       <div id={styles.dataParent}>
-        <button>さらに読み込む</button>
-        {data}
+        {data}{" "}
+        {isCanReadMore ? (
+          <button onClick={moreLoad}>
+            <span className="material-symbols-outlined">expand_more</span>
+            さらに読み込む
+          </button>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

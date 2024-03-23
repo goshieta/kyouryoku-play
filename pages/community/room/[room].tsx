@@ -52,10 +52,13 @@ export default function Room() {
   const [messages, setMessages] = useState<
     QueryDocumentSnapshot<DocumentData, DocumentData>[] | undefined
   >(undefined);
+  const [lastMessageTime, setLastMessageTime] = useState(0);
 
   const [usersInfo, setUsersInfo] = useState<{
     [key: string]: pubUserDataType;
   } | null>(null);
+
+  const [isCanReadMore, setIsCanReadMore] = useState(false);
 
   //trueの時常にスクロールバーを一番下にする。
   const [isBottom, setIsBottom] = useState<boolean | null>(null);
@@ -87,6 +90,8 @@ export default function Room() {
       );
       const querySnapshot = await getDocs(q);
       reload(querySnapshot);
+      if (querySnapshot.size < 20) setIsCanReadMore(false);
+      else setIsCanReadMore(true);
     };
 
     getRoomInfo().then((result) => {
@@ -122,10 +127,14 @@ export default function Room() {
     querySnapshot.forEach((oneDoc) => documentArray.push(oneDoc));
     documentArray.reverse();
     if (!messages) {
-      setMessages(documentArray);
+      const revercedDocumentArray = documentArray.reverse();
+      setMessages(revercedDocumentArray);
+      if (documentArray.length === 0) return;
+      const lastData = documentArray[documentArray.length - 1].data();
+      if (isMessageType(lastData)) setLastMessageTime(lastData.createdAt);
       return;
     }
-    const defaultMessagesArray = messages ? messages : [];
+    const defaultMessagesArray = messages ? messages.reverse() : [];
     const newMessageArray: QueryDocumentSnapshot<DocumentData, DocumentData>[] =
       [];
 
@@ -173,7 +182,12 @@ export default function Room() {
         }
       }
     }
-    setMessages(newMessageArray);
+
+    const revercedNewMessageArray = newMessageArray.reverse();
+    setMessages(revercedNewMessageArray);
+    if (newMessageArray.length === 0) return;
+    const lastData = newMessageArray[newMessageArray.length - 1].data();
+    if (isMessageType(lastData)) setLastMessageTime(lastData.createdAt);
   };
 
   //通信量を抑えるためにここでユーザーデータを最初に取得する
@@ -208,9 +222,6 @@ export default function Room() {
 
   //追加で読み込む
   const readMore = useCallback(async () => {
-    if (!messages) return;
-    const firstData = messages[0].data();
-    if (!isMessageType(firstData)) return;
     const messageRef = collection(db, "message");
     const queryLimit = limit(20);
     const q = query(
@@ -218,11 +229,12 @@ export default function Room() {
       orderBy("createdAt", "desc"),
       queryLimit,
       where("room", "==", roomID),
-      where("createdAt", "<", firstData.createdAt)
+      where("createdAt", "<", lastMessageTime)
     );
     const querySnapshot = await getDocs(q);
-    reload(querySnapshot);
-  }, []);
+    setSnapshot(querySnapshot);
+    if (querySnapshot.size < 20) setIsCanReadMore(false);
+  }, [roomID, lastMessageTime]);
 
   const normalRoom = (
     <div id={styles.roomParent}>
@@ -259,6 +271,7 @@ export default function Room() {
               );
             })}
             moreLoad={readMore}
+            isCanReadMore={isCanReadMore}
           />
         ) : (
           <></>
