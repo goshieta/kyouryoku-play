@@ -33,6 +33,7 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import PostMessageUI from "@/components/community/room/postMessage";
 import NavigationAreaUI from "@/components/community/room/navigationArea";
 import InfiniteScroll from "@/components/community/infiniteScroll/componentForScroll";
+import Head from "next/head";
 
 export type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
@@ -59,12 +60,6 @@ export default function Room() {
   } | null>(null);
 
   const [isCanReadMore, setIsCanReadMore] = useState(false);
-
-  //trueの時常にスクロールバーを一番下にする。
-  const [isBottom, setIsBottom] = useState<boolean | null>(null);
-  const scrollBottomRef = useRef<HTMLDivElement>(null);
-  const gotoBottom = (behavior: ScrollBehavior) =>
-    scrollBottomRef.current?.scrollIntoView({ behavior: behavior });
 
   useEffect(() => {
     //部屋の情報の取得
@@ -213,11 +208,6 @@ export default function Room() {
       }
     };
     getUsersInfo();
-    if (isBottom || isBottom === null) {
-      gotoBottom(isBottom ? "smooth" : "instant");
-      if (isBottom === null && messages && messages.length > 2)
-        setIsBottom(true);
-    }
   }, [messages]);
 
   //追加で読み込む
@@ -237,50 +227,50 @@ export default function Room() {
   }, [roomID, lastMessageTime]);
 
   const normalRoom = (
-    <div id={styles.roomParent}>
-      <button
-        id={styles.gotoBottom}
-        onClick={() => gotoBottom("smooth")}
-        style={{ display: isBottom ? "none" : "flex" }}
-      >
-        <span className="material-symbols-outlined">keyboard_arrow_down</span>
-      </button>
-      <div id={styles.topArea}>
-        {roomInfo ? (
-          <NavigationAreaUI roomInfo={roomInfo}></NavigationAreaUI>
-        ) : (
-          <></>
-        )}
+    <>
+      <Head>
+        <title>
+          {roomInfo ? roomInfo.name : "存在しない部屋"} | 峡緑プレイ
+        </title>
+      </Head>
+      <div id={styles.roomParent}>
+        <div id={styles.topArea}>
+          {roomInfo ? (
+            <NavigationAreaUI roomInfo={roomInfo}></NavigationAreaUI>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div id={styles.messageArea}>
+          {messages ? (
+            <InfiniteScroll
+              data={messages.map((oneMessage) => {
+                const data = oneMessage.data();
+                if (!isMessageType(data) || usersInfo === null) {
+                  return <React.Fragment key={oneMessage.id}></React.Fragment>;
+                }
+                return (
+                  <OneMessage
+                    messageInfo={data}
+                    key={oneMessage.id}
+                    usersInfo={usersInfo}
+                    setUsersInfo={setUsersInfo}
+                    communityAdmin={roomInfo?.admin!}
+                  ></OneMessage>
+                );
+              })}
+              moreLoad={readMore}
+              isCanReadMore={isCanReadMore}
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+        <div id={styles.footArea}>
+          <PostMessageUI roomInfo={roomInfo ? roomInfo : undefined} />
+        </div>
       </div>
-      <div id={styles.messageArea}>
-        {messages ? (
-          <InfiniteScroll
-            data={messages.map((oneMessage) => {
-              const data = oneMessage.data();
-              if (!isMessageType(data) || usersInfo === null) {
-                return <React.Fragment key={oneMessage.id}></React.Fragment>;
-              }
-              return (
-                <OneMessage
-                  messageInfo={data}
-                  key={oneMessage.id}
-                  usersInfo={usersInfo}
-                  setUsersInfo={setUsersInfo}
-                  communityAdmin={roomInfo?.admin!}
-                ></OneMessage>
-              );
-            })}
-            moreLoad={readMore}
-            isCanReadMore={isCanReadMore}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
-      <div id={styles.footArea}>
-        <PostMessageUI roomInfo={roomInfo ? roomInfo : undefined} />
-      </div>
-    </div>
+    </>
   );
 
   return (

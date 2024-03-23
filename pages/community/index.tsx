@@ -18,6 +18,7 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 //コミュニティグループの一覧画面
 export default function CommunityAll() {
@@ -134,40 +135,45 @@ export default function CommunityAll() {
   };
 
   return (
-    <div id={styles.parent}>
-      <h1>コミュニティ</h1>
-      <div id={styles.top}>
-        <Filter
-          searchString={searchString}
-          setSearchString={setSearchString}
-          searchOption={searchOption}
-          setSearchOption={setSearchOption}
-          onSearchClicked={searchFromString}
-        ></Filter>
+    <>
+      <Head>
+        <title>コミュニティ | 峡緑プレイ</title>
+      </Head>
+      <div id={styles.parent}>
+        <h1>コミュニティ</h1>
+        <div id={styles.top}>
+          <Filter
+            searchString={searchString}
+            setSearchString={setSearchString}
+            searchOption={searchOption}
+            setSearchOption={setSearchOption}
+            onSearchClicked={searchFromString}
+          ></Filter>
+        </div>
+        <div id={styles.add}>
+          <Link href="./community/new">
+            <span className="material-symbols-outlined">add</span>
+            コミュニティを作成
+          </Link>
+        </div>
+        <div id={styles.bottom}>
+          {communityInfo ? (
+            communityInfo.map((oneCommunity) => (
+              <CommunityCard
+                communityInfo={oneCommunity}
+                key={oneCommunity.name}
+              ></CommunityCard>
+            ))
+          ) : (
+            <Loading></Loading>
+          )}
+          {searchOption && !isLast ? (
+            <button onClick={moreRead}>さらに読み込む</button>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
-      <div id={styles.add}>
-        <Link href="./community/new">
-          <span className="material-symbols-outlined">add</span>
-          コミュニティを作成
-        </Link>
-      </div>
-      <div id={styles.bottom}>
-        {communityInfo ? (
-          communityInfo.map((oneCommunity) => (
-            <CommunityCard
-              communityInfo={oneCommunity}
-              key={oneCommunity.name}
-            ></CommunityCard>
-          ))
-        ) : (
-          <Loading></Loading>
-        )}
-        {searchOption && !isLast ? (
-          <button onClick={moreRead}>さらに読み込む</button>
-        ) : (
-          <></>
-        )}
-      </div>
-    </div>
+    </>
   );
 }
