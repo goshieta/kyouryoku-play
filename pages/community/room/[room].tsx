@@ -12,13 +12,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import {
   communityType,
   isCommunityType,
@@ -34,6 +28,7 @@ import PostMessageUI from "@/components/community/room/postMessage";
 import NavigationAreaUI from "@/components/community/room/navigationArea";
 import InfiniteScroll from "@/components/community/infiniteScroll/componentForScroll";
 import Head from "next/head";
+import RoomInfo from "@/components/community/room/roomInfo";
 
 export type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
@@ -58,6 +53,7 @@ export default function Room() {
   const [usersInfo, setUsersInfo] = useState<{
     [key: string]: pubUserDataType;
   } | null>(null);
+  const [isShowRoomInfo, setIsShowRoomInfo] = useState(false);
 
   const [isCanReadMore, setIsCanReadMore] = useState(false);
 
@@ -233,10 +229,19 @@ export default function Room() {
           {roomInfo ? roomInfo.name : "存在しない部屋"} | 峡緑プレイ
         </title>
       </Head>
+      {isShowRoomInfo && roomInfo ? (
+        <RoomInfo roomInfo={roomInfo}></RoomInfo>
+      ) : (
+        <></>
+      )}
       <div id={styles.roomParent}>
         <div id={styles.topArea}>
           {roomInfo ? (
-            <NavigationAreaUI roomInfo={roomInfo}></NavigationAreaUI>
+            <NavigationAreaUI
+              roomInfo={roomInfo}
+              isShowRoomInfo={isShowRoomInfo}
+              setIsShowRoomInfo={setIsShowRoomInfo}
+            ></NavigationAreaUI>
           ) : (
             <></>
           )}

@@ -1,0 +1,81 @@
+import { useAuth } from "@/components/context/auth";
+import { db } from "@/lib/firebase/client";
+import { isPubUserDataType, pubUserDataType } from "@/lib/types/communityType";
+import { roomInfoType } from "@/pages/community/room/[room]";
+import styles from "@/styles/components/roomInfo.module.css";
+import { doc, getDoc } from "firebase/firestore";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+
+export default function RoomInfo({ roomInfo }: { roomInfo: roomInfoType }) {
+  const [userInfo, setUserInfo] = useState<pubUserDataType[] | undefined>(
+    undefined
+  );
+  const thisUserInfo = useAuth();
+
+  const getUserInfo = useCallback(async () => {
+    const results = [];
+    for (let userId of roomInfo.people) {
+      results.push(getDoc(doc(db, "pubUsers", userId)));
+    }
+
+    const newUserInfo: pubUserDataType[] = [];
+    (await Promise.all(results)).forEach((oneDoc) => {
+      const data = oneDoc.data();
+      if (isPubUserDataType(data)) newUserInfo.push(data);
+    });
+
+    setUserInfo(newUserInfo);
+  }, [roomInfo]);
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  return (
+    <div id={styles.parent}>
+      <div id={styles.modal}>
+        <div id={styles.roomBasicInfo}>
+          <h2>{roomInfo.name}</h2>
+          <p>{roomInfo.description}</p>
+          <div id={styles.topic}>
+            <p>テーマ : </p>
+            <p>{roomInfo.topic}</p>
+          </div>
+        </div>
+        <div id={styles.roomUserInfo}>
+          {userInfo?.map((oneUser) => {
+            return (
+              <div key={oneUser.id} id={styles.oneUser}>
+                <div id={styles.oneUserDesc}>
+                  <Image
+                    src={oneUser.photoURL}
+                    width={30}
+                    height={30}
+                    alt={`${oneUser.name}の画像`}
+                  ></Image>
+                  <p>{oneUser.name}</p>
+                  {oneUser.id === roomInfo.admin ? (
+                    <p id={styles.admin}>オーナー</p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <div id={styles.oneUserOperation}>
+                  {thisUserInfo?.id === roomInfo.admin ? (
+                    <button id={styles.userDelete}>削除</button>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div id={styles.buttonArea}>
+          <button>閉じる</button>
+        </div>
+      </div>
+    </div>
+  );
+}

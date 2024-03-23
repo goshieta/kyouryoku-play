@@ -1,0 +1,83 @@
+#parent {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--back-shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#modal {
+  background-color: var(--special-bg);
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  flex-flow: column;
+}
+
+#roomBasicInfo h2 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+#topic {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#roomBasicInfo > p {
+  color: var(--pale-font-color);
+}
+#topic p:last-child {
+  background-color: var(--green);
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+#oneUser {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+#oneUserDesc {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+#oneUserDesc p {
+  color: var(--pale-font-color);
+}
+#oneUserDesc img {
+  border-radius: 50%;
+}
+#oneUserOperation {
+  margin-left: auto;
+}
+#admin {
+  background-color: var(--green);
+  height: 22px;
+  line-height: 22px;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+#userDelete {
+  width: 80px;
+  height: 30px;
+  border-radius: 3px;
+  background-color: var(--red);
+}
+#userDelete:hover {
+  background-color: var(--red-2);
+}
+#userDelete:active {
+  background-color: var(--red-3);
+}
+
+#buttonArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

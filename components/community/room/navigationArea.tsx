@@ -4,8 +4,12 @@ import { useRouter } from "next/router";
 
 export default function NavigationAreaUI({
   roomInfo,
+  isShowRoomInfo,
+  setIsShowRoomInfo,
 }: {
   roomInfo: communityType;
+  isShowRoomInfo: boolean;
+  setIsShowRoomInfo: (newValue: boolean) => void;
 }) {
   const router = useRouter();
   return (
@@ -13,9 +17,12 @@ export default function NavigationAreaUI({
       <button id={styles.naviBack} onClick={() => router.back()}>
         <span className="material-symbols-outlined">arrow_back_ios</span>
       </button>
-      <div className={styles.iconArea}>
+      <button
+        className={styles.iconArea}
+        onClick={() => setIsShowRoomInfo(!isShowRoomInfo)}
+      >
         <p>{roomInfo.icon}</p>
-      </div>
+      </button>
       <h1 id={styles.titleDesc}>{roomInfo.name}</h1>
       <p id={styles.roomDesc}>{roomInfo.description}</p>
       <h2>{roomInfo.topic}</h2>
