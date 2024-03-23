@@ -230,7 +230,10 @@ export default function Room() {
         </title>
       </Head>
       {isShowRoomInfo && roomInfo ? (
-        <RoomInfo roomInfo={roomInfo}></RoomInfo>
+        <RoomInfo
+          roomInfo={roomInfo}
+          setIsShowModalWindow={setIsShowRoomInfo}
+        ></RoomInfo>
       ) : (
         <></>
       )}

@@ -17,6 +17,8 @@
   display: flex;
   gap: 20px;
   flex-flow: column;
+  min-width: 300px;
+  max-width: 800px;
 }
 
 #roomBasicInfo h2 {
@@ -37,6 +39,14 @@
   border-radius: 3px;
 }
 
+#roomUserInfo {
+  height: 30vh;
+  overflow: scroll;
+}
+#roomUserInfo::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 #oneUser {
   display: flex;
   align-items: center;

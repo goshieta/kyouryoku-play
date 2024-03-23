@@ -7,7 +7,13 @@ import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
-export default function RoomInfo({ roomInfo }: { roomInfo: roomInfoType }) {
+export default function RoomInfo({
+  roomInfo,
+  setIsShowModalWindow,
+}: {
+  roomInfo: roomInfoType;
+  setIsShowModalWindow: (newVal: boolean) => void;
+}) {
   const [userInfo, setUserInfo] = useState<pubUserDataType[] | undefined>(
     undefined
   );
@@ -73,7 +79,7 @@ export default function RoomInfo({ roomInfo }: { roomInfo: roomInfoType }) {
           })}
         </div>
         <div id={styles.buttonArea}>
-          <button>閉じる</button>
+          <button onClick={() => setIsShowModalWindow(false)}>閉じる</button>
         </div>
       </div>
     </div>
