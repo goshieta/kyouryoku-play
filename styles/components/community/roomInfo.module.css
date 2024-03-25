@@ -90,4 +90,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+}
+#buttonArea button {
+  width: 100px;
+  height: 40px;
+}
+#byby {
+  background-color: var(--red);
+}
+#byby:hover {
+  background-color: var(--red-2);
+}
+#byby:active {
+  background-color: var(--red-3);
 }

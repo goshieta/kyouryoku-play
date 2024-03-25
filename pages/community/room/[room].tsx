@@ -21,7 +21,7 @@ import {
   isPubUserDataType,
 } from "@/lib/types/communityType";
 import ChatRoomLayhout from "@/components/layouts/chatRoomLayout";
-import styles from "@/styles/components/chatroom.module.css";
+import styles from "@/styles/components/community/chatroom.module.css";
 import OneMessage from "@/components/community/oneMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import PostMessageUI from "@/components/community/room/postMessage";

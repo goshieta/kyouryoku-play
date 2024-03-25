@@ -4,7 +4,7 @@ import {
   pubUserDataType,
   isPubUserDataType,
 } from "@/lib/types/communityType";
-import styles from "@/styles/components/chatroom.module.css";
+import styles from "@/styles/components/community/chatroom.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import { useEffect, useState } from "react";

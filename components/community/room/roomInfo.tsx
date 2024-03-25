@@ -1,8 +1,9 @@
 import { useAuth } from "@/components/context/auth";
+import useMessage from "@/components/tips/useMessage";
 import { db } from "@/lib/firebase/client";
 import { isPubUserDataType, pubUserDataType } from "@/lib/types/communityType";
 import { roomInfoType } from "@/pages/community/room/[room]";
-import styles from "@/styles/components/roomInfo.module.css";
+import styles from "@/styles/components/community/roomInfo.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
@@ -38,8 +39,11 @@ export default function RoomInfo({
     getUserInfo();
   }, []);
 
+  const [show, MessageDialog] = useMessage();
+
   return (
     <div id={styles.parent}>
+      <MessageDialog />
       <div id={styles.modal}>
         <div id={styles.roomBasicInfo}>
           <h2>{roomInfo.name}</h2>
@@ -80,6 +84,14 @@ export default function RoomInfo({
         </div>
         <div id={styles.buttonArea}>
           <button onClick={() => setIsShowModalWindow(false)}>閉じる</button>
+          <button
+            id={styles.byby}
+            onClick={() => {
+              show("info", "なんでもいいや").then((e) => console.log(e));
+            }}
+          >
+            退会
+          </button>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { roomInfoType } from "@/pages/community/room/[room]";
 import { messageType } from "@/lib/types/communityType";
 import { useState } from "react";
-import styles from "@/styles/components/chatroom.module.css";
+import styles from "@/styles/components/community/chatroom.module.css";
 import { addUserInComunity } from "@/lib/communityUserOperation";
 import { login } from "@/lib/auth";
 

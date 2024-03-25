@@ -1,5 +1,5 @@
 import { communityType } from "@/lib/types/communityType";
-import styles from "@/styles/components/chatroom.module.css";
+import styles from "@/styles/components/community/chatroom.module.css";
 import { useRouter } from "next/router";
 
 export default function NavigationAreaUI({

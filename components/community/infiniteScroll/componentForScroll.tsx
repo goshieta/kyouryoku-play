@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useEffect, useRef, useState } from "react";
-import styles from "@/styles/components/chatroom.module.css";
+import styles from "@/styles/components/community/chatroom.module.css";
 
 //チャットのために実装。上方向に無限スクロール。仮想スクロールも取り入れる。
 export default function InfiniteScroll({

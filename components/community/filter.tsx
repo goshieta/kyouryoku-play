@@ -1,4 +1,4 @@
-import styles from "@/styles/components/community.module.css";
+import styles from "@/styles/components/community/community.module.css";
 import { ChangeEvent } from "react";
 
 export type Options = "popular" | "latest" | "oldest" | undefined;

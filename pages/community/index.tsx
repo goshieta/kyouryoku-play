@@ -2,7 +2,7 @@ import CommunityCard from "@/components/community/communityCard";
 import Filter, { Options } from "@/components/community/filter";
 import Loading from "@/components/tips/loading";
 import { db } from "@/lib/firebase/client";
-import styles from "@/styles/components/community.module.css";
+import styles from "@/styles/components/community/community.module.css";
 import { communityType, isCommunityType } from "@/lib/types/communityType";
 import { searchNgram } from "@/lib/firebase/ngram";
 import {
