@@ -87,7 +87,10 @@ export default function RoomInfo({
           <button
             id={styles.byby}
             onClick={() => {
-              show("info", "なんでもいいや").then((e) => console.log(e));
+              show("error", `「${roomInfo.name}」から本当に退会しますか？`, [
+                { name: "キャンセル", value: "cancel", type: "cancel" },
+                { name: "退会", value: "byby" },
+              ]).then((mes) => console.log(mes));
             }}
           >
             退会

@@ -1,0 +1,94 @@
+#back {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--back-shadow);
+  animation: 0.2s show_back;
+}
+@keyframes show_back {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#messageParent {
+  padding: 30px 40px;
+  border-radius: 5px;
+  animation: 0.2s show_message;
+}
+@keyframes show_message {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+#messageParent.message_info {
+  background-color: var(--green-bg);
+}
+#messageParent.message_alert,
+#messageParent.message_error {
+  background-color: var(--red-bg);
+}
+
+#head {
+  text-align: center;
+}
+
+#infomation {
+  margin: 20px 0;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+#buttonArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#buttonArea button {
+  width: 100px;
+  height: 40px;
+  margin: 0;
+}
+#messageParent.message_info #buttonArea button {
+  background-color: var(--green);
+}
+#messageParent.message_info #buttonArea button:hover {
+  background-color: var(--green-2);
+}
+#messageParent.message_info #buttonArea button:active {
+  background-color: var(--green-3);
+}
+#messageParent.message_alert #buttonArea button,
+#messageParent.message_error #buttonArea button {
+  background-color: var(--red);
+}
+#messageParent.message_alert #buttonArea button:hover,
+#messageParent.message_error #buttonArea button:hover {
+  background-color: var(--red-2);
+}
+#messageParent.message_alert #buttonArea button:active,
+#messageParent.message_error #buttonArea button:active {
+  background-color: var(--red-3);
+}
+.message_button_type_cancel {
+  background-color: var(--gray) !important;
+}
+.message_button_type_cancel:hover {
+  background-color: var(--gray-2) !important;
+}
+.message_button_type_cancel:active {
+  background-color: var(--gray-3) !important;
+}

@@ -1,37 +1,47 @@
-import React, { MouseEvent, useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Message from "./message";
 
 export type messageType = "info" | "alert" | "error";
+export type messageButtonType = {
+  name: string;
+  value: string;
+  type?: "normal" | "cancel";
+};
 
 export default function useMessage() {
   const [messageType, setMessageType] = useState<messageType | undefined>(
     undefined
   );
   const [message, setMessage] = useState<string | undefined>(undefined);
-  const [button, setButton] = useState<string[] | undefined>(undefined);
+  const [button, setButton] = useState<messageButtonType[] | undefined>(
+    undefined
+  );
   const [visible, setVisible] = useState<boolean>(false);
 
   const [onButtonClicked, setOnButtonClicked] = useState<
-    ((e: any) => void) | undefined
+    ((value: string) => void) | undefined
   >(undefined);
 
   const show = useCallback(
-    async (messageType: messageType, message: string, button?: string[]) => {
+    async (
+      messageType: messageType,
+      message: string,
+      button?: messageButtonType[]
+    ) => {
       if (visible) return "error";
       setMessageType(messageType);
       setMessage(message);
-      setButton(button ? button : ["閉じる"]);
+      setButton(button ? button : [{ name: "閉じる", value: "close" }]);
       setVisible(true);
       return new Promise<string>((resolve) => {
-        const buttonClicked = (e: any) => {
-          if (e && e.target && typeof e.target.innerHTML === "string") {
-            setMessageType(undefined);
-            setMessage(undefined);
-            setButton(undefined);
-            setVisible(false);
-            resolve(e.target.innerHTML);
-          }
+        const buttonClicked = (value: string) => {
+          setMessageType(undefined);
+          setMessage(undefined);
+          setButton(undefined);
+          setVisible(false);
+          resolve(value);
         };
+        //直接関数を渡すとその関数が評価されてしまうので、ラップして渡す。
         setOnButtonClicked(() => buttonClicked);
       });
     },
@@ -57,7 +67,7 @@ export default function useMessage() {
     (
       messageType: messageType,
       message: string,
-      button?: string[]
+      button?: messageButtonType[]
     ) => Promise<string>,
     React.FC
   ] = [show, MessageDialog];
