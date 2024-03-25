@@ -36,15 +36,11 @@ export const addUserInComunity = async (
   return { state: true };
 };
 
-export const deleteUserOfCommunity = async ({
-  userData,
-  operationUserData,
-  communityData,
-}: {
-  userData: pubUserDataType;
-  operationUserData: userType;
-  communityData: communityType;
-}) => {
+export const deleteUserOfCommunity = async (
+  userData: pubUserDataType,
+  operationUserData: userType,
+  communityData: communityType
+) => {
   //コミュニティの情報とユーザーの情報両方を更新したい
   //もし他人により操作が行われているのであればブロック操作であると解釈する
   //対象ユーザーがコミュニティの管理者だった場合コミュニティごと削除する
@@ -60,6 +56,7 @@ export const deleteUserOfCommunity = async ({
     await updateDoc(doc(db, "community", communityData.id), {
       people: arrayRemove(userData.id),
       blackList: arrayUnion(userData.id),
+      peopleNumber: communityData.peopleNumber - 1,
     });
   } else {
     //通常の削除操作
@@ -69,6 +66,7 @@ export const deleteUserOfCommunity = async ({
     });
     await updateDoc(doc(db, "community", communityData.id), {
       people: arrayRemove(userData.id),
+      peopleNumber: communityData.peopleNumber - 1,
     });
   }
 };

@@ -1,11 +1,13 @@
 import { useAuth } from "@/components/context/auth";
 import useMessage from "@/components/tips/useMessage";
+import { deleteUserOfCommunity } from "@/lib/community/communityUserOperation";
 import { db } from "@/lib/firebase/client";
 import { isPubUserDataType, pubUserDataType } from "@/lib/types/communityType";
 import { roomInfoType } from "@/pages/community/room/[room]";
 import styles from "@/styles/components/community/roomInfo.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function RoomInfo({
@@ -19,6 +21,8 @@ export default function RoomInfo({
     undefined
   );
   const thisUserInfo = useAuth();
+  const isThisRoomAdmin = thisUserInfo?.id === roomInfo.admin;
+  const router = useRouter();
 
   const getUserInfo = useCallback(async () => {
     const results = [];
@@ -72,8 +76,39 @@ export default function RoomInfo({
                   )}
                 </div>
                 <div id={styles.oneUserOperation}>
-                  {thisUserInfo?.id === roomInfo.admin ? (
-                    <button id={styles.userDelete}>削除</button>
+                  {thisUserInfo?.id === roomInfo.admin &&
+                  oneUser.id !== roomInfo.admin ? (
+                    <button
+                      id={styles.userDelete}
+                      onClick={async () => {
+                        const result = await show(
+                          "alert",
+                          `ユーザー「${oneUser.name}」を本当に削除しますか？この操作は取り消すことができません。`,
+                          [
+                            {
+                              name: "キャンセル",
+                              value: "cancel",
+                              type: "cancel",
+                            },
+                            { name: "削除", value: "delete" },
+                          ]
+                        );
+                        if (result === "delete" && thisUserInfo) {
+                          await deleteUserOfCommunity(
+                            oneUser,
+                            thisUserInfo,
+                            roomInfo
+                          );
+                          await show(
+                            "info",
+                            `ユーザー「${oneUser.name}」を削除しました。`
+                          );
+                          window.location.reload();
+                        }
+                      }}
+                    >
+                      削除
+                    </button>
                   ) : (
                     <></>
                   )}
@@ -87,17 +122,40 @@ export default function RoomInfo({
           <button
             id={styles.byby}
             onClick={() => {
-              show("error", `「${roomInfo.name}」から本当に退会しますか？`, [
-                { name: "キャンセル", value: "cancel", type: "cancel" },
-                { name: "退会", value: "byby" },
-              ]).then((mes) => {
-                if (mes === "byby") {
+              show(
+                "error",
+                `「${roomInfo.name}」${
+                  isThisRoomAdmin
+                    ? "を本当に削除しますか？この操作は取り消すことが出来ません。"
+                    : "から本当に退会しますか？"
+                }`,
+                [
+                  { name: "キャンセル", value: "cancel", type: "cancel" },
+                  { name: isThisRoomAdmin ? "削除" : "退会", value: "byby" },
+                ]
+              ).then((mes) => {
+                if (mes === "byby" && thisUserInfo) {
                   //退会の処理を記述
+                  const byby = async () => {
+                    await deleteUserOfCommunity(
+                      thisUserInfo,
+                      thisUserInfo,
+                      roomInfo
+                    );
+                    await show(
+                      "info",
+                      `コミュニティ「${roomInfo.name}」${
+                        isThisRoomAdmin ? "を削除" : "から退会"
+                      }しました。`
+                    );
+                    router.back();
+                  };
+                  byby();
                 }
               });
             }}
           >
-            退会
+            {isThisRoomAdmin ? "削除" : "退会"}
           </button>
         </div>
       </div>
