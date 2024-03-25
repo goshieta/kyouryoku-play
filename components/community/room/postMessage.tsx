@@ -6,7 +6,7 @@ import { roomInfoType } from "@/pages/community/room/[room]";
 import { messageType } from "@/lib/types/communityType";
 import { useState } from "react";
 import styles from "@/styles/components/community/chatroom.module.css";
-import { addUserInComunity } from "@/lib/communityUserOperation";
+import { addUserInComunity } from "@/lib/community/communityUserOperation";
 import { login } from "@/lib/auth";
 
 export default function PostMessageUI({

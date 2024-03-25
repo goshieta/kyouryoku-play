@@ -2,7 +2,7 @@ import { communityType } from "@/lib/types/communityType";
 import styles from "@/styles/components/community/community.module.css";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/auth";
-import { addUserInComunity } from "@/lib/communityUserOperation";
+import { addUserInComunity } from "@/lib/community/communityUserOperation";
 
 //コミュニティ一覧に表示する一つのコミュニティのカード
 export default function CommunityCard({

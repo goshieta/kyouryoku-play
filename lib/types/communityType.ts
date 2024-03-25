@@ -7,6 +7,7 @@ export type communityType = {
   id: string;
   topic: string;
   people: string[];
+  blackList: string[];
   peopleNumber: number;
 };
 
@@ -20,6 +21,7 @@ export const isCommunityType = (arg: any): arg is communityType => {
     arg.id !== undefined &&
     typeof arg.topic === "string" &&
     typeof arg.people === "object" &&
+    typeof arg.blackList === "object" &&
     typeof arg.peopleNumber === "number"
   );
 };

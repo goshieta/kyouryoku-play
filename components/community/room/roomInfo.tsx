@@ -90,7 +90,11 @@ export default function RoomInfo({
               show("error", `「${roomInfo.name}」から本当に退会しますか？`, [
                 { name: "キャンセル", value: "cancel", type: "cancel" },
                 { name: "退会", value: "byby" },
-              ]).then((mes) => console.log(mes));
+              ]).then((mes) => {
+                if (mes === "byby") {
+                  //退会の処理を記述
+                }
+              });
             }}
           >
             退会

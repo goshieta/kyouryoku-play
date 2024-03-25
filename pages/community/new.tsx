@@ -28,6 +28,7 @@ export default function New() {
     id: createUUID(),
     topic: "",
     people: authInfo ? [authInfo.id] : [],
+    blackList: [],
     peopleNumber: 1,
   });
   type errorInfoType = {
