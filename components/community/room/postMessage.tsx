@@ -66,6 +66,8 @@ export default function PostMessageUI({
             const addUserInfo = await addUserInComunity(userInfo, roomInfo);
             if (addUserInfo.state) {
               window.location.reload();
+            } else {
+              alert(addUserInfo.error);
             }
           }}
         >

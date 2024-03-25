@@ -22,6 +22,9 @@ export const addUserInComunity = async (
   const isBelonged = communityData.people.includes(userData.id);
   if (isBelonged)
     return { state: false, error: "すでに所属しているコミュニティです" };
+  //ブラックリストに登録されていたらはじく
+  if (communityData.blackList.includes(userData.id))
+    return { state: false, error: "あなたはブロックされています。" };
 
   //コミュニティの情報に登録
   //データを更新する
