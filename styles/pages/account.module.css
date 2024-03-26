@@ -11,3 +11,51 @@
 #ai_image_area img {
   border-radius: 50%;
 }
+#editPhoto {
+  background-color: var(--background-color);
+  border: solid 3px var(--theme-color-level-1);
+  border-radius: 50%;
+  width: 110px;
+  height: 110px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+#editPhoto div {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--theme-color-level-1);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  bottom: 0;
+}
+#editPhoto:hover {
+  border: solid 3px var(--theme-color-level-2);
+  transition: 0.3s border;
+}
+#editPhoto:hover div {
+  background-color: var(--theme-color-level-2);
+  transition: 0.3s background-color;
+}
+
+#ai_desc_area div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+#ai_desc_area div button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+#ai_desc_area div button span {
+  font-size: 20px;
+}
