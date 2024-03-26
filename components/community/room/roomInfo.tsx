@@ -119,44 +119,48 @@ export default function RoomInfo({
         </div>
         <div id={styles.buttonArea}>
           <button onClick={() => setIsShowModalWindow(false)}>閉じる</button>
-          <button
-            id={styles.byby}
-            onClick={() => {
-              show(
-                "error",
-                `「${roomInfo.name}」${
-                  isThisRoomAdmin
-                    ? "を本当に削除しますか？この操作は取り消すことが出来ません。"
-                    : "から本当に退会しますか？"
-                }`,
-                [
-                  { name: "キャンセル", value: "cancel", type: "cancel" },
-                  { name: isThisRoomAdmin ? "削除" : "退会", value: "byby" },
-                ]
-              ).then((mes) => {
-                if (mes === "byby" && thisUserInfo) {
-                  //退会の処理を記述
-                  const byby = async () => {
-                    await deleteUserOfCommunity(
-                      thisUserInfo,
-                      thisUserInfo,
-                      roomInfo
-                    );
-                    await show(
-                      "info",
-                      `コミュニティ「${roomInfo.name}」${
-                        isThisRoomAdmin ? "を削除" : "から退会"
-                      }しました。`
-                    );
-                    router.back();
-                  };
-                  byby();
-                }
-              });
-            }}
-          >
-            {isThisRoomAdmin ? "削除" : "退会"}
-          </button>
+          {thisUserInfo && roomInfo.people.includes(thisUserInfo.id) ? (
+            <button
+              id={styles.byby}
+              onClick={() => {
+                show(
+                  "error",
+                  `「${roomInfo.name}」${
+                    isThisRoomAdmin
+                      ? "を本当に削除しますか？この操作は取り消すことが出来ません。"
+                      : "から本当に退会しますか？"
+                  }`,
+                  [
+                    { name: "キャンセル", value: "cancel", type: "cancel" },
+                    { name: isThisRoomAdmin ? "削除" : "退会", value: "byby" },
+                  ]
+                ).then((mes) => {
+                  if (mes === "byby" && thisUserInfo) {
+                    //退会の処理を記述
+                    const byby = async () => {
+                      await deleteUserOfCommunity(
+                        thisUserInfo,
+                        thisUserInfo,
+                        roomInfo
+                      );
+                      await show(
+                        "info",
+                        `コミュニティ「${roomInfo.name}」${
+                          isThisRoomAdmin ? "を削除" : "から退会"
+                        }しました。`
+                      );
+                      router.back();
+                    };
+                    byby();
+                  }
+                });
+              }}
+            >
+              {isThisRoomAdmin ? "削除" : "退会"}
+            </button>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>
