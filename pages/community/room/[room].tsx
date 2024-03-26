@@ -226,7 +226,7 @@ export default function Room() {
     <>
       <Head>
         <title>
-          {roomInfo ? roomInfo.name : "存在しない部屋"} | 峡緑プレイ
+          {`${roomInfo ? roomInfo.name : "存在しない部屋"} | 峡緑プレイ`}
         </title>
       </Head>
       {isShowRoomInfo && roomInfo ? (

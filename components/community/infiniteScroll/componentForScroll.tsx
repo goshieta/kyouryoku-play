@@ -41,9 +41,9 @@ export default function InfiniteScroll({
         </button>
       </div>
       <div id={styles.dataParent}>
-        {data}{" "}
+        {data}
         {isCanReadMore ? (
-          <button onClick={moreLoad}>
+          <button onClick={moreLoad} id={styles.moreLoad}>
             <span className="material-symbols-outlined">expand_more</span>
             さらに読み込む
           </button>

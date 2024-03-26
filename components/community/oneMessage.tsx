@@ -8,6 +8,7 @@ import styles from "@/styles/components/community/chatroom.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import MessageAction from "./messageAction";
 
 export default function OneMessage({
   messageInfo,
@@ -71,6 +72,7 @@ export default function OneMessage({
       <div className={styles.messageBody}>
         <p>{messageInfo.val}</p>
       </div>
+      <MessageAction messageInfo={messageInfo}></MessageAction>
     </div>
   );
 }

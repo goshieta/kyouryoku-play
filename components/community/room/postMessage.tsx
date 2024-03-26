@@ -38,6 +38,8 @@ export default function PostMessageUI({
       room: roomInfo.id,
       user: userInfo.id,
       val: message,
+      good: 0,
+      report: [],
     };
     await setDoc(doc(db, "message", createUUID()), newMessage);
     setMessage("");

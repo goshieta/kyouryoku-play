@@ -67,6 +67,8 @@ export type messageType = {
   room: string;
   user: string;
   val: string;
+  good: number;
+  report: string[];
 };
 export const isMessageType = (arg: any): arg is messageType => {
   return (
@@ -74,6 +76,8 @@ export const isMessageType = (arg: any): arg is messageType => {
     typeof arg.createdAt == "number" &&
     typeof arg.room == "string" &&
     typeof arg.user == "string" &&
-    typeof arg.val == "string"
+    typeof arg.val == "string" &&
+    typeof arg.good == "number" &&
+    typeof arg.report == "object"
   );
 };

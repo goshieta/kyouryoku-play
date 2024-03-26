@@ -120,7 +120,7 @@
   flex-direction: column;
   gap: 20px;
 }
-#dataParent button {
+#moreLoad {
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -240,4 +240,51 @@
 }
 .messageBody p {
   margin-top: 5px;
+}
+.messageAction {
+  display: flex;
+  justify-content: left;
+  gap: 15px;
+}
+.messageAction button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+}
+.messageAction button span {
+  font-size: 20px;
+}
+.messageActionGood:hover span {
+  color: var(--red-3);
+}
+.messageActionGood::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 26px;
+  height: 26px;
+  z-index: -1;
+  top: -2px;
+  left: 3px;
+  border-radius: 50%;
+}
+.messageActionGood:hover::before {
+  background: radial-gradient(var(--red), var(--background-color));
+  animation: 0.2s sunnyAnimation;
+}
+@keyframes sunnyAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.messageActionGood:active::before {
+  background: radial-gradient(var(--red), var(--red), var(--background-color));
 }
