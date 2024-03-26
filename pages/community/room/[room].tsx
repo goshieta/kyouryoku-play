@@ -29,6 +29,8 @@ import NavigationAreaUI from "@/components/community/room/navigationArea";
 import InfiniteScroll from "@/components/community/infiniteScroll/componentForScroll";
 import Head from "next/head";
 import RoomInfo from "@/components/community/room/roomInfo";
+import { useAuth } from "@/components/context/auth";
+import useMessage from "@/components/tips/useMessage";
 
 export type roomInfoType = communityType & {
   permissions: "readonly" | "readwrite";
@@ -56,6 +58,10 @@ export default function Room() {
   const [isShowRoomInfo, setIsShowRoomInfo] = useState(false);
 
   const [isCanReadMore, setIsCanReadMore] = useState(false);
+
+  const thisUser = useAuth();
+
+  const [show, Message] = useMessage();
 
   useEffect(() => {
     //部屋の情報の取得
@@ -229,6 +235,7 @@ export default function Room() {
           {`${roomInfo ? roomInfo.name : "存在しない部屋"} | 峡緑プレイ`}
         </title>
       </Head>
+      <Message />
       {isShowRoomInfo && roomInfo ? (
         <RoomInfo
           roomInfo={roomInfo}
@@ -261,9 +268,12 @@ export default function Room() {
                   <OneMessage
                     messageInfo={data}
                     key={oneMessage.id}
+                    id={oneMessage.id}
                     usersInfo={usersInfo}
                     setUsersInfo={setUsersInfo}
                     communityAdmin={roomInfo?.admin!}
+                    thisUserInfo={thisUser}
+                    show={show}
                   ></OneMessage>
                 );
               })}

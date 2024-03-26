@@ -9,19 +9,27 @@ import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import MessageAction from "./messageAction";
+import { userContextType } from "../context/auth";
+import { showFunctionType } from "../tips/useMessage";
 
 export default function OneMessage({
   messageInfo,
   usersInfo,
+  id,
   setUsersInfo,
   communityAdmin,
+  thisUserInfo,
+  show,
 }: {
   messageInfo: messageType;
   usersInfo: {
     [key: string]: pubUserDataType;
   };
+  id: string;
   setUsersInfo: (newInfo: { [key: string]: pubUserDataType }) => void;
   communityAdmin: string;
+  thisUserInfo: userContextType;
+  show: showFunctionType;
 }) {
   const [pubUserInfo, setPubUserInfo] = useState<pubUserDataType | null>(null);
   useEffect(() => {
@@ -72,7 +80,12 @@ export default function OneMessage({
       <div className={styles.messageBody}>
         <p>{messageInfo.val}</p>
       </div>
-      <MessageAction messageInfo={messageInfo}></MessageAction>
+      <MessageAction
+        messageInfo={messageInfo}
+        messageId={id}
+        userInfo={thisUserInfo}
+        show={show}
+      ></MessageAction>
     </div>
   );
 }

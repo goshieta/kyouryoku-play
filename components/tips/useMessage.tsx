@@ -8,6 +8,12 @@ export type messageButtonType = {
   type?: "normal" | "cancel";
 };
 
+export type showFunctionType = (
+  messageType: messageType,
+  message: string,
+  button?: messageButtonType[]
+) => Promise<string>;
+
 export default function useMessage() {
   const [messageType, setMessageType] = useState<messageType | undefined>(
     undefined
@@ -22,18 +28,14 @@ export default function useMessage() {
     ((value: string) => void) | undefined
   >(undefined);
 
-  const show = useCallback(
-    async (
-      messageType: messageType,
-      message: string,
-      button?: messageButtonType[]
-    ) => {
+  const show: showFunctionType = useCallback(
+    async (messageType, message, button) => {
       if (visible) return "error";
       setMessageType(messageType);
       setMessage(message);
       setButton(button ? button : [{ name: "閉じる", value: "close" }]);
       setVisible(true);
-      return new Promise<string>((resolve) => {
+      return new Promise((resolve) => {
         const buttonClicked = (value: string) => {
           setMessageType(undefined);
           setMessage(undefined);
@@ -63,14 +65,7 @@ export default function useMessage() {
     );
   }, [messageType, message, button, visible, onButtonClicked]);
 
-  const result: [
-    (
-      messageType: messageType,
-      message: string,
-      button?: messageButtonType[]
-    ) => Promise<string>,
-    React.FC
-  ] = [show, MessageDialog];
+  const result: [showFunctionType, React.FC] = [show, MessageDialog];
 
   return result;
 }

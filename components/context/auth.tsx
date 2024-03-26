@@ -10,7 +10,7 @@ import { auth, db } from "@/lib/firebase/client";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { pubUserDataType, userType } from "@/lib/types/communityType";
 
-type userContextType = userType | null | undefined;
+export type userContextType = userType | null | undefined;
 
 const AuthContext = createContext<userContextType>(undefined);
 

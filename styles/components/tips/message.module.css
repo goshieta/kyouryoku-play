@@ -9,6 +9,7 @@
   align-items: center;
   background-color: var(--back-shadow);
   animation: 0.2s show_back;
+  z-index: 500;
 }
 @keyframes show_back {
   0% {
