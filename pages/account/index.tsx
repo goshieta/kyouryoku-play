@@ -2,6 +2,7 @@ import { useAuth } from "@/components/context/auth";
 import { login, logout } from "@/lib/auth";
 import styles from "@/styles/pages/account.module.css";
 import Profile from "@/components/account/profile";
+import CommunityTip from "@/components/account/communityTips";
 
 export default function Account() {
   const authInfo = useAuth();
@@ -19,7 +20,7 @@ export default function Account() {
   return (
     <div id={styles.accountPage}>
       <Profile authInfo={authInfo}></Profile>
-      <div id={styles.communityTip}></div>
+      <CommunityTip authInfo={authInfo}></CommunityTip>
       <button onClick={logout}>ログアウト</button>
     </div>
   );
