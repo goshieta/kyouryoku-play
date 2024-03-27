@@ -7,6 +7,12 @@ const nextConfig = {
         hostname: "lh3.googleusercontent.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname: "/v0/b/kyouryoku-play.appspot.com/o/**",
+      },
     ],
   },
 };

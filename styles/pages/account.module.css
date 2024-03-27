@@ -48,6 +48,18 @@
   align-items: center;
   gap: 20px;
 }
+#ai_desc_area div input {
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
+  outline: none;
+  background-color: var(--background-color);
+}
+#ai_desc_area div input:read-write {
+  border-bottom: solid 2px var(--theme-color-level-2);
+  background-color: var(--special-bg);
+  padding: 5px 10px;
+}
 #ai_desc_area div button {
   display: flex;
   align-items: center;
