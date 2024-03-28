@@ -77,19 +77,21 @@
   font-size: 20px;
 }
 
+#allCommunityArea {
+  width: 90%;
+}
 #communityAreaTitle {
   text-align: center;
 }
 #communityTip {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 50px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 260px));
   margin-bottom: 50px;
   margin-top: 30px;
+  justify-content: center;
 }
 .oneCommunity {
-  width: 200px;
   display: flex;
   flex-flow: column;
   background-color: var(--special-bg);

@@ -35,7 +35,7 @@ export default function CommunityTip({ authInfo }: { authInfo: userType }) {
   }, []);
 
   return (
-    <div>
+    <div id={styles.allCommunityArea}>
       <h2 id={styles.communityAreaTitle}>所属しているコミュニティ</h2>
       <div id={styles.communityTip}>
         {communities?.map((oneCommunity) => (
