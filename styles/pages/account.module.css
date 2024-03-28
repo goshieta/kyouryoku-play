@@ -1,12 +1,17 @@
 #accountPage {
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 30px;
 }
 
 #accountInfo {
   display: flex;
   gap: 50px;
   margin-bottom: 50px;
+  width: fit-content;
 }
 #ai_image_area img {
   border-radius: 50%;
@@ -70,4 +75,107 @@
 }
 #ai_desc_area div button span {
   font-size: 20px;
+}
+
+#communityAreaTitle {
+  text-align: center;
+}
+#communityTip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+.oneCommunity {
+  width: 200px;
+  display: flex;
+  flex-flow: column;
+  background-color: var(--special-bg);
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+.caption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.iconArea {
+  width: 40px;
+  height: 40px;
+  background-color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.iconArea p {
+  color: black;
+  font-family: "游明朝", YuMincho, "Hiragino Mincho ProN", "HGS明朝E",
+    "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  font-weight: bold;
+}
+.caption h3 {
+  flex: 1;
+}
+.description {
+  color: var(--pale-font-color);
+  margin-top: 0;
+}
+.communityState {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.communityState p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+}
+.admin {
+  background-color: var(--green);
+  width: 80px;
+  height: 30px;
+  border-radius: 15px;
+}
+.communityState p span {
+  font-size: 20px;
+}
+.topic {
+  margin-bottom: 30px;
+  background-color: var(--green);
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+.oneCommunityOperation {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
+.oneCommunityOperation button {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.oneCommunityOperation button span {
+  font-size: 20px;
+}
+.byby {
+  background-color: var(--red);
+}
+.byby:hover {
+  background-color: var(--red-2);
+}
+.byby:active {
+  background-color: var(--red-3);
 }
