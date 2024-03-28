@@ -7,8 +7,18 @@ import {
   createContext,
 } from "react";
 import { auth, db } from "@/lib/firebase/client";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { pubUserDataType, userType } from "@/lib/types/communityType";
+import {
+  Unsubscribe,
+  doc,
+  getDoc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
+import {
+  isUserType,
+  pubUserDataType,
+  userType,
+} from "@/lib/types/communityType";
 
 export type userContextType = userType | null | undefined;
 
@@ -18,6 +28,7 @@ export default function Auth({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<userContextType>();
 
   useEffect(() => {
+    let removeEventListener: null | Unsubscribe = null;
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const ref = doc(db, `users/${firebaseUser.uid}`);
@@ -47,10 +58,17 @@ export default function Auth({ children }: { children: ReactNode }) {
           //公開ユーザーデータをセット
           setDoc(doc(db, "pubUsers", firebaseUser.uid), pubAppUser);
         }
+        removeEventListener = onSnapshot(ref, (newData) => {
+          const data = newData.data();
+          if (isUserType(data)) setUser(data);
+        });
       } else {
         setUser(null);
       }
-      return unsubscribe;
+      return () => {
+        unsubscribe();
+        if (removeEventListener) removeEventListener();
+      };
     });
   }, []);
 
