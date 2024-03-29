@@ -2,8 +2,10 @@ import Channel from "@/components/community/realtime/channel";
 import Keyboard from "@/components/community/realtime/keyboard";
 import RealtimeCanvas from "@/components/community/realtime/realtimeCanvas";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "@/styles/components/community/realtime.module.css";
+import { type Socket } from "socket.io-client";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 //モールス信号みたいな感じでリアルタイムで会話を楽しむ
 export default function Realtime() {
@@ -12,6 +14,22 @@ export default function Realtime() {
   const [frequency, setFrequency] = useState(
     Math.floor(Math.random() * (maxFrequency - minFrequency) + minFrequency)
   );
+
+  const [socket, setSocket] = useState<
+    Socket<DefaultEventsMap, DefaultEventsMap> | undefined
+  >(undefined);
+
+  useEffect(() => {
+    if (!window) return;
+    const connect = async () => {
+      await fetch("/api/sockets", { method: "POST" });
+      const { io } = await import("socket.io-client");
+      const socket = io({ autoConnect: false });
+      socket.connect();
+      setSocket(socket);
+    };
+    connect();
+  }, []);
 
   return (
     <div id={styles.parent}>
@@ -25,8 +43,8 @@ export default function Realtime() {
         min={minFrequency}
         max={maxFrequency}
       />
-      <RealtimeCanvas />
-      <Keyboard />
+      <RealtimeCanvas channel={frequency} socket={socket} />
+      <Keyboard socket={socket} />
     </div>
   );
 }

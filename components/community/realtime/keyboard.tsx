@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/components/community/realtime.module.css";
+import { type Socket } from "socket.io-client";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-export default function Keyboard() {
+export default function Keyboard({
+  socket,
+}: {
+  socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
+}) {
   const [keyboardString, setKeyboardString] = useState<string[]>([]);
 
   const requestString = async () => {
@@ -15,11 +21,22 @@ export default function Keyboard() {
     requestString();
   }, []);
 
+  const sendSignal = (chara: string) => {
+    socket?.emit("realtime", { value: chara, channel: 1 });
+  };
+
   return (
     <div id={styles.keyboard}>
       <div id={styles.keyParent}>
-        {keyboardString.map((oneChara) => {
-          return <button>{oneChara}</button>;
+        {keyboardString.map((oneChara, index) => {
+          return (
+            <button
+              key={oneChara + index.toString()}
+              onClick={() => sendSignal(oneChara)}
+            >
+              {oneChara}
+            </button>
+          );
         })}
       </div>
       <div id={styles.refreshArea}>
