@@ -44,7 +44,7 @@ export default function Realtime() {
         max={maxFrequency}
       />
       <RealtimeCanvas channel={frequency} socket={socket} />
-      <Keyboard socket={socket} />
+      <Keyboard socket={socket} channel={frequency} />
     </div>
   );
 }

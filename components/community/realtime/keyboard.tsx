@@ -4,8 +4,10 @@ import { type Socket } from "socket.io-client";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 export default function Keyboard({
+  channel,
   socket,
 }: {
+  channel: number;
   socket: Socket<DefaultEventsMap, DefaultEventsMap> | undefined;
 }) {
   const [keyboardString, setKeyboardString] = useState<string[]>([]);
@@ -22,7 +24,7 @@ export default function Keyboard({
   }, []);
 
   const sendSignal = (chara: string) => {
-    socket?.emit("realtime", { value: chara, channel: 1 });
+    socket?.emit("realtime", { value: chara, channel: channel });
   };
 
   return (
