@@ -1,14 +1,19 @@
 import styles from "@/styles/world/world.module.css";
 import { useEffect, useState } from "react";
 
-export default function Query() {
-  const [currentTag, setCurrentTag] = useState<string | null>(null);
+export default function Query({
+  currentTag,
+  setCurrentTag,
+}: {
+  currentTag: string | null;
+  setCurrentTag: (nct: string | null) => void;
+}) {
   const [tags, setTags] = useState<null | string[]>(null);
 
   useEffect(() => {
     setTags(["すべて"]);
     setCurrentTag("すべて");
-  }, [currentTag, tags]);
+  }, []);
 
   return (
     <div id={styles.tags}>

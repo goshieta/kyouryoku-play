@@ -53,10 +53,15 @@ body {
     --special-bg: #00173c;
     --alert-bg: rgb(66, 0, 0);
     --white: rgb(214, 214, 214);
-    --green: rgb(0, 182, 130);
+    --green: rgb(0, 67, 48);
+    --green-2: rgb(0, 50, 37);
+    --green-3: rgb(6, 40, 25);
     --red: rgb(193, 31, 85);
     --red-2: rgb(176, 29, 88);
     --red-3: rgb(153, 0, 69);
+
+    --green-bg: rgb(11, 90, 78);
+    --red-bg: rgb(84, 0, 24);
 
     --theme-color-level-1: #002a6e;
     --theme-color-level-2: #000f7d;

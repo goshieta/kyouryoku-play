@@ -1,31 +1,3 @@
-export type communityType = {
-  admin: string;
-  icon: string;
-  name: string;
-  description: string;
-  createdAt: number;
-  id: string;
-  topic: string;
-  people: string[];
-  blackList: string[];
-  peopleNumber: number;
-};
-
-export const isCommunityType = (arg: any): arg is communityType => {
-  return (
-    arg !== undefined &&
-    arg.admin !== undefined &&
-    arg.name !== undefined &&
-    arg.icon != undefined &&
-    arg.description !== undefined &&
-    arg.id !== undefined &&
-    typeof arg.topic === "string" &&
-    typeof arg.people === "object" &&
-    typeof arg.blackList === "object" &&
-    typeof arg.peopleNumber === "number"
-  );
-};
-
 export type userType = {
   createdAt: number;
   email: string;
@@ -62,22 +34,26 @@ export const isPubUserDataType = (arg: any): arg is pubUserDataType => {
   );
 };
 
-export type messageType = {
+export type oneArticleType = {
   createdAt: number;
-  room: string;
+  id: string;
+  type: "article" | "game" | "quiz";
+  title: string;
+  tags: string[];
+  description: string;
+  body: string;
   user: string;
-  val: string;
-  good: number;
-  report: string[];
 };
-export const isMessageType = (arg: any): arg is messageType => {
+export const isOneArticleType = (arg: any): arg is oneArticleType => {
   return (
     arg !== undefined &&
-    typeof arg.createdAt == "number" &&
-    typeof arg.room == "string" &&
-    typeof arg.user == "string" &&
-    typeof arg.val == "string" &&
-    typeof arg.good == "number" &&
-    typeof arg.report == "object"
+    typeof arg.createdAt === "number" &&
+    typeof arg.id === "string" &&
+    (arg.type === "article" || arg.type === "game" || arg.type === "quiz") &&
+    typeof arg.title === "string" &&
+    typeof arg.tags === "object" &&
+    typeof arg.description === "string" &&
+    typeof arg.body === "string" &&
+    typeof arg.user === "string"
   );
 };
