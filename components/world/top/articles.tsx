@@ -2,6 +2,7 @@ import { db } from "@/lib/firebase/client";
 import { isOneArticleType, oneArticleType } from "@/lib/types/communityType";
 import styles from "@/styles/world/world.module.css";
 import {
+  QueryDocumentSnapshot,
   collection,
   getDocs,
   limit,
@@ -10,40 +11,59 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import OneArticle from "./oneArticle";
+import { DocumentData } from "firebase-admin/firestore";
 
 export default function Articles({ query }: { query: string | null }) {
   const [arts, setArts] = useState<oneArticleType[] | undefined>(undefined);
+  const [artSnapshots, setArtsSnapShots] = useState<
+    QueryDocumentSnapshot<DocumentData, DocumentData>[]
+  >([]);
 
   useEffect(() => {
     //記事を取得
     const queryEffect = async () => {
-      setArts(await getArticleFromQuery(query));
+      console.log(query);
+      const articles = await getArticleFromQuery(query);
+      console.log(articles);
+      setArtsSnapShots(articles);
     };
     queryEffect();
   }, [query]);
 
-  return <div id={styles.articles}></div>;
+  useEffect(() => {
+    const newArts: oneArticleType[] = [];
+    artSnapshots.forEach((oneSnapshot) => {
+      const data = oneSnapshot.data();
+      if (isOneArticleType(data)) newArts.push(data);
+    });
+    setArts(newArts);
+  }, [artSnapshots]);
+
+  return (
+    <div id={styles.articles}>
+      {arts?.map((oneArts) => (
+        <OneArticle article={oneArts} key={oneArts.id}></OneArticle>
+      ))}
+    </div>
+  );
 }
 
 //クエリから記事を取得
-async function getArticleFromQuery(
-  tag: string | null
-): Promise<oneArticleType[]> {
-  const newArticle: oneArticleType[] = [];
-  const thisQuery = tag
-    ? query(
-        collection(db, "world"),
-        where("tags", "array-contains", tag),
-        orderBy("createdAt", "desc"),
-        limit(20)
-      )
-    : query(collection(db, "world"), orderBy("createdAt", "desc"), limit(20));
+async function getArticleFromQuery(tag: string | null) {
+  const newArticle: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
+  const thisQuery =
+    tag != null && tag != "すべて"
+      ? query(
+          collection(db, "world"),
+          where("tags", "array-contains", tag),
+          orderBy("createdAt", "desc"),
+          limit(20)
+        )
+      : query(collection(db, "world"), orderBy("createdAt", "desc"), limit(20));
   const docs = await getDocs(thisQuery);
   docs.forEach((oneDoc) => {
-    const data = oneDoc.data();
-    if (isOneArticleType(data)) {
-      newArticle.push(data);
-    }
+    newArticle.push(oneDoc);
   });
   return newArticle;
 }
