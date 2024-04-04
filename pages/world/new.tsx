@@ -119,7 +119,7 @@ async function postArticle(
     id: createUUID(),
     createdAt: new Date().getTime(),
     type: "article",
-    description: postValue.body.substring(0, 100),
+    description: postValue.body.substring(0, 50),
     user: auth.id,
   };
   //投稿する

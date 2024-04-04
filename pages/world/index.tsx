@@ -9,7 +9,7 @@ export default function World() {
   const router = useRouter();
 
   return (
-    <div>
+    <div id={styles.parent}>
       <button onClick={() => router.push("/world/new")}>投稿を作成</button>
       <Query currentTag={currentTag} setCurrentTag={setCurrentTag} />
       <Articles query={currentTag} />
