@@ -21,10 +21,10 @@ export default function Header() {
 
   const links = (
     <>
-      <Link href="/additional/about">
+      <Link href="/additional/about" className={styles.headerLink}>
         <span className="material-symbols-outlined">help</span>
       </Link>
-      <Link href="/additional/report">
+      <Link href="/additional/report" className={styles.headerLink}>
         <span className="material-symbols-outlined">report</span>
       </Link>
       {userArea}

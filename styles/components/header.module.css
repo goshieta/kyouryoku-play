@@ -90,3 +90,9 @@
   background-color: var(--theme-color-level-1);
   transition: background-color 0.2s;
 }
+
+@media screen and (max-width: 800px) {
+  .headerLink {
+    display: none !important;
+  }
+}

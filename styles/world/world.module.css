@@ -1,19 +1,88 @@
 #parent {
-  max-width: 700px;
+  max-width: fit-content;
   margin: 0 auto;
   display: flex;
   flex-flow: column;
   gap: 30px;
+  align-items: center;
+}
+
+#leftItem {
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
 }
 #createNew {
   margin: 20px auto;
 }
+#search {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+#search input {
+  outline: none;
+  border: none;
+  background-color: var(--special-bg);
+  height: 40px;
+  border-radius: 20px;
+  width: 250px;
+  padding: 0 20px;
+}
+#search button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+#search button span {
+  font-size: 15px;
+  display: block;
+}
+#localTagsWrapper {
+  display: flex;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  max-width: calc(100vw - 60px);
+}
+#localTags {
+  gap: 10px;
+  display: flex;
+}
+#localTags::-webkit-scrollbar {
+  height: 0;
+}
+#localTags input {
+  opacity: 0;
+  position: absolute;
+}
+#localTags label {
+  display: block;
+  background-color: var(--special-bg);
+  padding: 7px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-wrap: nowrap;
+}
+#localTags label:hover {
+  background-color: var(--theme-color-level-1);
+  transition: background-color 0.2s;
+}
+#localTags input:checked + label {
+  background-color: var(--theme-color-level-2);
+  transition: background-color 0.2s;
+}
+
 #articles {
+  max-width: 700px;
   display: flex;
   flex-flow: column;
   gap: 30px;
 }
-
 .oneArticle h3 {
   margin: 0;
 }

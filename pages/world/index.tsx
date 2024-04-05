@@ -14,14 +14,13 @@ export default function World() {
 
   return (
     <div id={styles.parent}>
-      <button onClick={() => router.push("/world/new")} id={styles.createNew}>
-        投稿を作成
-      </button>
-      <Query
-        currentTag={currentTag}
-        setCurrentTag={setCurrentTag}
-        router={router}
-      />
+      <div id={styles.leftItem}>
+        <Query
+          currentTag={currentTag}
+          setCurrentTag={setCurrentTag}
+          router={router}
+        />
+      </div>
       <Articles query={currentTag} />
     </div>
   );

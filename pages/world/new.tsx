@@ -105,6 +105,7 @@ async function postArticle(
   } else if (
     postValue.tags
       .split(/( |　)/)
+      .map((val) => val.replaceAll(/(#|＃)/gi, ""))
       .filter((val) => val !== "" && val !== " " && val !== "　").length > 5
   ) {
     show("error", "タグの数を５つ以下にしてください。");
@@ -115,6 +116,7 @@ async function postArticle(
     ...postValue,
     tags: postValue.tags
       .split(/( |　)/)
+      .map((val) => val.replaceAll(/(#|＃)/gi, ""))
       .filter((val) => val !== "" && val !== " " && val !== "　"),
     id: createUUID(),
     createdAt: new Date().getTime(),
