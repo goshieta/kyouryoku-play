@@ -1,7 +1,6 @@
 import { db } from "@/lib/firebase/client";
 import {
   isOneArticleType,
-  isPubUserDataType,
   oneArticleType,
   pubUserDataType,
 } from "@/lib/types/communityType";
@@ -10,8 +9,6 @@ import {
   QueryDocumentSnapshot,
   collection,
   getDocs,
-  getDoc,
-  doc,
   limit,
   orderBy,
   query,
@@ -33,9 +30,8 @@ export default function Articles({ query }: { query: string | null }) {
   useEffect(() => {
     //記事を取得
     const queryEffect = async () => {
-      console.log(query);
       const articles = await getArticleFromQuery(query);
-      setArtsSnapShots(articles);
+      if (articles) setArtsSnapShots(articles);
     };
     queryEffect();
   }, [query]);
@@ -88,9 +84,10 @@ export default function Articles({ query }: { query: string | null }) {
 
 //クエリから記事を取得
 async function getArticleFromQuery(tag: string | null) {
+  if (tag === null) return;
   const newArticle: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
   const thisQuery =
-    tag != null && tag != "すべて"
+    tag != "すべて"
       ? query(
           collection(db, "world"),
           where("tags", "array-contains", tag),

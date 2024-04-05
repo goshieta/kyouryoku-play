@@ -7,6 +7,7 @@ import {
 import styles from "@/styles/world/world.module.css";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 export async function getOneUserInfo(id: string) {
@@ -69,9 +70,9 @@ export default function OneArticle({
       <p>{article.body}</p>
       <div className={styles.tagArea}>
         {article.tags.map((oneTag) => (
-          <a key={oneTag} href={`http://localhost:3000/world?q=${oneTag}`}>
+          <Link key={oneTag} href={`http://localhost:3000/world?q=${oneTag}`}>
             #{oneTag}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

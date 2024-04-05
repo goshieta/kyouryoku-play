@@ -1,19 +1,21 @@
 import styles from "@/styles/world/world.module.css";
+import { NextRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Query({
   currentTag,
   setCurrentTag,
+  router,
 }: {
   currentTag: string | null;
   setCurrentTag: (nct: string | null) => void;
+  router: NextRouter;
 }) {
   const [tags, setTags] = useState<null | string[]>(null);
 
   useEffect(() => {
     setTags(["すべて"]);
-    setCurrentTag("すべて");
-  }, []);
+  }, [router]);
 
   return (
     <div id={styles.tags}>
