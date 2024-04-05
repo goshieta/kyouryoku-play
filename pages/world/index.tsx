@@ -10,7 +10,9 @@ export default function World() {
 
   return (
     <div id={styles.parent}>
-      <button onClick={() => router.push("/world/new")}>投稿を作成</button>
+      <button onClick={() => router.push("/world/new")} id={styles.createNew}>
+        投稿を作成
+      </button>
       <Query currentTag={currentTag} setCurrentTag={setCurrentTag} />
       <Articles query={currentTag} />
     </div>

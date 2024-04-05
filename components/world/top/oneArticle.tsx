@@ -50,8 +50,8 @@ export default function OneArticle({
         <div className={styles.accountArea}>
           <Image
             src={userData.photoURL}
-            width={30}
-            height={30}
+            width={25}
+            height={25}
             alt={userData.name}
           />
           <p>{userData.name}</p>
@@ -66,7 +66,14 @@ export default function OneArticle({
         <></>
       )}
       <h3>{article.title}</h3>
-      <p>{article.description}</p>
+      <p>{article.body}</p>
+      <div className={styles.tagArea}>
+        {article.tags.map((oneTag) => (
+          <a key={oneTag} href={`http://localhost:3000/world?q=${oneTag}`}>
+            #{oneTag}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
