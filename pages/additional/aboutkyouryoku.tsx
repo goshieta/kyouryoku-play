@@ -9,12 +9,8 @@ export default function aboutkyouryoku() {
       </Head>
       <div className="explainArea">
         <h1>峡緑について</h1>
-        <p>
-          峡緑は、世界で最もパワフルになる予定の私が開発したサイトにつけているブランド名の一種です。峡緑プレイ（Kyouryoku
-          Play）Inforde Top、Inforde
-          Game、簡単！JavaScript入門などのサイトを運営しています。現在この中でもいくつかのサイトは閉じる予定ですが、これから新規で様々なサービスを開発していく予定です。
-        </p>
-        <p>一応下に運営している各サイトのリンクを載せます。</p>
+        <p>峡緑は、私の作成したサイトにつけているブランド名の一つです。</p>
+        <p>峡緑ブランドのついたサイトは他にも以下のようなサイトがあります。</p>
         <ul>
           <li>
             <Link href="/">峡緑プレイ（KyouRyoku Play）</Link>
