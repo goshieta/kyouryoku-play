@@ -3,7 +3,7 @@ import Query from "@/components/world/top/query";
 import styles from "@/styles/world/world.module.css";
 import { useRouter } from "next/router";
 import { useQueryState } from "next-usequerystate";
-import { useEffect } from "react";
+import { JSXElementConstructor, ReactElement, useEffect } from "react";
 
 export default function World() {
   const router = useRouter();
@@ -22,6 +22,15 @@ export default function World() {
         />
       </div>
       <Articles query={currentTag} />
+      <button id={styles.createNew} onClick={() => router.push("/world/new")}>
+        <span className="material-symbols-outlined">article</span>投稿
+      </button>
     </div>
   );
 }
+
+World.getLayout = (
+  page: ReactElement<any, string | JSXElementConstructor<any>>
+) => {
+  return <>{page}</>;
+};

@@ -13,7 +13,16 @@
   flex-flow: column;
 }
 #createNew {
-  margin: 20px auto;
+  margin: 0 auto;
+  position: fixed;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100px;
+  height: 60px;
+  z-index: 30;
 }
 #search {
   margin-top: 10px;
