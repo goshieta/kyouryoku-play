@@ -6,8 +6,13 @@ import {
 } from "@/lib/types/communityType";
 import styles from "@/styles/world/world.module.css";
 import {
+  CollectionReference,
   QueryDocumentSnapshot,
+  QueryFieldFilterConstraint,
+  QueryLimitConstraint,
+  QueryOrderByConstraint,
   collection,
+  getDocs,
   limit,
   onSnapshot,
   orderBy,
@@ -27,6 +32,7 @@ export default function Articles({ tag }: { tag: string | null }) {
     { [key: string]: pubUserDataType } | undefined
   >(undefined);
   const [reloadTime, setReloadTime] = useState(0);
+  const [isReadMoreDisplay, setIsReadMoreDisplay] = useState(true);
 
   useEffect(() => {
     const newArts: oneArticleType[] = [];
@@ -64,6 +70,7 @@ export default function Articles({ tag }: { tag: string | null }) {
   //更新処理と取得
   useEffect(() => {
     setReloadTime(0);
+    setIsReadMoreDisplay(true);
     const thisQuery =
       tag != "すべて"
         ? query(
@@ -83,9 +90,34 @@ export default function Articles({ tag }: { tag: string | null }) {
         snapShots.push(oneDoc);
       });
       setArtsSnapShots(snapShots);
+      if (snapShots.length < 20) setIsReadMoreDisplay(false);
     });
     return unsub;
   }, [tag]);
+
+  const readMore = async () => {
+    if (!arts) return;
+    const args: [
+      CollectionReference,
+      QueryOrderByConstraint,
+      QueryFieldFilterConstraint,
+      QueryLimitConstraint
+    ] = [
+      collection(db, "world"),
+      orderBy("createdAt", "desc"),
+      where("createdAt", "<", arts[arts.length - 1].createdAt),
+      limit(20),
+    ];
+    const thisQuery =
+      tag != "すべて"
+        ? query(...args, where("tags", "array-contains", tag))
+        : query(...args);
+    const docs = await getDocs(thisQuery);
+    const docArray: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
+    docs.forEach((oneDoc) => docArray.push(oneDoc));
+    setArtsSnapShots(docArray);
+    if (docArray.length < 20) setIsReadMoreDisplay(false);
+  };
 
   return (
     <div id={styles.articles}>
@@ -101,10 +133,14 @@ export default function Articles({ tag }: { tag: string | null }) {
       ) : (
         <></>
       )}
-      <button id={styles.readMore}>
-        <span className="material-symbols-outlined">read_more</span>
-        さらに読み込む
-      </button>
+      {isReadMoreDisplay ? (
+        <button id={styles.readMore} onClick={readMore}>
+          <span className="material-symbols-outlined">read_more</span>
+          さらに読み込む
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
@@ -122,8 +158,9 @@ function connectInvalidData(
     //resultの中からタイムスタンプが間のところを見つける
     let lastTimeStamp = new Date().getTime() + (2 ^ 64);
     let nowIndex = 0;
-    while (oneData.createdAt > lastTimeStamp) {
-      lastTimeStamp = result[nowIndex].createdAt;
+    while (oneData.createdAt < lastTimeStamp) {
+      if (result[nowIndex]) lastTimeStamp = result[nowIndex].createdAt;
+      else lastTimeStamp = 0;
       nowIndex++;
     }
     result.splice(nowIndex, 0, oneData);
