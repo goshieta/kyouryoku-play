@@ -24,9 +24,11 @@
   height: 60px;
   z-index: 30;
 }
+#tags {
+  margin-left: auto;
+}
 #search {
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin: 10px 0;
   display: flex;
   gap: 10px;
   justify-content: center;
@@ -37,8 +39,9 @@
   background-color: var(--special-bg);
   height: 40px;
   border-radius: 20px;
-  width: 250px;
   padding: 0 20px;
+  width: 100vw;
+  max-width: 400px;
 }
 #search button {
   width: 40px;

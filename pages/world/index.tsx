@@ -1,9 +1,15 @@
 import Articles from "@/components/world/top/articles";
-import Query from "@/components/world/top/query";
 import styles from "@/styles/world/world.module.css";
 import { useRouter } from "next/router";
 import { useQueryState } from "next-usequerystate";
-import { JSXElementConstructor, ReactElement, useEffect } from "react";
+import {
+  JSXElementConstructor,
+  ReactElement,
+  useEffect,
+  useState,
+} from "react";
+import WorldLayout from "@/components/layouts/worldLayout";
+import Link from "next/link";
 
 export default function World() {
   const router = useRouter();
@@ -11,20 +17,32 @@ export default function World() {
   useEffect(() => {
     if (!currentTag) setCurrentTag("すべて");
   }, [currentTag]);
+  const [trendingTag, setTrendingTag] = useState<string[]>([]);
+  useEffect(() => {
+    fetch("/api/getTrend")
+      .then((data) => data.text())
+      .then((txt) => {
+        const trend = JSON.parse(txt);
+        trend.length = 10;
+        setTrendingTag(trend);
+      });
+  }, []);
 
   return (
     <div id={styles.parent}>
       <div id={styles.leftItem}>
-        <Query
-          currentTag={currentTag}
-          setCurrentTag={setCurrentTag}
-          router={router}
-        />
+        <button id={styles.createNew} onClick={() => router.push("/world/new")}>
+          <span className="material-symbols-outlined">article</span>投稿
+        </button>
+        <div>
+          {trendingTag.map((oneTag) => (
+            <Link key={oneTag} href={`/world?q=${oneTag}`}>
+              {oneTag}
+            </Link>
+          ))}
+        </div>
       </div>
       <Articles query={currentTag} />
-      <button id={styles.createNew} onClick={() => router.push("/world/new")}>
-        <span className="material-symbols-outlined">article</span>投稿
-      </button>
     </div>
   );
 }
@@ -32,5 +50,5 @@ export default function World() {
 World.getLayout = (
   page: ReactElement<any, string | JSXElementConstructor<any>>
 ) => {
-  return <>{page}</>;
+  return <WorldLayout>{page}</WorldLayout>;
 };
