@@ -139,7 +139,7 @@ export default function Articles({ tag }: { tag: string | null }) {
           さらに読み込む
         </button>
       ) : (
-        <></>
+        <p id={styles.lastMessage}>これ以上の投稿がありません</p>
       )}
     </div>
   );

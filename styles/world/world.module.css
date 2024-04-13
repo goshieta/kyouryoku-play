@@ -1,9 +1,8 @@
 #parent {
-  max-width: fit-content;
-  margin: 0 auto;
   display: flex;
   flex-flow: row;
   gap: 80px;
+  margin: 0 20px;
   margin-top: 50px;
 }
 
@@ -117,6 +116,7 @@
   display: flex;
   flex-flow: column;
   gap: 30px;
+  margin: 0 auto;
 }
 .oneArticle h3 {
   margin: 0;
@@ -161,4 +161,8 @@
 }
 #readMore span {
   font-size: 20px;
+}
+#lastMessage {
+  text-align: center;
+  color: var(--pale-font-color);
 }

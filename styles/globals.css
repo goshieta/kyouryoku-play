@@ -47,7 +47,7 @@ body {
 @media (prefers-color-scheme: dark) {
   :root {
     --font-color: #dcd7eb;
-    --pale-font-color: rgb(208, 191, 255);
+    --pale-font-color: rgb(163, 144, 217);
     --background-color: #000b22;
     --alpha-background-color: #000b22e5;
     --special-bg: #00173c;
@@ -113,6 +113,9 @@ button:hover {
 button:active {
   background-color: var(--theme-color-level-3);
   transition: background-color 0.2s;
+}
+::placeholder {
+  color: var(--pale-font-color);
 }
 
 /*記述エリア*/
