@@ -13,6 +13,7 @@ import WorldLayout, {
 } from "@/components/layouts/worldLayout";
 import Link from "next/link";
 import Head from "next/head";
+import useHasMounted from "@/lib/tips/useHasMounted";
 
 export default function World() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function World() {
       });
   }, []);
   const currentTag = useContext(CurrentTagContext);
+  const hasMounted = useHasMounted();
 
   return (
     <div id={styles.parent}>
@@ -43,50 +45,60 @@ export default function World() {
         >
           <span className="material-symbols-outlined">article</span>投稿
         </button>
-        <div id={styles.linkArea}>
-          <Link
-            id={styles.all}
-            href={`/world?q=すべて`}
-            className={
-              currentTag?.currentTag === "すべて" ? styles.tagCurrent : ""
-            }
-          >
-            <span className="material-symbols-outlined">home</span>すべて
-          </Link>
-          {currentTag &&
-          currentTag.currentTag &&
-          ![...trendingTag, "すべて"].includes(currentTag.currentTag) ? (
+        {hasMounted ? (
+          <div id={styles.linkArea}>
             <Link
               id={styles.all}
-              href={`/world?q=${currentTag.currentTag}`}
+              href={`/world?q=すべて`}
               className={
-                currentTag?.currentTag === currentTag.currentTag
-                  ? styles.tagCurrent
-                  : ""
+                currentTag?.currentTag === "すべて" ? styles.tagCurrent : ""
               }
             >
-              <span className="material-symbols-outlined">manage_search</span>
-              {currentTag.currentTag}
+              <span className="material-symbols-outlined">home</span>すべて
             </Link>
-          ) : (
-            <></>
-          )}
-          {trendingTag.map((oneTag) => (
-            <Link
-              key={oneTag}
-              href={`/world?q=${oneTag}`}
-              className={
-                currentTag?.currentTag === oneTag ? styles.tagCurrent : ""
-              }
-            >
-              <span className="material-symbols-outlined">trending_up</span>
-              {oneTag}
-            </Link>
-          ))}
-        </div>
+
+            <div suppressHydrationWarning>
+              {currentTag &&
+              currentTag.currentTag &&
+              ![...trendingTag, "すべて"].includes(currentTag.currentTag) ? (
+                <Link
+                  id={styles.all}
+                  href={`/world?q=${currentTag.currentTag}`}
+                  className={
+                    currentTag?.currentTag === currentTag.currentTag
+                      ? styles.tagCurrent
+                      : ""
+                  }
+                >
+                  <span className="material-symbols-outlined">
+                    manage_search
+                  </span>
+                  {currentTag.currentTag}
+                </Link>
+              ) : (
+                <></>
+              )}
+            </div>
+
+            {trendingTag.map((oneTag) => (
+              <Link
+                key={oneTag}
+                href={`/world?q=${oneTag}`}
+                className={
+                  currentTag?.currentTag === oneTag ? styles.tagCurrent : ""
+                }
+              >
+                <span className="material-symbols-outlined">trending_up</span>
+                {oneTag}
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       <Articles
-        query={currentTag?.currentTag ? currentTag?.currentTag : "すべて"}
+        tag={currentTag?.currentTag ? currentTag?.currentTag : "すべて"}
       />
     </div>
   );

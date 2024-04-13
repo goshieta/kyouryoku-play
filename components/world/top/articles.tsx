@@ -8,8 +8,8 @@ import styles from "@/styles/world/world.module.css";
 import {
   QueryDocumentSnapshot,
   collection,
-  getDocs,
   limit,
+  onSnapshot,
   orderBy,
   query,
   where,
@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import OneArticle, { getOneUserInfo } from "./oneArticle";
 import { DocumentData } from "firebase-admin/firestore";
 
-export default function Articles({ query }: { query: string | null }) {
+export default function Articles({ tag }: { tag: string | null }) {
   const [arts, setArts] = useState<oneArticleType[] | undefined>(undefined);
   const [artSnapshots, setArtsSnapShots] = useState<
     QueryDocumentSnapshot<DocumentData, DocumentData>[]
@@ -26,15 +26,7 @@ export default function Articles({ query }: { query: string | null }) {
   const [usersInfo, setUsersInfo] = useState<
     { [key: string]: pubUserDataType } | undefined
   >(undefined);
-
-  useEffect(() => {
-    //記事を取得
-    const queryEffect = async () => {
-      const articles = await getArticleFromQuery(query);
-      if (articles) setArtsSnapShots(articles);
-    };
-    queryEffect();
-  }, [query]);
+  const [reloadTime, setReloadTime] = useState(0);
 
   useEffect(() => {
     const newArts: oneArticleType[] = [];
@@ -42,7 +34,12 @@ export default function Articles({ query }: { query: string | null }) {
       const data = oneSnapshot.data();
       if (isOneArticleType(data)) newArts.push(data);
     });
-    setArts(newArts);
+    if (reloadTime === 0) {
+      setArts(newArts);
+    } else if (arts) {
+      setArts(connectInvalidData(arts, newArts));
+    }
+    setReloadTime(reloadTime + 1);
   }, [artSnapshots]);
 
   //通信量を抑えるためにここでユーザーデータを最初に取得する
@@ -64,6 +61,32 @@ export default function Articles({ query }: { query: string | null }) {
     getUsersInfo();
   }, [arts]);
 
+  //更新処理と取得
+  useEffect(() => {
+    setReloadTime(0);
+    const thisQuery =
+      tag != "すべて"
+        ? query(
+            collection(db, "world"),
+            where("tags", "array-contains", tag),
+            orderBy("createdAt", "desc"),
+            limit(20)
+          )
+        : query(
+            collection(db, "world"),
+            orderBy("createdAt", "desc"),
+            limit(20)
+          );
+    const unsub = onSnapshot(thisQuery, (docs) => {
+      const snapShots: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
+      docs.forEach((oneDoc) => {
+        snapShots.push(oneDoc);
+      });
+      setArtsSnapShots(snapShots);
+    });
+    return unsub;
+  }, [tag]);
+
   return (
     <div id={styles.articles}>
       {usersInfo ? (
@@ -78,26 +101,32 @@ export default function Articles({ query }: { query: string | null }) {
       ) : (
         <></>
       )}
+      <button id={styles.readMore}>
+        <span className="material-symbols-outlined">read_more</span>
+        さらに読み込む
+      </button>
     </div>
   );
 }
 
-//クエリから記事を取得
-async function getArticleFromQuery(tag: string | null) {
-  if (tag === null) return;
-  const newArticle: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
-  const thisQuery =
-    tag != "すべて"
-      ? query(
-          collection(db, "world"),
-          where("tags", "array-contains", tag),
-          orderBy("createdAt", "desc"),
-          limit(20)
-        )
-      : query(collection(db, "world"), orderBy("createdAt", "desc"), limit(20));
-  const docs = await getDocs(thisQuery);
-  docs.forEach((oneDoc) => {
-    newArticle.push(oneDoc);
+function connectInvalidData(
+  beforeData: oneArticleType[],
+  newData: oneArticleType[]
+) {
+  //入力データは順番に並んでいる必要がある
+  //0に近づくほどタイムスタンプが大きくなる。0から遠ざかるほどタイムスタンプが小さくなる
+  let result = beforeData;
+  newData.forEach((oneData) => {
+    //resultの中に同じデータが含まれていないことを確認する
+    if (result.find((oneResultData) => oneResultData.id === oneData.id)) return;
+    //resultの中からタイムスタンプが間のところを見つける
+    let lastTimeStamp = new Date().getTime() + (2 ^ 64);
+    let nowIndex = 0;
+    while (oneData.createdAt > lastTimeStamp) {
+      lastTimeStamp = result[nowIndex].createdAt;
+      nowIndex++;
+    }
+    result.splice(nowIndex, 0, oneData);
   });
-  return newArticle;
+  return result;
 }
