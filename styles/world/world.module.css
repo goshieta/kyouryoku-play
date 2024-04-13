@@ -18,15 +18,15 @@
   position: sticky;
   top: 130px;
 }
-#createNew {
+.leftButton {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   width: 250px;
-  height: 60px;
+  height: 50px;
 }
-#trend a {
+#linkArea a {
   display: flex;
   text-decoration: none;
   align-items: center;
@@ -35,12 +35,17 @@
   border-radius: 5px;
   margin: 0;
 }
-#trend a:hover {
+#linkArea a:hover {
   background-color: var(--special-bg);
   transition: background-color 0.2s;
 }
-#trend a span {
+#linkArea a span {
   font-size: 20px;
+}
+#linkArea a.tagCurrent,
+#linkArea a.tagCurrent span {
+  color: var(--link-color);
+  font-weight: bold;
 }
 #tags {
   margin-left: auto;
