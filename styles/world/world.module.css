@@ -2,27 +2,36 @@
   max-width: fit-content;
   margin: 0 auto;
   display: flex;
-  flex-flow: column;
-  gap: 30px;
-  align-items: center;
+  flex-flow: row;
+  gap: 80px;
+  margin-top: 50px;
 }
 
 #leftItem {
   padding: 20px;
   display: flex;
   flex-flow: column;
+  gap: 20px;
+  border-radius: 5px;
+  height: fit-content;
 }
 #createNew {
-  margin: 0 auto;
-  position: fixed;
-  bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 100px;
+  width: 250px;
   height: 60px;
-  z-index: 30;
+}
+#trend a {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+#trend a span {
+  font-size: 20px;
 }
 #tags {
   margin-left: auto;

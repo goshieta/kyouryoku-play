@@ -10,6 +10,7 @@ import {
 } from "react";
 import WorldLayout from "@/components/layouts/worldLayout";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function World() {
   const router = useRouter();
@@ -30,13 +31,17 @@ export default function World() {
 
   return (
     <div id={styles.parent}>
+      <Head>
+        <title>{`${currentTag}の投稿 - 峡緑プレイ`}</title>
+      </Head>
       <div id={styles.leftItem}>
         <button id={styles.createNew} onClick={() => router.push("/world/new")}>
           <span className="material-symbols-outlined">article</span>投稿
         </button>
-        <div>
+        <div id={styles.trend}>
           {trendingTag.map((oneTag) => (
             <Link key={oneTag} href={`/world?q=${oneTag}`}>
+              <span className="material-symbols-outlined">trending_up</span>
               {oneTag}
             </Link>
           ))}
