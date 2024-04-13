@@ -53,6 +53,24 @@ export default function World() {
           >
             <span className="material-symbols-outlined">home</span>すべて
           </Link>
+          {currentTag &&
+          currentTag.currentTag &&
+          ![...trendingTag, "すべて"].includes(currentTag.currentTag) ? (
+            <Link
+              id={styles.all}
+              href={`/world?q=${currentTag.currentTag}`}
+              className={
+                currentTag?.currentTag === currentTag.currentTag
+                  ? styles.tagCurrent
+                  : ""
+              }
+            >
+              <span className="material-symbols-outlined">manage_search</span>
+              {currentTag.currentTag}
+            </Link>
+          ) : (
+            <></>
+          )}
           {trendingTag.map((oneTag) => (
             <Link
               key={oneTag}
