@@ -1,23 +1,21 @@
 import Articles from "@/components/world/top/articles";
 import styles from "@/styles/world/world.module.css";
 import { useRouter } from "next/router";
-import { useQueryState } from "next-usequerystate";
 import {
   JSXElementConstructor,
   ReactElement,
+  useContext,
   useEffect,
   useState,
 } from "react";
-import WorldLayout from "@/components/layouts/worldLayout";
+import WorldLayout, {
+  CurrentTagContext,
+} from "@/components/layouts/worldLayout";
 import Link from "next/link";
 import Head from "next/head";
 
 export default function World() {
   const router = useRouter();
-  const [currentTag, setCurrentTag] = useQueryState("q");
-  useEffect(() => {
-    if (!currentTag) setCurrentTag("すべて");
-  }, [currentTag]);
   const [trendingTag, setTrendingTag] = useState<string[]>([]);
   useEffect(() => {
     fetch("/api/getTrend")
@@ -28,6 +26,7 @@ export default function World() {
         setTrendingTag(trend);
       });
   }, []);
+  const currentTag = useContext(CurrentTagContext);
 
   return (
     <div id={styles.parent}>
@@ -47,7 +46,9 @@ export default function World() {
           ))}
         </div>
       </div>
-      <Articles query={currentTag} />
+      <Articles
+        query={currentTag?.currentTag ? currentTag?.currentTag : "すべて"}
+      />
     </div>
   );
 }

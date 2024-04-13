@@ -14,6 +14,9 @@
   gap: 20px;
   border-radius: 5px;
   height: fit-content;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 130px;
 }
 #createNew {
   display: flex;
@@ -28,7 +31,13 @@
   text-decoration: none;
   align-items: center;
   gap: 15px;
-  margin: 20px 0;
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin: 0;
+}
+#trend a:hover {
+  background-color: var(--special-bg);
+  transition: background-color 0.2s;
 }
 #trend a span {
   font-size: 20px;
