@@ -152,6 +152,62 @@
 .tagArea a:hover {
   text-decoration: underline;
 }
+#reaction {
+  display: flex;
+  gap: 30px;
+  margin-top: 10px;
+}
+#reaction button {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0);
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  height: fit-content;
+  font-size: 12px;
+  padding: 5px 10px;
+  position: relative;
+  transition: 0.2s color;
+}
+#reaction button::before {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  z-index: -1;
+  transition: background-color 0.2s;
+}
+#reaction button span {
+  font-size: 15px;
+  display: block;
+  transition: 0.2s color;
+}
+#like.reactionButtonHasClicked {
+  color: var(--green-font);
+  font-weight: bold;
+}
+#like.reactionButtonHasClicked span {
+  color: var(--green-font);
+}
+#like.reactionButtonHasClicked::before {
+  background-color: var(--green-bg);
+}
+#dislike.reactionButtonHasClicked {
+  color: var(--red-font);
+  font-weight: bold;
+}
+#dislike.reactionButtonHasClicked span {
+  color: var(--red-font);
+}
+#dislike.reactionButtonHasClicked::before {
+  background-color: var(--red-bg);
+}
+
 #readMore {
   display: flex;
   justify-content: center;

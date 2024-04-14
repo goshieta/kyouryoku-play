@@ -123,6 +123,9 @@ async function postArticle(
     type: "article",
     description: postValue.body.substring(0, 50),
     user: auth.id,
+    like: 0,
+    dislike: 0,
+    reply: 0,
   };
   //投稿する
   await setDoc(doc(db, "world", postingArticle.id), postingArticle);

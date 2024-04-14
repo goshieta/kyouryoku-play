@@ -35,6 +35,9 @@ body {
   --green-bg: rgb(177, 255, 240);
   --red-bg: rgb(255, 212, 224);
 
+  --green-font: rgb(0, 190, 111);
+  --red-font: rgb(161, 0, 48);
+
   --theme-color-level-1: rgb(191, 209, 255);
   --theme-color-level-2: rgb(163, 189, 255);
   --theme-color-level-3: rgb(112, 152, 255);
@@ -62,6 +65,9 @@ body {
 
     --green-bg: rgb(11, 90, 78);
     --red-bg: rgb(84, 0, 24);
+
+    --green-font: rgb(107, 231, 179);
+    --red-font: rgb(255, 108, 152);
 
     --theme-color-level-1: #002a6e;
     --theme-color-level-2: #000f7d;

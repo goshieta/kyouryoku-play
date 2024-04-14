@@ -43,6 +43,9 @@ export type oneArticleType = {
   description: string;
   body: string;
   user: string;
+  like: number;
+  dislike: number;
+  reply: number;
 };
 export const isOneArticleType = (arg: any): arg is oneArticleType => {
   return (
@@ -54,6 +57,25 @@ export const isOneArticleType = (arg: any): arg is oneArticleType => {
     typeof arg.tags === "object" &&
     typeof arg.description === "string" &&
     typeof arg.body === "string" &&
-    typeof arg.user === "string"
+    typeof arg.user === "string" &&
+    typeof arg.like === "number" &&
+    typeof arg.dislike === "number" &&
+    typeof arg.reply === "number"
+  );
+};
+
+export type reactionType = {
+  id: string;
+  user: string;
+  target: string;
+  type: "like" | "dislike";
+};
+export const isReactionType = (arg: any): arg is reactionType => {
+  return (
+    arg &&
+    typeof arg.id === "string" &&
+    typeof arg.user === "string" &&
+    typeof arg.target === "string" &&
+    (arg.type === "like" || arg.type === "dislike")
   );
 };

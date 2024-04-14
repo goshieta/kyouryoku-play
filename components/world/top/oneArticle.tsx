@@ -9,6 +9,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import Reaction from "./reaction";
 
 export async function getOneUserInfo(id: string) {
   const document = await getDoc(doc(db, "pubUsers", id));
@@ -75,6 +76,11 @@ export default function OneArticle({
           </Link>
         ))}
       </div>
+      <Reaction
+        like={article.like}
+        dislike={article.dislike}
+        reply={article.reply}
+      />
     </div>
   );
 }
