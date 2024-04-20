@@ -80,6 +80,7 @@ export default function OneArticle({
         like={article.like}
         dislike={article.dislike}
         reply={article.reply}
+        messageId={article.id}
       />
     </div>
   );
