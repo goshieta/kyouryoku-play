@@ -37,6 +37,20 @@
   padding: 0 20px;
   width: 100%;
 }
+#InputBodyArea {
+  text-align: left;
+}
+#article {
+  margin-bottom: 40px;
+  border: solid 1px var(--font-color);
+  border-radius: 5px;
+  padding: 20px;
+  width: calc(100vw - 100px);
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #InputBodyArea textarea {
   border-radius: 5px;
   padding: 20px;

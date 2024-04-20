@@ -1,12 +1,17 @@
 import { useAuth } from "@/components/context/auth";
 import useMessage, { showFunctionType } from "@/components/tips/useMessage";
+import OneArticle from "@/components/world/top/oneArticle";
 import { db } from "@/lib/firebase/client";
-import { oneArticleType, userType } from "@/lib/types/communityType";
+import {
+  isOneArticleType,
+  oneArticleType,
+  userType,
+} from "@/lib/types/communityType";
 import createUUID from "@/lib/uuid";
 import styles from "@/styles/world/new.module.css";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type formArticleType = {
   title: string;
@@ -23,11 +28,47 @@ export default function NewArticle() {
   const [show, Message] = useMessage();
   const auth = useAuth();
   const router = useRouter();
+  const [articleType, setArticleType] = useState<{
+    type: "article" | "reply";
+    target?: string;
+    article?: oneArticleType;
+  }>({
+    type: "article",
+  });
+
+  useEffect(() => {
+    if (
+      router.query.type &&
+      router.query.type === "reply" &&
+      typeof router.query.target === "string"
+    ) {
+      setArticleType({ type: "reply", target: router.query.target });
+      //記事の情報を取得する。
+      getDoc(doc(db, "world", router.query.target))
+        .then((data) => data.data())
+        .then((data) => {
+          if (
+            isOneArticleType(data) &&
+            typeof router.query.target === "string"
+          ) {
+            setArticleType({
+              type: "reply",
+              target: router.query.target,
+              article: data,
+            });
+          } else {
+            setArticleType({
+              type: "article",
+            });
+          }
+        });
+    }
+  }, [router]);
 
   return (
     <div id={styles.parent}>
       <Message />
-      <h1>投稿する</h1>
+      <h1>{articleType.type === "article" ? "投稿" : "返信"}する</h1>
       <div id={styles.inputArea}>
         <div id={styles.inputTitleArea}>
           <label htmlFor="">タイトル</label>
@@ -55,6 +96,17 @@ export default function NewArticle() {
           />
         </div>
         <div id={styles.InputBodyArea}>
+          {articleType.article ? (
+            <div id={styles.article}>
+              <OneArticle
+                usersInfo={{}}
+                setUsersInfo={() => {}}
+                article={articleType.article}
+              ></OneArticle>
+            </div>
+          ) : (
+            <></>
+          )}
           <textarea
             placeholder="ここに内容を入力"
             value={inputValue.body}
@@ -68,7 +120,13 @@ export default function NewArticle() {
         <button
           onClick={async () => {
             if (auth) {
-              const result = await postArticle(inputValue, show, auth);
+              const result = await postArticle(
+                inputValue,
+                show,
+                auth,
+                articleType.type,
+                articleType.article
+              );
               if (result === true) {
                 setInputValue({ title: "", tags: "", body: "" });
                 router.push("/world");
@@ -86,7 +144,9 @@ export default function NewArticle() {
 async function postArticle(
   postValue: formArticleType,
   show: showFunctionType,
-  auth: userType
+  auth: userType,
+  type: "article" | "reply",
+  target?: oneArticleType
 ): Promise<boolean> {
   //postValueを投稿してもいい値か判断する
   if (
@@ -112,7 +172,7 @@ async function postArticle(
     return false;
   }
   //使える形に変換する
-  const postingArticle: oneArticleType = {
+  const postArticleBase = {
     ...postValue,
     tags: postValue.tags
       .split(/( |　)/)
@@ -120,13 +180,23 @@ async function postArticle(
       .filter((val) => val !== "" && val !== " " && val !== "　"),
     id: createUUID(),
     createdAt: new Date().getTime(),
-    type: "article",
+    type: type,
     description: postValue.body.substring(0, 50),
     user: auth.id,
     like: 0,
     dislike: 0,
     reply: 0,
   };
+  const postingArticle: oneArticleType =
+    type === "article"
+      ? { ...postArticleBase }
+      : {
+          ...postArticleBase,
+          target: target?.id,
+          targetUser: target?.user,
+          targetTitle: target?.title,
+          targetBody: target?.body,
+        };
   //投稿する
   await setDoc(doc(db, "world", postingArticle.id), postingArticle);
   //投稿後

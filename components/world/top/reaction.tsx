@@ -16,6 +16,7 @@ import {
   updateDoc,
   getCountFromServer,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function Reaction({
@@ -38,6 +39,7 @@ export default function Reaction({
   >(undefined);
   const [replyButtonState, setReplyButtonState] = useState(reply);
   const authInfo = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!authInfo) return;
@@ -215,6 +217,11 @@ export default function Reaction({
     [evaluationButtonState, authInfo]
   );
 
+  const onreply = useCallback(() => {
+    //replyする
+    router.push(`/world/new?type=reply&target=${messageId}`);
+  }, [router]);
+
   return evaluationButtonState ? (
     <div id={styles.reaction}>
       <button
@@ -241,7 +248,7 @@ export default function Reaction({
         <span className="material-symbols-outlined">thumb_down</span>
         {evaluationButtonState.dislike.count}
       </button>
-      <button id={styles.reply}>
+      <button id={styles.reply} onClick={onreply}>
         <span className="material-symbols-outlined">reply</span>
         {replyButtonState}
       </button>

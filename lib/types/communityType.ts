@@ -37,7 +37,7 @@ export const isPubUserDataType = (arg: any): arg is pubUserDataType => {
 export type oneArticleType = {
   createdAt: number;
   id: string;
-  type: "article" | "game" | "quiz";
+  type: "article" | "reply" | "game" | "quiz";
   title: string;
   tags: string[];
   description: string;
@@ -46,13 +46,21 @@ export type oneArticleType = {
   like: number;
   dislike: number;
   reply: number;
+  //typeがreplyの時のみ存在
+  target?: string;
+  targetUser?: string;
+  targetTitle?: string;
+  targetBody?: string;
 };
 export const isOneArticleType = (arg: any): arg is oneArticleType => {
   return (
     arg !== undefined &&
     typeof arg.createdAt === "number" &&
     typeof arg.id === "string" &&
-    (arg.type === "article" || arg.type === "game" || arg.type === "quiz") &&
+    (arg.type === "article" ||
+      arg.type === "reply" ||
+      arg.type === "game" ||
+      arg.type === "quiz") &&
     typeof arg.title === "string" &&
     typeof arg.tags === "object" &&
     typeof arg.description === "string" &&
@@ -60,7 +68,13 @@ export const isOneArticleType = (arg: any): arg is oneArticleType => {
     typeof arg.user === "string" &&
     typeof arg.like === "number" &&
     typeof arg.dislike === "number" &&
-    typeof arg.reply === "number"
+    typeof arg.reply === "number" &&
+    //replyの時のみ
+    (arg.type !== "reply" ||
+      (typeof arg.target === "string" &&
+        typeof arg.targetUser === "string" &&
+        typeof arg.targetBody === "string" &&
+        typeof arg.targetTitle === "string"))
   );
 };
 

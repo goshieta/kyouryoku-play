@@ -10,12 +10,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import Reaction from "./reaction";
+import Quote from "./quote";
 
 export async function getOneUserInfo(id: string) {
   const document = await getDoc(doc(db, "pubUsers", id));
   const data = document.data();
   if (isPubUserDataType(data)) return data;
   else return undefined;
+}
+
+export function ArticleUser({
+  userData,
+  createdAt,
+}: {
+  userData: pubUserDataType;
+  createdAt: Date;
+}) {
+  const zeroPadding = (digit: number, num: number) =>
+    ("0".repeat(digit) + num.toString()).slice(-digit);
+  return (
+    <div className={styles.accountArea}>
+      <Image
+        src={userData.photoURL}
+        width={25}
+        height={25}
+        alt={userData.name}
+      />
+      <p>{userData.name}</p>
+      <p>{`${createdAt.getFullYear()}年${
+        createdAt.getMonth() + 1
+      }月${createdAt.getDate()}日 ${zeroPadding(
+        2,
+        createdAt.getHours()
+      )}:${zeroPadding(2, createdAt.getMinutes())}`}</p>
+    </div>
+  );
 }
 
 export default function OneArticle({
@@ -43,31 +72,25 @@ export default function OneArticle({
     }
   }, [usersInfo]);
   const createdAt = useMemo(() => new Date(article.createdAt), []);
-  const zeroPadding = (digit: number, num: number) =>
-    ("0".repeat(digit) + num.toString()).slice(-digit);
 
   return (
     <div className={styles.oneArticle}>
       {userData ? (
-        <div className={styles.accountArea}>
-          <Image
-            src={userData.photoURL}
-            width={25}
-            height={25}
-            alt={userData.name}
-          />
-          <p>{userData.name}</p>
-          <p>{`${createdAt.getFullYear()}年${
-            createdAt.getMonth() + 1
-          }月${createdAt.getDate()}日 ${zeroPadding(
-            2,
-            createdAt.getHours()
-          )}:${zeroPadding(2, createdAt.getMinutes())}`}</p>
-        </div>
+        <ArticleUser userData={userData} createdAt={createdAt} />
       ) : (
         <></>
       )}
       <h3>{article.title}</h3>
+      {article.type === "reply" ? (
+        <Quote
+          title={article.targetTitle!}
+          body={article.targetBody!}
+          user={article.targetUser!}
+          target={article.target!}
+        />
+      ) : (
+        <></>
+      )}
       <p>{article.body}</p>
       <div className={styles.tagArea}>
         {article.tags.map((oneTag) => (
