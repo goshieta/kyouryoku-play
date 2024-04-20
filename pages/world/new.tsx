@@ -9,7 +9,16 @@ import {
 } from "@/lib/types/communityType";
 import createUUID from "@/lib/uuid";
 import styles from "@/styles/world/new.module.css";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getCountFromServer,
+  getDoc,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -199,6 +208,22 @@ async function postArticle(
         };
   //投稿する
   await setDoc(doc(db, "world", postingArticle.id), postingArticle);
+  if (type === "reply") {
+    (async function () {
+      const replyCount = (
+        await getCountFromServer(
+          query(
+            collection(db, "world"),
+            where("type", "==", "reply"),
+            where("target", "==", target?.id)
+          )
+        )
+      ).data().count;
+      updateDoc(doc(collection(db, "world"), target?.id), {
+        reply: replyCount,
+      });
+    })();
+  }
   //投稿後
   await show("info", "投稿が完了しました。");
   return true;
