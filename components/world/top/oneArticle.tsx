@@ -24,7 +24,7 @@ export function ArticleUser({
   createdAt,
 }: {
   userData: pubUserDataType;
-  createdAt: Date;
+  createdAt?: Date;
 }) {
   const zeroPadding = (digit: number, num: number) =>
     ("0".repeat(digit) + num.toString()).slice(-digit);
@@ -37,12 +37,16 @@ export function ArticleUser({
         alt={userData.name}
       />
       <p>{userData.name}</p>
-      <p>{`${createdAt.getFullYear()}年${
-        createdAt.getMonth() + 1
-      }月${createdAt.getDate()}日 ${zeroPadding(
-        2,
-        createdAt.getHours()
-      )}:${zeroPadding(2, createdAt.getMinutes())}`}</p>
+      {createdAt ? (
+        <p>{`${createdAt.getFullYear()}年${
+          createdAt.getMonth() + 1
+        }月${createdAt.getDate()}日 ${zeroPadding(
+          2,
+          createdAt.getHours()
+        )}:${zeroPadding(2, createdAt.getMinutes())}`}</p>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
