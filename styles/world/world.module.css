@@ -224,32 +224,71 @@
   top: 1px;
   left: 5px;
   z-index: -1;
-  transition: background-color 0.2s;
+  transition: background-color 0.4s;
+}
+#reaction button::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 12px;
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  z-index: -1;
+  opacity: 0;
+  transition: 0.3s opacity;
 }
 #reaction button span {
   font-size: 15px;
   display: block;
-  transition: 0.2s color;
+  transition: 0.4s color;
 }
-#like.reactionButtonHasClicked {
+#like::after {
+  border: solid 1px var(--green-font);
+}
+#like:hover {
   color: var(--green-font);
   font-weight: bold;
 }
-#like.reactionButtonHasClicked span {
+#like:hover span {
   color: var(--green-font);
 }
-#like.reactionButtonHasClicked::before {
+#like:hover::before {
   background-color: var(--green-bg);
 }
-#dislike.reactionButtonHasClicked {
+#like:active {
+  color: var(--green-font);
+  font-weight: bold;
+}
+#like:active span {
+  color: var(--green-font);
+}
+#like:active::after {
+  opacity: 1;
+}
+#dislike::after {
+  border: solid 1px var(--red-font);
+}
+#dislike:hover {
   color: var(--red-font);
   font-weight: bold;
 }
-#dislike.reactionButtonHasClicked span {
+#dislike:hover span {
   color: var(--red-font);
 }
-#dislike.reactionButtonHasClicked::before {
+#dislike:hover::before {
   background-color: var(--red-bg);
+}
+#dislike:active {
+  color: var(--red-font);
+  font-weight: bold;
+}
+#dislike:active span {
+  color: var(--red-font);
+}
+#dislike:active::after {
+  opacity: 1;
 }
 
 #readMore {
