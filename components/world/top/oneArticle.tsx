@@ -55,10 +55,12 @@ export default function OneArticle({
   article,
   usersInfo,
   setUsersInfo,
+  isNoQuote,
 }: {
   article: oneArticleType;
   usersInfo: { [key: string]: pubUserDataType };
   setUsersInfo: (newUsersInfo: { [key: string]: pubUserDataType }) => void;
+  isNoQuote?: boolean;
 }) {
   //ユーザーのデータを設定
   const [userData, setUserData] = useState<pubUserDataType | null | undefined>(
@@ -84,8 +86,13 @@ export default function OneArticle({
       ) : (
         <></>
       )}
-      <h3>{article.title}</h3>
-      {article.type === "reply" ? (
+      <Link
+        href={`/world/article/${article.id}`}
+        className={styles.oneArticleLink}
+      >
+        <h3>{article.title}</h3>
+      </Link>
+      {article.type === "reply" && !isNoQuote ? (
         <Quote
           title={article.targetTitle!}
           body={article.targetBody!}
@@ -95,7 +102,12 @@ export default function OneArticle({
       ) : (
         <></>
       )}
-      <p>{article.body}</p>
+      <Link
+        href={`/world/article/${article.id}`}
+        className={styles.oneArticleLink}
+      >
+        <p>{article.body}</p>
+      </Link>
       <div className={styles.tagArea}>
         {article.tags.map((oneTag) => (
           <Link key={oneTag} href={`http://localhost:3000/world?q=${oneTag}`}>

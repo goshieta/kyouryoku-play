@@ -16,6 +16,7 @@
   position: -webkit-sticky;
   position: sticky;
   top: 130px;
+  width: 280px;
 }
 .leftButton {
   display: flex;
@@ -118,6 +119,21 @@
   gap: 30px;
   margin: 0 10px;
 }
+.oneArticle {
+  animation: belowAnimation 0.3s;
+}
+@keyframes belowAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.oneArticleLink {
+  display: block;
+  text-decoration: none;
+}
 .oneArticle h3 {
   margin: 0;
 }
@@ -145,6 +161,8 @@
   margin: 15px 0;
   padding-left: 25px;
   position: relative;
+  display: block;
+  text-decoration: none;
 }
 #quote::before {
   content: "";

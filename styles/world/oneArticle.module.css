@@ -1,0 +1,52 @@
+#oneArticle {
+  max-width: 700px;
+  margin: 20px auto;
+  margin-bottom: 100px;
+}
+#headArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 20px 0;
+  margin-bottom: 30px;
+}
+#headArea h1 {
+  font-size: 25px;
+}
+#operationArea {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  position: absolute;
+  left: 0;
+}
+#operationArea button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#operationArea button span {
+  font-size: 17px;
+}
+#pageState {
+  text-align: center;
+}
+#oneArticleArea {
+  margin-bottom: 50px;
+}
+#replyTitle {
+  text-align: center;
+}
+#replyArea {
+  display: flex;
+  flex-flow: column;
+  gap: 30px;
+}
+#replyArea > div {
+  border-left: solid 1px var(--font-color);
+  padding-left: 40px;
+}
