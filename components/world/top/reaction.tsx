@@ -1,23 +1,11 @@
 import { useAuth } from "@/components/context/auth";
 import { db } from "@/lib/firebase/client";
-import { reactionType } from "@/lib/types/communityType";
+import { isOneArticleType } from "@/lib/types/communityType";
 import createUUID from "@/lib/uuid";
 import styles from "@/styles/world/world.module.css";
-import {
-  DocumentData,
-  collection,
-  getDocs,
-  query,
-  where,
-  QueryDocumentSnapshot,
-  setDoc,
-  doc,
-  deleteDoc,
-  updateDoc,
-  getCountFromServer,
-} from "firebase/firestore";
+import { collection, doc, updateDoc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export default function Reaction({
   like,
@@ -30,84 +18,29 @@ export default function Reaction({
   reply: number;
   messageId: string;
 }) {
-  const [evaluationButtonState, setEvaluationButtonState] = useState<
-    | {
-        like: { count: number; isClicked: boolean };
-        dislike: { count: number; isClicked: boolean };
-      }
-    | undefined
-  >(undefined);
+  const [evaluationButtonState, setEvaluationButtonState] = useState<{
+    like: { previousCount: number; count: number };
+    dislike: { previousCount: number; count: number };
+  }>({
+    like: { previousCount: like, count: like },
+    dislike: { previousCount: dislike, count: dislike },
+  });
   const [replyButtonState, setReplyButtonState] = useState(reply);
   const authInfo = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!authInfo) return;
-    //即時関数で非同期を実現
-    (async function () {
-      const likeSnapShot = getDocs(
-        query(
-          collection(db, "evaluation"),
-          where("user", "==", authInfo.id),
-          where("target", "==", messageId),
-          where("type", "==", "like")
-        )
-      );
-      const dislikeSnapShot = getDocs(
-        query(
-          collection(db, "evaluation"),
-          where("user", "==", authInfo.id),
-          where("target", "==", messageId),
-          where("type", "==", "dislike")
-        )
-      );
-      const haveLike: QueryDocumentSnapshot<DocumentData, DocumentData> = (
-        await likeSnapShot
-      ).docs[0];
-      const haveDisLike: QueryDocumentSnapshot<DocumentData, DocumentData> = (
-        await dislikeSnapShot
-      ).docs[0];
-      setEvaluationButtonState({
-        like: { count: like, isClicked: haveLike ? true : false },
-        dislike: { count: dislike, isClicked: haveDisLike ? true : false },
-      });
-    })();
-  }, [authInfo]);
-
   const clickedLikeDisLike = useCallback(
     (type: "like" | "dislike") => {
       if (!evaluationButtonState) return;
-      if (!evaluationButtonState[type].isClicked) {
-        //登録
-        const opposition = type === "like" ? "dislike" : "like";
-        setEvaluationButtonState({
-          ...evaluationButtonState,
-          [type]: {
-            count: evaluationButtonState[type].count + 1,
-            isClicked: true,
-          },
-          [opposition]: {
-            count: evaluationButtonState[opposition].isClicked
-              ? evaluationButtonState[opposition].count - 1
-              : evaluationButtonState[opposition].count,
-            isClicked: false,
-          },
-        });
-      } else {
-        //登録解除
-        setEvaluationButtonState({
-          ...evaluationButtonState,
-          [type]: {
-            count: evaluationButtonState[type].count - 1,
-            isClicked: false,
-          },
-        });
-      }
-      postEvaluation(
-        !evaluationButtonState[type].isClicked
-          ? { ...{ like: false, dislike: false }, [type]: true }
-          : { like: false, dislike: false }
-      );
+      const newVal = {
+        ...evaluationButtonState,
+        [type]: {
+          ...evaluationButtonState[type],
+          count: evaluationButtonState[type].count + 1,
+        },
+      };
+      setEvaluationButtonState(newVal);
+      postEvaluation(newVal);
     },
     [evaluationButtonState, authInfo]
   );
@@ -115,7 +48,10 @@ export default function Reaction({
   const currentlyPostServerProcessID = useRef<string | null>(null);
   //サーバーの処理
   const postEvaluation = useCallback(
-    (newState: { like: boolean; dislike: boolean }) => {
+    (newState: {
+      like: { previousCount: number; count: number };
+      dislike: { previousCount: number; count: number };
+    }) => {
       if (!authInfo) return;
       const thisProcessID = createUUID();
       currentlyPostServerProcessID.current = thisProcessID;
@@ -127,90 +63,18 @@ export default function Reaction({
         if (currentlyPostServerProcessID.current !== thisProcessID) return;
         //処理の開始
         //サーバーの状態を取得
-        const likeSnapShot = getDocs(
-          query(
-            collection(db, "evaluation"),
-            where("user", "==", authInfo.id),
-            where("target", "==", messageId),
-            where("type", "==", "like")
-          )
+        const currentDocSnapshot = await getDoc(
+          doc(collection(db, "world"), messageId)
         );
-        const dislikeSnapShot = getDocs(
-          query(
-            collection(db, "evaluation"),
-            where("user", "==", authInfo.id),
-            where("target", "==", messageId),
-            where("type", "==", "dislike")
-          )
-        );
-        const like:
-          | QueryDocumentSnapshot<DocumentData, DocumentData>
-          | undefined = (await likeSnapShot).docs[0];
-        const dislike:
-          | QueryDocumentSnapshot<DocumentData, DocumentData>
-          | undefined = (await dislikeSnapShot).docs[0];
-        //likeとdislikeは存在するか存在しないか
-        //それと、現在のクライアントサイドのステートを照合する。
-        //その後差分を変更する
-        const stateAll = {
-          client: newState,
-          server: {
-            like: like ? true : false,
-            dislike: dislike ? true : false,
-          },
-        };
-        if (stateAll.client.like !== stateAll.server.like) {
-          //好きを消したり、追加したりする
-          if (stateAll.client.like) {
-            const reaction: reactionType = {
-              id: createUUID(),
-              user: authInfo.id,
-              target: messageId,
-              type: "like",
-            };
-            await setDoc(doc(db, "evaluation", reaction.id), reaction);
-          } else {
-            const docId = like.id;
-            await deleteDoc(doc(db, "evaluation", docId));
-          }
-        }
-        if (stateAll.client.dislike !== stateAll.server.dislike) {
-          //嫌いを消したり、追加したりする
-          if (stateAll.client.dislike) {
-            const reaction: reactionType = {
-              id: createUUID(),
-              user: authInfo.id,
-              target: messageId,
-              type: "dislike",
-            };
-            await setDoc(doc(db, "evaluation", reaction.id), reaction);
-          } else {
-            const docId = dislike.id;
-            await deleteDoc(doc(db, "evaluation", docId));
-          }
-        }
+        const data = currentDocSnapshot.data();
+        if (!isOneArticleType(data)) return;
+        //サーバーの状態に現在の差分を追加し、同期する
         //likeとdislikeの値を更新する
-        const likeNumber = (
-          await getCountFromServer(
-            query(
-              collection(db, "evaluation"),
-              where("target", "==", messageId),
-              where("type", "==", "like")
-            )
-          )
-        ).data().count;
-        const dislikeNumber = (
-          await getCountFromServer(
-            query(
-              collection(db, "evaluation"),
-              where("target", "==", messageId),
-              where("type", "==", "dislike")
-            )
-          )
-        ).data().count;
         updateDoc(doc(db, "world", messageId), {
-          like: likeNumber,
-          dislike: dislikeNumber,
+          like: data.like + (newState.like.count - newState.like.previousCount),
+          dislike:
+            data.dislike +
+            (newState.dislike.count - newState.dislike.previousCount),
         });
       }, timeout);
     },
@@ -224,27 +88,11 @@ export default function Reaction({
 
   return evaluationButtonState ? (
     <div id={styles.reaction}>
-      <button
-        id={styles.like}
-        onClick={() => clickedLikeDisLike("like")}
-        className={
-          evaluationButtonState.like.isClicked
-            ? styles.reactionButtonHasClicked
-            : ""
-        }
-      >
+      <button id={styles.like} onClick={() => clickedLikeDisLike("like")}>
         <span className="material-symbols-outlined">thumb_up</span>
         {evaluationButtonState.like.count}
       </button>
-      <button
-        id={styles.dislike}
-        onClick={() => clickedLikeDisLike("dislike")}
-        className={
-          evaluationButtonState.dislike.isClicked
-            ? styles.reactionButtonHasClicked
-            : ""
-        }
-      >
+      <button id={styles.dislike} onClick={() => clickedLikeDisLike("dislike")}>
         <span className="material-symbols-outlined">thumb_down</span>
         {evaluationButtonState.dislike.count}
       </button>
