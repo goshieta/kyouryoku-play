@@ -1,0 +1,32 @@
+#postsArea {
+  margin-top: 30px;
+}
+#caption {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+#selectArea {
+  display: flex;
+  gap: 20px;
+}
+#selectArea input {
+  opacity: 0;
+  position: absolute;
+}
+#selectArea label {
+  display: block;
+  width: 70px;
+  height: 30px;
+  border-radius: 5px;
+  border: solid 1px var(--theme-color-level-3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#selectArea input:checked + label {
+  border: solid 1px rgba(255, 255, 255, 0);
+  background-color: var(--theme-color-level-2);
+}

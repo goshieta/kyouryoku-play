@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { isPubUserDataType, pubUserDataType } from "@/lib/types/communityType";
 import { db } from "@/lib/firebase/client";
 import { collection, doc, getDoc } from "firebase/firestore";
+import styles from "@/styles/account/profile.module.css";
 
 export default function AccountInfo() {
   const router = useRouter();
@@ -29,11 +30,9 @@ export default function AccountInfo() {
   }, [router]);
 
   return (
-    <div>
-      <div>
-        <PubProfile info={info} />
-        <Post id={id} info={info} />
-      </div>
+    <div id={styles.parent}>
+      <PubProfile info={info} />
+      <Post id={id} info={info} />
     </div>
   );
 }

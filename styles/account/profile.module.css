@@ -1,0 +1,18 @@
+#parent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#pubProfile {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+#pubProfile img {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+}
+#pubProfile h1 {
+  font-size: 30px;
+}

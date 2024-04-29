@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { pubUserDataType } from "@/lib/types/communityType";
+import styles from "@/styles/account/profile.module.css";
 
 export default function PubProfile({
   info,
@@ -11,7 +12,7 @@ export default function PubProfile({
       {info === null ? <div>読み込み中</div> : <></>}
       {info === undefined ? <div>存在しないユーザーです</div> : <></>}
       {info ? (
-        <div>
+        <div id={styles.pubProfile}>
           <Image
             src={info.photoURL}
             alt={`${info.name}の写真`}

@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { useState, useEffect, ChangeEvent } from "react";
 import OneArticle from "../world/top/oneArticle";
+import styles from "@/styles/account/post.module.css";
 
 const isSortType = (val: string): val is "latest" | "popular" | "oldest" =>
   val === "latest" || val === "popular" || val === "oldest";
@@ -70,10 +71,9 @@ export default function Post({
   }, [info, id]);
 
   return info ? (
-    <>
-      <div>
-        <h2>投稿</h2>
-        <div>
+    <div id={styles.postsArea}>
+      <div id={styles.caption}>
+        <div id={styles.selectArea}>
           <div>
             <input
               type="radio"
@@ -108,22 +108,22 @@ export default function Post({
             <label htmlFor="select_show_type_oldest">最古</label>
           </div>
         </div>
-        <div>
-          {userType ? (
-            posts.map((onePost) => (
-              <OneArticle
-                article={onePost}
-                usersInfo={userType}
-                setUsersInfo={setUserType}
-                key={onePost.id}
-              />
-            ))
-          ) : (
-            <></>
-          )}
-        </div>
       </div>
-    </>
+      <div id={styles.posts}>
+        {userType ? (
+          posts.map((onePost) => (
+            <OneArticle
+              article={onePost}
+              usersInfo={userType}
+              setUsersInfo={setUserType}
+              key={onePost.id}
+            />
+          ))
+        ) : (
+          <></>
+        )}
+      </div>
+    </div>
   ) : (
     <></>
   );
