@@ -1,12 +1,7 @@
 import styles from "@/styles/world/world.module.css";
 import { ArticleUser } from "./oneArticle";
 import { useEffect, useState } from "react";
-import {
-  isPubUserDataType,
-  isUserType,
-  pubUserDataType,
-  userType,
-} from "@/lib/types/communityType";
+import { isPubUserDataType, pubUserDataType } from "@/lib/types/communityType";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import Link from "next/link";
@@ -37,10 +32,12 @@ export default function Quote({
 
   //リンクなども実装したい
   return (
-    <Link id={styles.quote} href={`/world/article/${target}`}>
+    <div id={styles.quote}>
       {userData ? <ArticleUser userData={userData} /> : <></>}
-      <h4>{title}</h4>
-      <p>{body}</p>
-    </Link>
+      <Link href={`/world/article/${target}`}>
+        <h4>{title}</h4>
+        <p>{body}</p>
+      </Link>
+    </div>
   );
 }

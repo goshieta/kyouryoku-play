@@ -145,6 +145,12 @@
   gap: 10px;
   align-items: center;
 }
+.accountArea a {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 10px;
+}
 .accountArea img {
   border-radius: 50%;
   display: block;
@@ -161,8 +167,6 @@
   margin: 15px 0;
   padding-left: 25px;
   position: relative;
-  display: block;
-  text-decoration: none;
 }
 #quote::before {
   content: "";
@@ -174,6 +178,10 @@
   background-color: var(--pale-font-color);
   top: 0;
   left: 0;
+}
+#quote > a {
+  display: block;
+  text-decoration: none;
 }
 #quote h4 {
   margin: 0;

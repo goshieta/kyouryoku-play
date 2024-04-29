@@ -30,13 +30,15 @@ export function ArticleUser({
     ("0".repeat(digit) + num.toString()).slice(-digit);
   return (
     <div className={styles.accountArea}>
-      <Image
-        src={userData.photoURL}
-        width={25}
-        height={25}
-        alt={userData.name}
-      />
-      <p>{userData.name}</p>
+      <Link href={`/account/${userData.id}`}>
+        <Image
+          src={userData.photoURL}
+          width={25}
+          height={25}
+          alt={userData.name}
+        />
+        <p>{userData.name}</p>
+      </Link>
       {createdAt ? (
         <p>{`${createdAt.getFullYear()}年${
           createdAt.getMonth() + 1
