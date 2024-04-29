@@ -122,6 +122,9 @@ button:active {
   background-color: var(--theme-color-level-3);
   transition: background-color 0.2s;
 }
+button:disabled {
+  background-color: var(--gray);
+}
 ::placeholder {
   color: var(--pale-font-color);
 }

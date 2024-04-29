@@ -44,6 +44,7 @@ export default function NewArticle() {
   }>({
     type: "article",
   });
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (
@@ -134,6 +135,7 @@ export default function NewArticle() {
                 show,
                 auth,
                 articleType.type,
+                setIsSending,
                 articleType.article
               );
               if (result === true) {
@@ -142,8 +144,9 @@ export default function NewArticle() {
               }
             } else show("error", "投稿するにはログインしてください。");
           }}
+          disabled={isSending}
         >
-          投稿
+          {isSending ? "投稿中..." : "投稿"}
         </button>
       </div>
     </div>
@@ -155,6 +158,7 @@ async function postArticle(
   show: showFunctionType,
   auth: userType,
   type: "article" | "reply",
+  setIsSending: (newVal: boolean) => void,
   target?: oneArticleType
 ): Promise<boolean> {
   //postValueを投稿してもいい値か判断する
@@ -180,6 +184,7 @@ async function postArticle(
     show("error", "タグの数を５つ以下にしてください。");
     return false;
   }
+  setIsSending(true);
   //使える形に変換する
   const postArticleBase = {
     ...postValue,
