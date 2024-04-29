@@ -74,6 +74,7 @@ export default function Profile({ authInfo }: { authInfo: userType }) {
 
   //名前関連
   const [name, setName] = useState(authInfo.name);
+  const [description, setDescription] = useState(authInfo.description);
   const [isReadOnly, setIsReadOnly] = useState(true);
   const handleNameChange = () => {
     if (isReadOnly) setIsReadOnly(false);
@@ -82,8 +83,16 @@ export default function Profile({ authInfo }: { authInfo: userType }) {
       updateAuthInfo({ name: name }, authInfo);
     }
   };
+  const handleDescriptionChange = () => {
+    if (isReadOnly) setIsReadOnly(false);
+    else {
+      setIsReadOnly(true);
+      updateAuthInfo({ description: description }, authInfo);
+    }
+  };
   useEffect(() => {
     setName(authInfo.name);
+    setDescription(authInfo.description);
   }, [authInfo]);
 
   return (
@@ -122,7 +131,12 @@ export default function Profile({ authInfo }: { authInfo: userType }) {
             onChange={(e) => setName(e.target.value)}
             readOnly={isReadOnly}
           />
-          <button onClick={handleNameChange}>
+          <button
+            onClick={() => {
+              handleNameChange();
+              handleDescriptionChange();
+            }}
+          >
             {isReadOnly ? (
               <span className="material-symbols-outlined">edit</span>
             ) : (
@@ -130,7 +144,17 @@ export default function Profile({ authInfo }: { authInfo: userType }) {
             )}
           </button>
         </div>
-        <p>{authInfo.email}</p>
+        <div>
+          {isReadOnly ? (
+            <p>{description}</p>
+          ) : (
+            <input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              readOnly={isReadOnly}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
