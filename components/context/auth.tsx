@@ -45,12 +45,14 @@ export default function Auth({ children }: { children: ReactNode }) {
             email: firebaseUser.email!,
             createdAt: Date.now(),
             belongCommunity: [],
+            description: "",
           };
           const pubAppUser: pubUserDataType = {
             createdAt: Date.now(),
             id: firebaseUser.uid,
             name: firebaseUser.displayName!,
             photoURL: firebaseUser.photoURL!,
+            description: "",
           };
           setDoc(ref, appUser).then(() => {
             setUser(appUser);

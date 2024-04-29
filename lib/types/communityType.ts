@@ -5,6 +5,7 @@ export type userType = {
   name: string;
   photoURL: string;
   belongCommunity: string[];
+  description: string;
 };
 export const isUserType = (arg: any): arg is userType => {
   return (
@@ -14,7 +15,8 @@ export const isUserType = (arg: any): arg is userType => {
     typeof arg.id === "string" &&
     typeof arg.name === "string" &&
     typeof arg.photoURL === "string" &&
-    typeof arg.belongCommunity === "object"
+    typeof arg.belongCommunity === "object" &&
+    typeof arg.description === "string"
   );
 };
 
@@ -23,6 +25,7 @@ export type pubUserDataType = {
   id: string;
   name: string;
   photoURL: string;
+  description: string;
 };
 export const isPubUserDataType = (arg: any): arg is pubUserDataType => {
   return (
@@ -30,7 +33,8 @@ export const isPubUserDataType = (arg: any): arg is pubUserDataType => {
     typeof arg.createdAt === "number" &&
     typeof arg.id === "string" &&
     typeof arg.name === "string" &&
-    typeof arg.photoURL === "string"
+    typeof arg.photoURL === "string" &&
+    typeof arg.description === "string"
   );
 };
 
