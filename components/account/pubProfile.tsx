@@ -1,21 +1,11 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { isPubUserDataType, pubUserDataType } from "@/lib/types/communityType";
-import { db } from "@/lib/firebase/client";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { pubUserDataType } from "@/lib/types/communityType";
 
-export default function PubProfile({ id }: { id: string | null | undefined }) {
-  const [info, setInfo] = useState<pubUserDataType | null | undefined>(null);
-  useEffect(() => {
-    if (!id) return;
-    getDoc(doc(collection(db, "pubUsers"), id))
-      .then((data) => data.data())
-      .then((data) => {
-        if (isPubUserDataType(data)) setInfo(data);
-        else setInfo(undefined);
-      });
-  }, [id]);
-
+export default function PubProfile({
+  info,
+}: {
+  info: pubUserDataType | null | undefined;
+}) {
   return (
     <>
       {info === null ? <div>読み込み中</div> : <></>}
