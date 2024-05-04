@@ -102,6 +102,8 @@ body {
 #contentArea {
   margin: 0 10px;
   padding-top: 100px;
+  display: flex;
+  position: relative;
 }
 
 /*オブジェクトの基礎的なUI*/

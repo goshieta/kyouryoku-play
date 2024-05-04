@@ -1,4 +1,45 @@
-#gridGameArea {
+/*メニュー*/
+#menu {
+  padding: 20px;
+  width: fit-content;
+  position: sticky;
+  top: 100px;
+  left: 0px;
+  height: fit-content;
+}
+#menu a {
+  display: block;
+  font-size: 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 10px 30px;
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+  transition: color 0.2s;
+}
+#menu a span {
+  font-size: 25px;
+  transition: color 0.2s;
+}
+#menu a:hover {
+  color: var(--link-color);
+}
+#menu a:hover span {
+  color: var(--link-color);
+}
+.active_link {
+  color: var(--link-color);
+  background-color: var(--special-bg);
+}
+.active_link span {
+  color: var(--link-color);
+}
+
+/*コンテンツ一覧*/
+#gridArea {
   display: grid;
   max-width: 700px;
   margin: 20px auto;
