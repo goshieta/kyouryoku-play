@@ -9,19 +9,19 @@
 }
 #menu a {
   display: block;
-  font-size: 20px;
+  font-size: 17px;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 20px 0;
+  margin: 15px 0;
   padding: 10px 30px;
   border-radius: 9999px;
   transition: background-color 0.2s;
   transition: color 0.2s;
 }
 #menu a span {
-  font-size: 25px;
+  font-size: 22px;
   transition: color 0.2s;
 }
 #menu a:hover {
@@ -39,10 +39,20 @@
 }
 
 /*コンテンツ一覧*/
-#gridArea {
-  display: grid;
-  max-width: 700px;
-  margin: 20px auto;
-  grid-template-columns: 1fr 1fr;
+#contentArea {
+  margin: 20px 50px;
   gap: 30px;
+  flex: 1;
+}
+#contentArea .flexContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+#postArea .flexContent > div {
+  width: 300px;
+  border: solid 1px var(--font-color);
+  padding: 20px;
+  border-radius: 5px;
+  height: fit-content;
 }
