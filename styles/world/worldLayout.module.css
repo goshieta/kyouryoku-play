@@ -1,13 +1,13 @@
 #headerContainer {
   display: flex;
   align-items: center;
-  padding: 20px;
   position: fixed;
   width: 100%;
-  box-sizing: border-box;
   background-color: var(--alpha-background-color);
   backdrop-filter: blur(5px);
   z-index: 10;
+  padding: 10px;
+  padding-bottom: 20px;
 }
 #children {
   padding-top: 80px;
