@@ -3,6 +3,7 @@ import styles from "../../styles/components/header.module.css";
 import Image from "next/image";
 import { login } from "@/lib/auth";
 import { useAuth } from "../context/auth";
+import Loading from "../tips/loading";
 
 export function KyouRyokuPlayCredit({ onlyIcon }: { onlyIcon?: boolean }) {
   return (
@@ -33,6 +34,10 @@ export function UserArea() {
         height={30}
       ></Image>
     </Link>
+  ) : authInfo === undefined ? (
+    <div>
+      <Loading type="small" />
+    </div>
   ) : (
     <button onClick={login}>ログイン</button>
   );

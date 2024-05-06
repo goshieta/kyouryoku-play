@@ -14,6 +14,7 @@ import WorldLayout, {
 import Link from "next/link";
 import Head from "next/head";
 import useHasMounted from "@/lib/tips/useHasMounted";
+import { useAuth } from "@/components/context/auth";
 
 export default function World() {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function World() {
   }, []);
   const currentTag = useContext(CurrentTagContext);
   const hasMounted = useHasMounted();
+  const authInfo = useAuth();
 
   return (
     <div id={styles.parent}>
@@ -38,13 +40,17 @@ export default function World() {
         }の投稿 - 峡緑プレイ`}</title>
       </Head>
       <div id={styles.leftItem}>
-        <button
-          id={styles.createNew}
-          className={styles.leftButton}
-          onClick={() => router.push("/world/new")}
-        >
-          <span className="material-symbols-outlined">article</span>投稿
-        </button>
+        {authInfo ? (
+          <button
+            id={styles.createNew}
+            className={styles.leftButton}
+            onClick={() => router.push("/world/new")}
+          >
+            <span className="material-symbols-outlined">article</span>投稿
+          </button>
+        ) : (
+          <></>
+        )}
         {hasMounted ? (
           <div id={styles.linkArea}>
             <Link
