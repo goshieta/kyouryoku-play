@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "../styles/page.module.css";
+import styles from "@/styles/page.module.css";
 import GameTile from "@/components/GameTile";
 import { useEffect, useState } from "react";
 import {
@@ -11,6 +11,9 @@ import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import OneArticle from "@/components/world/top/oneArticle";
 import Link from "next/link";
+import AccountArea from "@/components/top/accountArea";
+import PageLinkArea from "@/components/top/pageLinkArea";
+import { KyouRyokuPlayCredit } from "@/components/header/Header";
 
 export default function Home() {
   return (
@@ -19,10 +22,17 @@ export default function Home() {
         <title>峡緑プレイ | KyouRyoku Play</title>
         <meta
           name="description"
-          content="使いやすく、シンプル、現実世界を重視した新世代のゲームサイト「峡緑プレイ」へようこそ。このサイトでは軽いボードゲームを中心に、様々なゲームを楽しめます。"
+          content="ゲームで世界をつなげる。峡緑プレイは「ゲームのSNS」として人の集まる新たな場所を提供します。"
         />
       </Head>
       <div id={styles.contentArea}>
+        <div id={styles.topSummary}>
+          <div id={styles.summaryDescription}>
+            <KyouRyokuPlayCredit />
+          </div>
+          <AccountArea />
+          <PageLinkArea />
+        </div>
         <div id={styles.gameArea}>
           <h2>ゲーム</h2>
           <div className={styles.flexContent}>
