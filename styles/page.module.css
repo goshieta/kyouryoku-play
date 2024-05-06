@@ -40,19 +40,29 @@
 
 /*コンテンツ一覧*/
 #contentArea {
-  margin: 20px 50px;
+  margin: 0 20px;
   gap: 30px;
   flex: 1;
 }
-#contentArea .flexContent {
-  display: flex;
+#gameArea .flexContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   flex-wrap: wrap;
   gap: 20px;
 }
-#postArea .flexContent > div {
-  width: 300px;
-  border: solid 1px var(--font-color);
-  padding: 20px;
+#moreRead {
+  margin: 20px auto;
+  width: 140px;
+  height: 50px;
+  background-color: var(--theme-color-level-1);
   border-radius: 5px;
-  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background-color 0.2s;
+}
+#moreRead:hover {
+  background-color: var(--theme-color-level-2);
 }

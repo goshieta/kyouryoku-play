@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 
 export default function Menu() {
   const menuList = [
-    { href: "/", icon: "home", title: "ホーム" },
-    { href: "/world", icon: "chat", title: "投稿" },
+    { href: "/", icon: "home", title: "トップ" },
+    { href: "/world", icon: "globe_asia", title: "ワールド" },
     { href: "/games", icon: "sports_esports", title: "ゲーム" },
     { href: "/additional/about", icon: "help", title: "ヘルプ" },
   ];

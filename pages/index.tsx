@@ -10,6 +10,7 @@ import {
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import OneArticle from "@/components/world/top/oneArticle";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -58,16 +59,20 @@ function PostArea() {
 
   return (
     <div id={styles.postArea}>
-      <h2>投稿</h2>
+      <h2>最新の投稿</h2>
       <div className={styles.flexContent}>
         {posts.map((onePost) => (
           <OneArticle
             article={onePost}
             usersInfo={users}
             setUsersInfo={setUsers}
+            isNoQuote={true}
           />
         ))}
       </div>
+      <Link href={"/world"} id={styles.moreRead}>
+        もっと見る
+      </Link>
     </div>
   );
 }

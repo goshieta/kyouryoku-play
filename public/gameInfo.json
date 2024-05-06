@@ -2,19 +2,21 @@
   "othello": {
     "title": "オセロ",
     "catchCopy": "定番こそ、今やるべき",
-    "description": "ボードゲームの中でも定番中の定番である「オセロ（リバーシ）」。定番だからこそ、久しぶりにやってみると奥が深いものです。",
+    "description": "ボードゲームの中でも定番中の定番である「オセロ」。定番だからこそ、久しぶりにやってみると奥が深いものです。",
     "gameCode": "othello",
     "color": "rgb(0, 255, 179)"
   },
   "flash": {
     "title": "フラッシュ暗算",
     "gameCode": "flash",
-    "color": "rgb(0, 255, 179)"
+    "color": "rgb(0, 255, 179)",
+    "description":"画面上の数字を足し合わせるだけのゲーム。初心者から上級者まで誰でも楽しめる難易度設定です。"
   },
   "flyfly": {
     "title": "Fly Fly",
     "gameCode": "flyfly",
-    "color": "rgb(119, 0, 255)"
+    "color": "rgb(119, 0, 255)",
+    "description":"宇宙の探索者になろう。隕石をよけて宇宙空間を飛び回り、より高いスコアを目指しましょう。"
   },
   "fishing": {
     "title": "水魚金",
@@ -24,12 +26,14 @@
   "numguess": {
     "title": "数あてゲーム",
     "gameCode": "numguess",
-    "color": "#fc036f"
+    "color": "#fc036f",
+    "description":"天才は一朝一夕ではできません。そこでおすすめなのが、数あてゲーム。隙間時間で気軽にやって天才を目指そう！"
   },
   "westeastbuttle": {
     "title": "東西大決戦",
     "gameCode": "westeastbuttle",
-    "color": "#00ffcaff"
+    "color": "#00ffcaff",
+    "description":"関ヶ原の合戦は終わっていなかった。石田三成は負けていなかった。ここで、400年前の決着をつけよう。"
   },
   "soccer": {
     "title": "ヘマヘマサッカー",
@@ -41,6 +45,7 @@
   "castlerun": {
     "title": "走る城",
     "gameCode": "castlerun",
-    "color": "#3000ff"
+    "color": "#3000ff",
+    "description":"「走る城」というタイトルですが、城が走るのではなく、プレイヤーが走ります。勘違いしないでください。"
   }
 }

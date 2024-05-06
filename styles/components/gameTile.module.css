@@ -3,25 +3,22 @@
   box-sizing: border-box;
   border-radius: 5px;
   display: flex;
-  flex-flow: column;
   align-items: center;
-  width: 150px;
   text-decoration: none;
-  padding-top: 20px;
   position: relative;
-  transition: transform 0.2s;
+  gap: 20px;
+  padding: 10px 20px;
+  background-color: var(--special-bg);
+  transition: background-color 0.2s;
 }
 #tile:hover {
-  transform: scale(1.1);
+  background-color: var(--theme-color-level-1);
   box-shadow: 0 0 20px 0 var(--special-bg);
-}
-#tile:hover {
-  text-decoration: underline;
 }
 #tile img {
   border-radius: 5px;
 }
-#tile p {
+#tile h3 {
   font-size: 16px;
   font-weight: bold;
 }

@@ -24,14 +24,19 @@ export default function GameTile(props: gameTilePropsType) {
 
   return (
     <Link id={styles.tile} href={`/games/${thisGameInfo.gameCode}`}>
-      <Image
-        src={`/gamesImage/${thisGameInfo.gameCode}.svg`}
-        alt={thisGameInfo.title}
-        width={100}
-        height={100}
-        priority={true}
-      />
-      <p>{thisGameInfo.title}</p>
+      <div id={styles.ImageArea}>
+        <Image
+          src={`/gamesImage/${thisGameInfo.gameCode}.svg`}
+          alt={thisGameInfo.title}
+          width={100}
+          height={100}
+          priority={true}
+        />
+      </div>
+      <div id={styles.descriptionArea}>
+        <h3>{thisGameInfo.title}</h3>
+        <p>{thisGameInfo.description}</p>
+      </div>
     </Link>
   );
 }
