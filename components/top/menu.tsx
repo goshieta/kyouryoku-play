@@ -11,7 +11,6 @@ export default function Menu() {
   ];
 
   const root = useRouter();
-  console.log(root.asPath);
 
   return (
     <div id={styles.menu}>

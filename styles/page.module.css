@@ -44,6 +44,62 @@
   gap: 30px;
   flex: 1;
 }
+
+/*要約ビュアー*/
+#topSummary {
+  width: 100%;
+  background-color: var(--special-bg);
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px 0;
+}
+#summaryDescription {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+#profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#profile img {
+  background-color: var(--background-color);
+  border-radius: 50%;
+}
+#summaryPageLink {
+  display: flex;
+  gap: 10px;
+}
+#onePageLink {
+  display: flex;
+  flex-flow: column;
+  text-decoration: none;
+  align-items: center;
+  width: 100px;
+}
+#onePageLink span {
+  background-color: var(--theme-color-level-2);
+  border-radius: 9999px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  transition: background-color 0.2s;
+}
+#onePageLink.specialLink span {
+  background-color: var(--green-2);
+}
+#onePageLink:hover span {
+  background-color: var(--theme-color-level-3);
+}
+#onePageLink.specialLink:hover span {
+  background-color: var(--green-3);
+}
+
 #gameArea .flexContent {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
