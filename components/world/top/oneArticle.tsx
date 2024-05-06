@@ -58,11 +58,13 @@ export default function OneArticle({
   usersInfo,
   setUsersInfo,
   isNoQuote,
+  isTileMode,
 }: {
   article: oneArticleType;
   usersInfo: { [key: string]: pubUserDataType };
   setUsersInfo: (newUsersInfo: { [key: string]: pubUserDataType }) => void;
   isNoQuote?: boolean;
+  isTileMode?: boolean;
 }) {
   //ユーザーのデータを設定
   const [userData, setUserData] = useState<pubUserDataType | null | undefined>(
@@ -82,7 +84,9 @@ export default function OneArticle({
   const createdAt = useMemo(() => new Date(article.createdAt), []);
 
   return (
-    <div className={styles.oneArticle}>
+    <div
+      className={`${styles.oneArticle} ${isTileMode ? styles.tileMode : ""}`}
+    >
       {userData ? (
         <ArticleUser userData={userData} createdAt={createdAt} />
       ) : (
@@ -108,7 +112,7 @@ export default function OneArticle({
         href={`/world/article/${article.id}`}
         className={styles.oneArticleLink}
       >
-        <p>{article.body}</p>
+        <p className={styles.articleBody}>{article.body}</p>
       </Link>
       <div className={styles.tagArea}>
         {article.tags.map((oneTag) => (

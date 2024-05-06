@@ -18,7 +18,7 @@ export default function Menu() {
         <Link
           href={oneElem.href}
           key={oneElem.title}
-          className={root.asPath === oneElem.href ? styles.active_link : ""}
+          className={root.route === oneElem.href ? styles.active_link : ""}
         >
           <span className="material-symbols-outlined">{oneElem.icon}</span>
           {oneElem.title}

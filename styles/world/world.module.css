@@ -122,6 +122,12 @@
 .oneArticle {
   animation: belowAnimation 0.3s;
 }
+.oneArticle.tileMode {
+  background-color: var(--special-bg);
+  border-radius: 5px;
+  padding: 20px;
+  transition: background-color 0.2s;
+}
 @keyframes belowAnimation {
   from {
     opacity: 0;
@@ -190,6 +196,20 @@
 #quote p {
   color: var(--pale-font-color-two);
 }
+.oneArticle.tileMode .articleBody {
+  overflow: hidden;
+  height: 6rem;
+  position: relative;
+}
+.oneArticle.tileMode .articleBody::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  position: absolute;
+  bottom: 0px;
+  background: linear-gradient(rgba(0, 0, 0, 0), var(--special-bg));
+}
 .tagArea {
   display: flex;
   gap: 10px;
@@ -208,6 +228,8 @@
   display: flex;
   gap: 30px;
   margin-top: 10px;
+  position: relative;
+  z-index: 1;
 }
 #reaction button {
   display: flex;

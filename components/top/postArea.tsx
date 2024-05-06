@@ -4,7 +4,14 @@ import {
   oneArticleType,
   pubUserDataType,
 } from "@/lib/types/communityType";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 import OneArticle from "@/components/world/top/oneArticle";
 import Link from "next/link";
@@ -13,8 +20,15 @@ import styles from "@/styles/page.module.css";
 export default function PostArea() {
   const [posts, setPosts] = useState<oneArticleType[]>([]);
   useEffect(() => {
+    const now = new Date();
+    now.setMonth(now.getMonth() - 1);
     getDocs(
-      query(collection(db, "world"), orderBy("createdAt", "desc"), limit(10))
+      query(
+        collection(db, "world"),
+        orderBy("like", "desc"),
+        where("createdAt", ">", now.getTime()),
+        limit(10)
+      )
     ).then((data) => {
       const newPosts: oneArticleType[] = [];
       data.forEach((oneData) => {
@@ -28,7 +42,7 @@ export default function PostArea() {
 
   return (
     <div id={styles.postArea}>
-      <h2>最新の投稿</h2>
+      <h2>人気の投稿</h2>
       <div className={styles.flexContent}>
         {posts.map((onePost) => (
           <OneArticle
@@ -36,6 +50,8 @@ export default function PostArea() {
             usersInfo={users}
             setUsersInfo={setUsers}
             isNoQuote={true}
+            isTileMode={true}
+            key={onePost.id}
           />
         ))}
       </div>
