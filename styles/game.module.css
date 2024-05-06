@@ -1,5 +1,6 @@
 #gameSet {
   text-align: center;
+  margin: 0 auto;
 }
 
 #gameSetTitle {
@@ -72,6 +73,7 @@
 #otherGame {
   margin: 30px auto;
   max-width: 700px;
+  text-align: left;
 }
 #otherGameTile {
   display: grid;

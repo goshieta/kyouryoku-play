@@ -20,7 +20,7 @@ export default function GameTop() {
       <h1>すべてのゲーム</h1>
       <div id={styles.games}>
         {games.map((gameName) => (
-          <GameTile gameCode={gameName} />
+          <GameTile gameCode={gameName} key={gameName} />
         ))}
       </div>
     </div>
