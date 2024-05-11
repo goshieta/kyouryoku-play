@@ -1,15 +1,38 @@
 import imageUpload from "@/lib/tips/imageUpload";
-import { userType } from "@/lib/types/communityType";
+import { pubUserDataType, userType } from "@/lib/types/communityType";
 import createUUID from "@/lib/uuid";
 import styles from "@/styles/account/signup.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import useMessage from "../tips/useMessage";
+import Loading from "../tips/loading";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase/client";
 
-export default function SignUp({ userInfo }: { userInfo: userType }) {
+export default function SignUp({
+  userInfo,
+  setSignUp,
+}: {
+  userInfo: userType;
+  setSignUp: (value: boolean) => void;
+}) {
   const [newAccountInfo, setnewAccountInfo] = useState<userType>(userInfo);
+  const [uploading, setUploading] = useState(false);
   const [alert, Message] = useMessage();
+
+  const close = () => {
+    const newPubUserInfo: pubUserDataType = {
+      createdAt: newAccountInfo.createdAt,
+      id: newAccountInfo.id,
+      name: newAccountInfo.name,
+      photoURL: newAccountInfo.photoURL,
+      description: newAccountInfo.description,
+    };
+    setSignUp(false);
+    updateDoc(doc(db, "users", newAccountInfo.id), newAccountInfo);
+    updateDoc(doc(db, "pubUsers", newAccountInfo.id), newPubUserInfo);
+  };
 
   const contents = [
     {
@@ -49,15 +72,20 @@ export default function SignUp({ userInfo }: { userInfo: userType }) {
           <p>
             アカウントの画像はこれでいいですか？（この画像は全世界に配信されます）
           </p>
-          <Image
-            src={newAccountInfo.photoURL}
-            width={100}
-            height={100}
-            alt="アカウント画像の読み込みに失敗しました"
-          />
+          {!uploading ? (
+            <Image
+              src={newAccountInfo.photoURL}
+              width={100}
+              height={100}
+              alt="アカウント画像の読み込みに失敗しました"
+            />
+          ) : (
+            <Loading type="small" />
+          )}
           <input
             type="file"
             onChange={async (e) => {
+              setUploading(true);
               const url = await imageUpload(
                 e,
                 100,
@@ -69,6 +97,7 @@ export default function SignUp({ userInfo }: { userInfo: userType }) {
               } else {
                 alert("error", "ファイルのアップロードに失敗しました");
               }
+              setUploading(false);
             }}
           />
         </div>
@@ -93,8 +122,8 @@ export default function SignUp({ userInfo }: { userInfo: userType }) {
       <div id={styles.shadow}>
         <div id={styles.parent}>
           <div id={styles.header}>
-            <h2>アカウント</h2>
-            <button>
+            <h2>初期設定</h2>
+            <button onClick={close}>
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
@@ -118,7 +147,7 @@ export default function SignUp({ userInfo }: { userInfo: userType }) {
                 次へ
               </button>
             ) : (
-              <button>終了</button>
+              <button onClick={close}>終了</button>
             )}
           </div>
         </div>

@@ -85,7 +85,7 @@ export default function Auth({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider value={user}>
-      {isSignUp && user && <SignUp userInfo={user} />}
+      {isSignUp && user && <SignUp userInfo={user} setSignUp={setIsSignUp} />}
       {children}
     </AuthContext.Provider>
   );
