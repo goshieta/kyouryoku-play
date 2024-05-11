@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useEffect, useMemo } from "react";
-import { HeaderLinks, KyouRyokuPlayCredit } from "../header/Header";
-import Query from "@/components/world/top/query";
+import Header from "../header/Header";
 import styles from "@/styles/world/worldLayout.module.css";
 import { useQueryState } from "next-usequerystate";
 
@@ -24,16 +23,7 @@ export default function WorldLayout({ children }: { children: ReactNode }) {
   return (
     <CurrentTagContext.Provider value={contextValue}>
       <div id="rootParent">
-        <div id={styles.headerContainer}>
-          <KyouRyokuPlayCredit />
-          <Query />
-          <HeaderLinks
-            links={[
-              { name: "help", href: "/additional/about" },
-              { name: "report", href: "/additional/report" },
-            ]}
-          ></HeaderLinks>
-        </div>
+        <Header />
         <div id={styles.children}> {children}</div>
       </div>
     </CurrentTagContext.Provider>

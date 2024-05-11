@@ -4,6 +4,7 @@ import Image from "next/image";
 import { login } from "@/lib/auth";
 import { useAuth } from "../context/auth";
 import Loading from "../tips/loading";
+import Query from "../world/top/query";
 
 export function KyouRyokuPlayCredit({ onlyIcon }: { onlyIcon?: boolean }) {
   return (
@@ -69,6 +70,7 @@ export default function Header() {
     <>
       <div id={styles.Header}>
         <KyouRyokuPlayCredit />
+        <Query />
         <HeaderLinks
           links={[
             { name: "help", href: "/additional/about" },

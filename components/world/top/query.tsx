@@ -1,5 +1,6 @@
 import { CurrentTagContext } from "@/components/layouts/worldLayout";
 import styles from "@/styles/world/world.module.css";
+import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
 export default function Query() {
@@ -9,9 +10,14 @@ export default function Query() {
       ? ""
       : currentTag.currentTag
   );
+  const router = useRouter();
 
   const handleSearch = () => {
-    currentTag?.setCurrentTag(currentInputTag);
+    if (router.route === "/world") {
+      currentTag?.setCurrentTag(currentInputTag);
+    } else {
+      router.push(`/world?q=${currentInputTag}`);
+    }
   };
 
   return (
