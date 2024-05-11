@@ -38,7 +38,6 @@ export default function SignUp({
     {
       body: (
         <div id={styles.accountName}>
-          <h2>峡緑プレイへようこそ</h2>
           <p>アカウント名はこれでよろしいですか？</p>
           <input
             type="text"
@@ -72,34 +71,37 @@ export default function SignUp({
           <p>
             アカウントの画像はこれでいいですか？（この画像は全世界に配信されます）
           </p>
-          {!uploading ? (
-            <Image
-              src={newAccountInfo.photoURL}
-              width={100}
-              height={100}
-              alt="アカウント画像の読み込みに失敗しました"
+          <div>
+            {" "}
+            {!uploading ? (
+              <Image
+                src={newAccountInfo.photoURL}
+                width={100}
+                height={100}
+                alt="アカウント画像の読み込みに失敗しました"
+              />
+            ) : (
+              <Loading type="small" />
+            )}
+            <input
+              type="file"
+              onChange={async (e) => {
+                setUploading(true);
+                const url = await imageUpload(
+                  e,
+                  100,
+                  100,
+                  `userIcons/${createUUID()}`
+                );
+                if (url) {
+                  setnewAccountInfo({ ...newAccountInfo, photoURL: url });
+                } else {
+                  alert("error", "ファイルのアップロードに失敗しました");
+                }
+                setUploading(false);
+              }}
             />
-          ) : (
-            <Loading type="small" />
-          )}
-          <input
-            type="file"
-            onChange={async (e) => {
-              setUploading(true);
-              const url = await imageUpload(
-                e,
-                100,
-                100,
-                `userIcons/${createUUID()}`
-              );
-              if (url) {
-                setnewAccountInfo({ ...newAccountInfo, photoURL: url });
-              } else {
-                alert("error", "ファイルのアップロードに失敗しました");
-              }
-              setUploading(false);
-            }}
-          />
+          </div>
         </div>
       ),
     },
@@ -108,8 +110,9 @@ export default function SignUp({
         <div id={styles.allComplete}>
           <p>すべての設定が完了しました！</p>
           <p>使い方がわからない場合はヘルプなどを見てください</p>
-          <Link href="/">ヘルプ</Link>
-          <Link href="/">トップ</Link>
+          <Link href="/additional/about" target="_blank">
+            ヘルプ
+          </Link>
         </div>
       ),
     },
@@ -123,7 +126,7 @@ export default function SignUp({
         <div id={styles.parent}>
           <div id={styles.header}>
             <h2>初期設定</h2>
-            <button onClick={close}>
+            <button onClick={close} id={styles.closeButton}>
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
@@ -134,6 +137,7 @@ export default function SignUp({
                 onClick={() => {
                   setCurrentContentsNumber(currentContentsNumber - 1);
                 }}
+                id={styles.return}
               >
                 戻る
               </button>
@@ -143,11 +147,14 @@ export default function SignUp({
                 onClick={() => {
                   setCurrentContentsNumber(currentContentsNumber + 1);
                 }}
+                id={styles.next}
               >
                 次へ
               </button>
             ) : (
-              <button onClick={close}>終了</button>
+              <button onClick={close} id={styles.end}>
+                終了
+              </button>
             )}
           </div>
         </div>

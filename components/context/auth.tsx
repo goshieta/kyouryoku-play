@@ -35,7 +35,6 @@ export default function Auth({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    setIsSignUp(true);
     let removeEventListener: null | Unsubscribe = null;
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
