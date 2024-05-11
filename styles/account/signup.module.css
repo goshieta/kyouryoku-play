@@ -1,0 +1,15 @@
+#shadow {
+  z-index: 200;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--back-shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#parent {
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 5px;
+}
