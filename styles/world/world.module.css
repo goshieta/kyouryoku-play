@@ -25,8 +25,9 @@
   gap: 10px;
   width: 250px;
   height: 50px;
+  margin: 0 auto;
 }
-#linkArea a {
+#linkArea button {
   display: flex;
   text-decoration: none;
   align-items: center;
@@ -34,16 +35,19 @@
   padding: 10px 10px;
   border-radius: 5px;
   margin: 0;
+  background-color: var(--background-color);
+  width: 100%;
+  font-size: 16px;
 }
-#linkArea a:hover {
+#linkArea button:hover {
   background-color: var(--special-bg);
   transition: background-color 0.2s;
 }
-#linkArea a span {
+#linkArea button span {
   font-size: 20px;
 }
-#linkArea a.tagCurrent,
-#linkArea a.tagCurrent span {
+#linkArea button.tagCurrent,
+#linkArea button.tagCurrent span {
   color: var(--link-color);
   font-weight: bold;
 }

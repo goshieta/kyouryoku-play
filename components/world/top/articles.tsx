@@ -23,7 +23,11 @@ import { useEffect, useState } from "react";
 import OneArticle, { getOneUserInfo } from "./oneArticle";
 import { DocumentData } from "firebase-admin/firestore";
 
-export default function Articles({ tag }: { tag: string | null }) {
+export default function Articles({
+  customQuery,
+}: {
+  customQuery: QueryFieldFilterConstraint[] | undefined;
+}) {
   const [arts, setArts] = useState<oneArticleType[] | undefined>(undefined);
   const [artSnapshots, setArtsSnapShots] = useState<
     QueryDocumentSnapshot<DocumentData, DocumentData>[]
@@ -69,21 +73,16 @@ export default function Articles({ tag }: { tag: string | null }) {
 
   //更新処理と取得
   useEffect(() => {
+    if (!customQuery) return;
     setReloadTime(0);
     setIsReadMoreDisplay(true);
-    const thisQuery =
-      tag != "すべて"
-        ? query(
-            collection(db, "world"),
-            where("tags", "array-contains", tag),
-            orderBy("createdAt", "desc"),
-            limit(20)
-          )
-        : query(
-            collection(db, "world"),
-            orderBy("createdAt", "desc"),
-            limit(20)
-          );
+    const thisQuery = query(
+      collection(db, "world"),
+      orderBy("createdAt", "desc"),
+      limit(20),
+      ...customQuery
+    );
+    console.log(customQuery);
     const unsub = onSnapshot(thisQuery, (docs) => {
       const snapShots: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
       docs.forEach((oneDoc) => {
@@ -93,9 +92,10 @@ export default function Articles({ tag }: { tag: string | null }) {
       if (snapShots.length < 20) setIsReadMoreDisplay(false);
     });
     return unsub;
-  }, [tag]);
+  }, [customQuery]);
 
   const readMore = async () => {
+    if (!customQuery) return;
     if (!arts) return;
     const args: [
       CollectionReference,
@@ -108,10 +108,7 @@ export default function Articles({ tag }: { tag: string | null }) {
       where("createdAt", "<", arts[arts.length - 1].createdAt),
       limit(20),
     ];
-    const thisQuery =
-      tag != "すべて"
-        ? query(...args, where("tags", "array-contains", tag))
-        : query(...args);
+    const thisQuery = query(...args, ...customQuery);
     const docs = await getDocs(thisQuery);
     const docArray: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
     docs.forEach((oneDoc) => docArray.push(oneDoc));
