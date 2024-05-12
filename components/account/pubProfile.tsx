@@ -73,6 +73,8 @@ function FollowArea({ targetUserId }: { targetUserId: string }) {
           >
             <span className="material-symbols-outlined">heart_minus</span>解除
           </button>
+        ) : auth.following.length > 100 ? (
+          <></>
         ) : (
           <button id={styles.followButton} onClick={() => buttonClicked(true)}>
             <span className="material-symbols-outlined">heart_plus</span>

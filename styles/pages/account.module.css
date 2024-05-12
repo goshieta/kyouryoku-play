@@ -4,13 +4,12 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 #accountInfo {
   display: flex;
   gap: 50px;
-  margin-bottom: 50px;
   width: fit-content;
   align-items: center;
 }
@@ -93,107 +92,41 @@
   font-size: 20px;
 }
 
-#allCommunityArea {
-  width: 90%;
+#following {
+  width: 100%;
 }
-#communityAreaTitle {
-  text-align: center;
-}
-#communityTip {
-  display: grid;
-  gap: 50px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 260px));
-  margin-bottom: 50px;
-  margin-top: 30px;
-  justify-content: center;
-}
-.oneCommunity {
-  display: flex;
-  flex-flow: column;
-  background-color: var(--special-bg);
-  border-radius: 5px;
-  padding: 20px 30px;
-}
-.caption {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.iconArea {
-  width: 40px;
-  height: 40px;
-  background-color: var(--white);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.iconArea p {
-  color: black;
-  font-family: "游明朝", YuMincho, "Hiragino Mincho ProN", "HGS明朝E",
-    "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
-  font-weight: bold;
-}
-.caption h3 {
-  flex: 1;
-}
-.description {
-  color: var(--pale-font-color);
+#following h2 {
   margin-top: 0;
 }
-.communityState {
+#followingArea {
+  width: 100%;
   display: flex;
-  gap: 15px;
-  align-items: center;
+  overflow-x: scroll;
+  gap: 20px;
 }
-.communityState p {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin: 0;
+#followingArea::-webkit-scrollbar {
+  height: 5px;
 }
-.admin {
-  background-color: var(--green);
-  width: 80px;
-  height: 30px;
-  border-radius: 15px;
-}
-.communityState p span {
-  font-size: 20px;
-}
-.topic {
-  margin-bottom: 30px;
-  background-color: var(--green);
-  width: fit-content;
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-.oneCommunityOperation {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-}
-.oneCommunityOperation button {
+.oneFollowingUser {
+  text-align: center;
+  text-decoration: none;
   width: 100px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+  min-width: 100px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
 }
-.oneCommunityOperation button span {
-  font-size: 20px;
+.oneFollowingUser img {
+  border-radius: 50%;
+  border: solid 2px rgba(0, 0, 0, 0);
+  transition: outline-color 0.2s;
 }
-.byby {
-  background-color: var(--red);
+.oneFollowingUser p {
+  transition: color 0.2s;
 }
-.byby:hover {
-  background-color: var(--red-2);
+.oneFollowingUser:hover img {
+  outline: solid 2px var(--theme-color-level-3);
 }
-.byby:active {
-  background-color: var(--red-3);
+.oneFollowingUser:hover p {
+  color: var(--link-color);
 }
