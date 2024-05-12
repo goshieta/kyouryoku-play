@@ -42,8 +42,9 @@ export default function Auth({ children }: { children: ReactNode }) {
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
-          const appUser = (await getDoc(ref)).data() as userType;
-          setUser(appUser);
+          const appUser = (await getDoc(ref)).data();
+          if (isUserType(appUser)) setUser(appUser);
+          else setUser(null);
         } else {
           const appUser: userType = {
             id: firebaseUser.uid,
@@ -53,6 +54,7 @@ export default function Auth({ children }: { children: ReactNode }) {
             createdAt: Date.now(),
             belongCommunity: [],
             description: "",
+            following: [],
           };
           const pubAppUser: pubUserDataType = {
             createdAt: Date.now(),

@@ -6,6 +6,7 @@ export type userType = {
   photoURL: string;
   belongCommunity: string[];
   description: string;
+  following: string[];
 };
 export const isUserType = (arg: any): arg is userType => {
   return (
@@ -16,7 +17,9 @@ export const isUserType = (arg: any): arg is userType => {
     typeof arg.name === "string" &&
     typeof arg.photoURL === "string" &&
     typeof arg.belongCommunity === "object" &&
-    typeof arg.description === "string"
+    typeof arg.description === "string" &&
+    Array.isArray(arg.following) &&
+    arg.following.every((type: any) => typeof type === "string")
   );
 };
 
@@ -66,7 +69,7 @@ export const isOneArticleType = (arg: any): arg is oneArticleType => {
       arg.type === "game" ||
       arg.type === "quiz") &&
     typeof arg.title === "string" &&
-    typeof arg.tags === "object" &&
+    Array.isArray(arg.tags) &&
     typeof arg.description === "string" &&
     typeof arg.body === "string" &&
     typeof arg.user === "string" &&
