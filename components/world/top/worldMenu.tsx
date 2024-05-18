@@ -1,9 +1,9 @@
 import styles from "@/styles/world/world.module.css";
 import useHasMounted from "@/lib/tips/useHasMounted";
 import { useAuth } from "@/components/context/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { QueryFieldFilterConstraint, where } from "firebase/firestore";
+import { QueryFieldFilterConstraint, query, where } from "firebase/firestore";
 
 type oneMenuUiType = {
   name: string;
@@ -50,14 +50,17 @@ export default function WorldMenu({
     if (currentBaseQuery !== undefined) {
       setCustomQuery([currentBaseQuery]);
       currentTag?.setCurrentTag("すべて");
-    } else if (
+    }
+  }, [currentBaseQuery]);
+  useEffect(() => {
+    if (
       currentTag &&
       currentTag.currentTag &&
       currentTag.currentTag !== "すべて"
     ) {
       setCustomQuery([where("tags", "array-contains", currentTag.currentTag)]);
       setActiveMenu(currentTag.currentTag);
-    } else {
+    } else if (currentBaseQuery === undefined) {
       setCustomQuery([]);
       setActiveMenu("すべて");
     }
