@@ -100,3 +100,24 @@ export const isReactionType = (arg: any): arg is reactionType => {
     (arg.type === "like" || arg.type === "dislike")
   );
 };
+
+export type tagType = {
+  name: string;
+  forSearch: {
+    [key: string]: boolean;
+  };
+  timestamp: number[];
+  latestTimestamp: number;
+  trendIndex: number;
+};
+export const isTagType = (arg: any): arg is tagType => {
+  return (
+    arg &&
+    typeof arg.name === "string" &&
+    typeof arg.forSearch === "object" &&
+    Array.isArray(arg.timestamp) &&
+    arg.timestamp.every((type: any) => typeof type === "number") &&
+    typeof arg.latestTimestamp === "number" &&
+    typeof arg.trendIndex === "number"
+  );
+};

@@ -87,7 +87,6 @@ export default function Articles({
       limit(20),
       ...customQuery
     );
-    console.log(customQuery);
     const unsub = onSnapshot(thisQuery, (docs) => {
       const snapShots: QueryDocumentSnapshot<DocumentData, DocumentData>[] = [];
       docs.forEach((oneDoc) => {

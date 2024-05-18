@@ -8,6 +8,7 @@ import {
   userType,
 } from "@/lib/types/communityType";
 import createUUID from "@/lib/uuid";
+import tagPost from "@/lib/world/tagPost";
 import styles from "@/styles/world/new.module.css";
 import {
   collection,
@@ -212,6 +213,7 @@ async function postArticle(
           targetBody: target?.body,
         };
   //投稿する
+  tagPost(postingArticle.tags);
   await setDoc(doc(db, "world", postingArticle.id), postingArticle);
   if (type === "reply") {
     (async function () {
