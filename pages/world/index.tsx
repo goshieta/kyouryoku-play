@@ -28,7 +28,10 @@ export default function World() {
         }の投稿 - 峡緑プレイ`}</title>
       </Head>
       <WorldMenu currentTag={currentTag} setCustomQuery={setCustomQuery} />
-      <Articles customQuery={customQuery} />
+      <Articles
+        customQuery={customQuery}
+        queryString={currentTag?.currentTag}
+      />
     </div>
   );
 }

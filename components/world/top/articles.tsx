@@ -22,11 +22,15 @@ import {
 import { useEffect, useState } from "react";
 import OneArticle, { getOneUserInfo } from "./oneArticle";
 import { DocumentData } from "firebase-admin/firestore";
+import SearchAccounts from "./accounts";
+import useHasMounted from "@/lib/tips/useHasMounted";
 
 export default function Articles({
   customQuery,
+  queryString,
 }: {
   customQuery: QueryFieldFilterConstraint[] | undefined;
+  queryString: string | null | undefined;
 }) {
   const [arts, setArts] = useState<oneArticleType[] | undefined>(undefined);
   const [artSnapshots, setArtsSnapShots] = useState<
@@ -37,6 +41,7 @@ export default function Articles({
   >(undefined);
   const [reloadTime, setReloadTime] = useState(0);
   const [isReadMoreDisplay, setIsReadMoreDisplay] = useState(true);
+  const hasMounted = useHasMounted();
 
   useEffect(() => {
     const newArts: oneArticleType[] = [];
@@ -118,6 +123,9 @@ export default function Articles({
 
   return (
     <div id={styles.articles}>
+      {hasMounted && queryString && (
+        <SearchAccounts queryString={queryString} />
+      )}
       {usersInfo ? (
         arts?.map((oneArts) => (
           <OneArticle

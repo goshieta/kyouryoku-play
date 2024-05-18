@@ -122,6 +122,25 @@
   gap: 30px;
   margin: 0 10px;
 }
+.accounts {
+  display: flex;
+  gap: 30px;
+  text-decoration: none;
+  align-items: center;
+  margin: 20px 0;
+}
+.accounts img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: var(--special-bg);
+  border: solid 5px var(--special-bg);
+  transition: outline-color 0.3s;
+}
+.accounts:hover img {
+  outline: solid 2px var(--theme-color-level-3);
+}
+
 .oneArticle {
   animation: belowAnimation 0.3s;
 }

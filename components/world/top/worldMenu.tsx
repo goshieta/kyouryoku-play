@@ -56,14 +56,12 @@ export default function WorldMenu({
       currentTag.currentTag !== "すべて"
     ) {
       setCustomQuery([where("tags", "array-contains", currentTag.currentTag)]);
-    } else setCustomQuery([]);
-  }, [currentTag?.currentTag, currentBaseQuery]);
-
-  //アクティブなメニューを判定
-  useEffect(() => {
-    if (activeMenu === undefined && currentTag?.currentTag)
       setActiveMenu(currentTag.currentTag);
-  }, [currentTag?.currentTag]);
+    } else {
+      setCustomQuery([]);
+      setActiveMenu("すべて");
+    }
+  }, [currentTag?.currentTag, currentBaseQuery]);
 
   //最終メニュークエリを作成
   const rightQuerys: oneMenuUiType[] = [

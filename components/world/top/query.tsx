@@ -28,6 +28,9 @@ export default function Query() {
           placeholder="タグ名を入力"
           value={currentInputTag}
           onChange={(e) => setCurrentInputTag(e.target.value)}
+          onKeyDown={(e) => {
+            if (!e.nativeEvent.isComposing && e.key === "Enter") handleSearch();
+          }}
         />
         <button onClick={handleSearch}>
           <span className="material-symbols-outlined">search</span>
