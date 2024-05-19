@@ -40,49 +40,60 @@ export const isPubUserDataType = (arg: any): arg is pubUserDataType => {
     typeof arg.description === "string"
   );
 };
-
-export type oneArticleType = {
+export type oneArticleCommonType = {
   createdAt: number;
   id: string;
-  type: "post" | "article" | "reply" | "game" | "quiz";
-  title: string;
   tags: string[];
-  description: string;
-  body: string;
   user: string;
   like: number;
   dislike: number;
   reply: number;
-  //typeがreplyの時のみ存在
-  target?: string;
-  targetUser?: string;
-  targetTitle?: string;
-  targetBody?: string;
 };
+export type oneArticleType =
+  | (oneArticleCommonType & { type: "post"; body: string })
+  | (oneArticleCommonType & {
+      type: "article";
+      title: string;
+      description: string;
+      body: string;
+    })
+  | (oneArticleCommonType & {
+      type: "reply";
+      body: string;
+      target: string;
+      targetUser: string;
+      targetTitle: string;
+      targetBody: string;
+    });
 export const isOneArticleType = (arg: any): arg is oneArticleType => {
-  return (
+  const commonElementCheck =
     arg !== undefined &&
     typeof arg.createdAt === "number" &&
     typeof arg.id === "string" &&
-    (arg.type === "post" ||
-      arg.type === "article" ||
-      arg.type === "reply" ||
-      arg.type === "game" ||
-      arg.type === "quiz") &&
-    typeof arg.title === "string" &&
+    (arg.type === "post" || arg.type === "article" || arg.type === "reply") &&
     Array.isArray(arg.tags) &&
-    typeof arg.description === "string" &&
-    typeof arg.body === "string" &&
     typeof arg.user === "string" &&
     typeof arg.like === "number" &&
     typeof arg.dislike === "number" &&
-    typeof arg.reply === "number" &&
-    //replyの時のみ
-    (arg.type !== "reply" ||
-      (typeof arg.target === "string" &&
-        typeof arg.targetUser === "string" &&
-        typeof arg.targetBody === "string" &&
-        typeof arg.targetTitle === "string"))
+    typeof arg.reply === "number";
+
+  const postElementCheck = arg.type === "post" && typeof arg.body === "string";
+  const articleElementCheck =
+    arg.type === "article" &&
+    typeof arg.title === "string" &&
+    typeof arg.description === "string" &&
+    typeof arg.body === "string";
+  const replyElementCheck =
+    arg.type === "reply" &&
+    typeof arg.body === "string" &&
+    typeof arg.target === "string" &&
+    typeof arg.targetUser === "string" &&
+    typeof arg.targetTitle === "string" &&
+    typeof arg.targetBody === "string";
+
+  return (
+    commonElementCheck &&
+    (postElementCheck || articleElementCheck || replyElementCheck)
   );
 };
 
