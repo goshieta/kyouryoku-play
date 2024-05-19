@@ -1,0 +1,41 @@
+#top {
+  margin: 0 auto;
+  text-align: center;
+}
+#top h1 {
+  margin-bottom: 80px;
+}
+#selectType {
+  display: flex;
+  gap: 40px;
+}
+#selectType a {
+  display: block;
+  text-align: center;
+  padding: 20px 50px;
+  text-decoration: none;
+  border-radius: 5px;
+  background-color: var(--special-bg);
+  transition: background-color 0.2s;
+}
+#selectType a:hover {
+  background-color: var(--theme-color-level-1);
+}
+
+#needHelp a {
+  width: fit-content;
+  display: flex;
+  margin: 0 auto;
+  margin-top: 80px;
+  align-items: center;
+  text-decoration: none;
+  gap: 5px;
+  transition: color 0.2s;
+}
+#needHelp a:hover {
+  color: var(--link-color);
+}
+#needHelp a:hover span {
+  color: var(--link-color);
+  transition: color 0.2s;
+}

@@ -44,7 +44,7 @@ export const isPubUserDataType = (arg: any): arg is pubUserDataType => {
 export type oneArticleType = {
   createdAt: number;
   id: string;
-  type: "article" | "reply" | "game" | "quiz";
+  type: "post" | "article" | "reply" | "game" | "quiz";
   title: string;
   tags: string[];
   description: string;
@@ -64,7 +64,8 @@ export const isOneArticleType = (arg: any): arg is oneArticleType => {
     arg !== undefined &&
     typeof arg.createdAt === "number" &&
     typeof arg.id === "string" &&
-    (arg.type === "article" ||
+    (arg.type === "post" ||
+      arg.type === "article" ||
       arg.type === "reply" ||
       arg.type === "game" ||
       arg.type === "quiz") &&
