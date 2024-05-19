@@ -45,7 +45,6 @@ export default function NewArticle() {
   }>({
     type: "article",
   });
-  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (
@@ -127,29 +126,7 @@ export default function NewArticle() {
           ></textarea>
         </div>
       </div>
-      <div>
-        <button
-          onClick={async () => {
-            if (auth) {
-              const result = await postArticle(
-                inputValue,
-                show,
-                auth,
-                articleType.type,
-                setIsSending,
-                articleType.article
-              );
-              if (result === true) {
-                setInputValue({ title: "", tags: "", body: "" });
-                router.push("/world");
-              }
-            } else show("error", "投稿するにはログインしてください。");
-          }}
-          disabled={isSending}
-        >
-          {isSending ? "投稿中..." : "投稿"}
-        </button>
-      </div>
+      <div></div>
     </div>
   );
 }

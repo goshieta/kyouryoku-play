@@ -1,9 +1,11 @@
+import { useAuth } from "@/components/context/auth";
 import styles from "@/styles/world/new/top.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function NewWorld() {
-  return (
+  const auth = useAuth();
+  return auth ? (
     <div id={styles.top}>
       <h1>投稿する</h1>
       <div id={styles.selectType}>
@@ -32,6 +34,10 @@ export default function NewWorld() {
           使い方が分からないときはこちら
         </Link>
       </div>
+    </div>
+  ) : (
+    <div>
+      <p>ログインしないと投稿できません</p>
     </div>
   );
 }
