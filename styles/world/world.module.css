@@ -53,11 +53,15 @@
 }
 #tags {
   margin-left: auto;
+  position: relative;
 }
 #search {
   display: flex;
   gap: 10px;
   justify-content: center;
+}
+#serachInput {
+  position: relative;
 }
 #search input {
   outline: none;
@@ -113,6 +117,29 @@
 #localTags input:checked + label {
   background-color: var(--theme-color-level-2);
   transition: background-color 0.2s;
+}
+#suggests {
+  border-radius: 15px;
+  background-color: var(--special-bg);
+  width: 100%;
+  position: absolute;
+  margin-top: 5px;
+  box-sizing: border-box;
+  display: block;
+  padding: 10px 0;
+}
+#suggests p {
+  font-size: 14px;
+  color: var(--pale-font-color);
+  padding: 13px 20px;
+  margin: 0;
+}
+#suggests p:hover {
+  cursor: pointer;
+}
+:not(#search input:focus) + #suggests:not(:active),
+#suggests:not(:has(p)) {
+  display: none;
 }
 
 #articles {
