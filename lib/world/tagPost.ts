@@ -48,11 +48,14 @@ export default async function tagPost(tags: string[]) {
 }
 
 const calcTrendIndex = (timestamp: number[]) => {
-  const decayRate = 0.001;
+  //g(x)=ℯ^(x*1000*60*60*24 d)の関数を描画して計算した減退率
+  //およそ1.6日で半減、5日もあれば0.1まで減る
+  const decayRate = 0.000000005;
   const now = new Date();
   const nowTimeStamp = now.getTime();
-  return timestamp.reduce(
-    (previousValue, currentValue) =>
-      previousValue + Math.exp(-decayRate * (nowTimeStamp - currentValue))
+  const trendIndex = timestamp.reduce(
+    (p: number, c: number) => p + Math.exp(-decayRate * (nowTimeStamp - c)),
+    0
   );
+  return trendIndex;
 };

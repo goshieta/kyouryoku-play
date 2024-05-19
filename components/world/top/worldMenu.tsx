@@ -3,7 +3,8 @@ import useHasMounted from "@/lib/tips/useHasMounted";
 import { useAuth } from "@/components/context/auth";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { QueryFieldFilterConstraint, query, where } from "firebase/firestore";
+import { QueryFieldFilterConstraint, where } from "firebase/firestore";
+import getTrend from "@/lib/world/getTrend";
 
 type oneMenuUiType = {
   name: string;
@@ -33,13 +34,7 @@ export default function WorldMenu({
 
   //トレンドを取得
   useEffect(() => {
-    fetch("/api/getTrend")
-      .then((data) => data.text())
-      .then((txt) => {
-        const trend: string[] = JSON.parse(txt);
-        trend.length = 5;
-        setTrends(trend);
-      });
+    getTrend(5).then((tags) => setTrends(tags));
   }, []);
 
   //クエリの管理

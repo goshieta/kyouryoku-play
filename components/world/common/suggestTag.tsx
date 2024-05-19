@@ -1,7 +1,14 @@
 import { db } from "@/lib/firebase/client";
 import createNGrams from "@/lib/tips/createNgram";
 import { isTagType } from "@/lib/types/communityType";
-import { collection, getDocs, limit, where, query } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  limit,
+  where,
+  query,
+  orderBy,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styles from "@/styles/world/world.module.css";
 
