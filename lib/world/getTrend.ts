@@ -11,7 +11,7 @@ import { isTagType } from "../types/communityType";
 
 export default async function getTrend(count: number): Promise<string[]> {
   const now = new Date();
-  now.setMonth(now.getMonth() - 1);
+  now.setDate(now.getDate() - 7);
   const docs = await getDocs(
     query(
       collection(db, "tags"),
