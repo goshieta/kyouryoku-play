@@ -1,11 +1,26 @@
+import useMessage from "@/components/tips/useMessage";
+import SendButton from "@/components/world/new/sendButton";
+import TagInput from "@/components/world/new/tagInput";
 import styles from "@/styles/world/new/post.module.css";
+import { useState } from "react";
 
 export default function newPost() {
+  const [show, Message] = useMessage();
+  const [inputValue, setInputValue] = useState<{
+    tags: string[];
+    body: string;
+  }>({ tags: [], body: "" });
   return (
     <div id={styles.post}>
+      <Message />
       <h1>つぶやく</h1>
-      <input type="text" placeholder="タグをスペース区切りで入力" />
+      <TagInput />
       <textarea placeholder="内容を入力" />
+      <SendButton
+        show={show}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+      />
     </div>
   );
 }

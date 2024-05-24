@@ -11,9 +11,9 @@ export default function SendButton({
   setInputValue,
 }: {
   show: showFunctionType;
-  inputValue: { title: ""; tags: string[]; body: string };
+  inputValue: { title?: ""; tags: string[]; body: string };
   setInputValue: (newInputValue: {
-    title: "";
+    title?: "";
     tags: string[];
     body: string;
   }) => void;
