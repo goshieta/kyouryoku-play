@@ -118,7 +118,7 @@ export default function OneArticle({
       </Link>
       <div className={styles.tagArea}>
         {article.tags.map((oneTag) => (
-          <Link key={oneTag} href={`http://localhost:3000/world?q=${oneTag}`}>
+          <Link key={oneTag} href={`/world?q=${oneTag}`}>
             #{oneTag}
           </Link>
         ))}
