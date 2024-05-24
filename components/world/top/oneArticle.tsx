@@ -92,12 +92,14 @@ export default function OneArticle({
       ) : (
         <></>
       )}
-      <Link
-        href={`/world/article/${article.id}`}
-        className={styles.oneArticleLink}
-      >
-        <h3>{article.title}</h3>
-      </Link>
+      {article.type === "article" && (
+        <Link
+          href={`/world/article/${article.id}`}
+          className={styles.oneArticleLink}
+        >
+          <h3>{article.title}</h3>
+        </Link>
+      )}
       {article.type === "reply" && !isNoQuote ? (
         <Quote
           title={article.targetTitle!}

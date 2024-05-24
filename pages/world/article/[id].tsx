@@ -16,7 +16,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import styles from "@/styles/world/oneArticle.module.css";
 import Head from "next/head";
 import WorldLayout from "@/components/layouts/worldLayout";
@@ -30,6 +30,16 @@ export default function OneArticlePage() {
   const [usersInfo, setUsersInfo] = useState<{
     [key: string]: pubUserDataType;
   }>({});
+  const title = useMemo(() => {
+    if (!article) return "存在しない投稿";
+    if (article.type === "article") return article.title;
+    else {
+      let bodyHead: string =
+        article.body.substring(0, 10) +
+        (article.body.length <= 10 ? "" : "...");
+      return bodyHead;
+    }
+  }, [article]);
 
   useEffect(() => {
     //記事を読み込み
@@ -71,9 +81,7 @@ export default function OneArticlePage() {
   return (
     <>
       <Head>
-        <title>{`${
-          article?.title ? article.title : "存在しない投稿"
-        } - 峡緑プレイ`}</title>
+        <title>{`${title} - 峡緑プレイ`}</title>
       </Head>
       <div id={styles.oneArticle}>
         <div id={styles.headArea}>
@@ -87,7 +95,7 @@ export default function OneArticlePage() {
               <span className="material-symbols-outlined">home</span>
             </button>
           </div>
-          <h1>{`${article?.title ? article.title : "存在しない投稿"}`}</h1>
+          <h1>{title}</h1>
         </div>
         <div id={styles.oneArticleArea}>
           {article ? (

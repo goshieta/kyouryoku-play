@@ -4,7 +4,7 @@ import TagInput from "@/components/world/new/tagInput";
 import styles from "@/styles/world/new/post.module.css";
 import { useState } from "react";
 
-export default function newPost() {
+export default function NewPost() {
   const [show, Message] = useMessage();
   const [inputValue, setInputValue] = useState<{
     tags: string[];

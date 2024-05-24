@@ -30,7 +30,6 @@ export default function Auth({ children }: { children: ReactNode }) {
 
   const [isSignUp, setIsSignUp] = useState(false);
   const SignUp = dynamic(() => {
-    console.log("imported!");
     return import("../account/signup");
   });
 
