@@ -3,18 +3,64 @@
   width: 100vw;
   position: relative;
 }
-#tagInputArea input {
+#tagInput::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+#tagInput {
   box-sizing: border-box;
   width: 100%;
-  border-radius: 9999px;
-  border: none;
+  border-radius: 5px;
   padding: 10px 20px;
   background-color: var(--special-bg);
   transition: outline-color 0.1s;
   outline: solid 1px var(--background-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-#tagInputArea input:focus {
-  outline: solid 1px var(--link-color);
+#tagInputInput {
+  border: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  min-width: 180px;
+  flex-grow: 1;
+}
+#tagInput:has(#tagInputInput:focus) {
+  outline: solid 1px var(--link-color) !important;
+}
+.oneTag {
+  padding: 5px 10px;
+  background-color: var(--theme-color-level-1);
+  border-radius: 9999px;
+  display: flex;
+  word-break: keep-all;
+  margin: 0;
+  font-size: 13px;
+  justify-content: center;
+  align-items: center;
+}
+.oneTag::before {
+  content: "# ";
+  font-size: 12px;
+  margin-right: 5px;
+}
+.oneTag:last-child {
+  margin-right: 10px;
+}
+.oneTag button {
+  outline: none;
+  margin-left: 5px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: bold;
 }
 #tagInputArea div:last-child {
   position: relative;
@@ -26,13 +72,13 @@
 }
 #tagInputArea div:last-child p {
   border-radius: 9999px;
-  padding: 10px 15px;
-  background-color: var(--green-bg);
+  padding: 5px 10px;
+  font-size: 13px;
+  background-color: var(--theme-color-level-1);
   transition: background-color 0.2s;
-  border: solid 1px var(--green-2);
 }
 #tagInputArea div:last-child p:hover {
-  background-color: var(--green);
+  background-color: var(--theme-color-level-2);
 }
 #tagInputArea div:last-child p::before {
   content: "# ";
