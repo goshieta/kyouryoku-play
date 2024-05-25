@@ -14,8 +14,16 @@ export default function NewPost() {
     <div id={styles.post}>
       <Message />
       <h1>つぶやく</h1>
-      <TagInput />
-      <textarea placeholder="内容を入力" />
+      <TagInput
+        tags={inputValue.tags}
+        setTags={(newVal) => setInputValue({ ...inputValue, tags: newVal })}
+      />
+      <textarea
+        placeholder="内容を入力"
+        value={inputValue.body}
+        onChange={(e) => setInputValue({ ...inputValue, body: e.target.value })}
+        id={styles.bodyInputArea}
+      />
       <SendButton
         show={show}
         inputValue={inputValue}

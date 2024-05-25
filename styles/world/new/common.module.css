@@ -1,0 +1,18 @@
+#tagInputArea {
+  max-width: 500px;
+  width: 100vw;
+  position: relative;
+}
+#tagInputArea input {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 9999px;
+  border: none;
+  padding: 10px 20px;
+  background-color: var(--special-bg);
+  transition: outline-color 0.1s;
+  outline: solid 1px var(--background-color);
+}
+#tagInputArea input:focus {
+  outline: solid 1px var(--link-color);
+}

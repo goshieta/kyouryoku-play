@@ -23,6 +23,7 @@ export default function SendButton({
   const router = useRouter();
 
   const handleClick = async () => {
+    console.log(inputValue);
     if (auth) {
       const result = await sendSome(inputValue, setIsSending);
       if (result === true) {

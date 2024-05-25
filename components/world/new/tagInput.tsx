@@ -2,8 +2,13 @@ import styles from "@/styles/world/new/common.module.css";
 import { useState } from "react";
 import SuggestTag from "../common/suggestTag";
 
-export default function TagInput() {
-  const [tags, setTags] = useState<string[]>([]);
+export default function TagInput({
+  tags,
+  setTags,
+}: {
+  tags: string[];
+  setTags: (newVal: string[]) => void;
+}) {
   const [currentInputTag, setCurrentInputTag] = useState("");
 
   return (

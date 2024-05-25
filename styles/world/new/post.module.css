@@ -1,0 +1,25 @@
+#post {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 30px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+#bodyInputArea {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--special-bg);
+  border: none;
+  outline: solid 1px var(--special-bg);
+  transition: outline-color 0.1s;
+  margin-bottom: 10px;
+  resize: none;
+}
+#bodyInputArea:focus {
+  outline: solid 1px var(--link-color);
+}
