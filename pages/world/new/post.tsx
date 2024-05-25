@@ -17,6 +17,7 @@ export default function NewPost() {
       <TagInput
         tags={inputValue.tags}
         setTags={(newVal) => setInputValue({ ...inputValue, tags: newVal })}
+        show={show}
       />
       <textarea
         placeholder="内容を入力"

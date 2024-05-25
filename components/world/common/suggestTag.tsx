@@ -8,9 +8,11 @@ import styles from "@/styles/world/world.module.css";
 export default function SuggestTag({
   strQuery,
   setQuery,
+  includeCurrent = false,
 }: {
   strQuery: string;
   setQuery: (newQuery: string) => void;
+  includeCurrent?: boolean;
 }) {
   const [suggests, setSuggests] = useState<string[]>([]);
   useEffect(() => {
@@ -37,9 +39,17 @@ export default function SuggestTag({
     );
   }, [strQuery]);
 
+  const targetTagString = Array.from(
+    new Set(
+      (includeCurrent && strQuery.trim() !== "" ? [strQuery] : []).concat(
+        suggests
+      )
+    )
+  );
+
   return (
     <div id={styles.suggests}>
-      {suggests.map((suggest) => (
+      {targetTagString.map((suggest) => (
         <p key={suggest} onClick={() => setQuery(suggest)}>
           {suggest}
         </p>
