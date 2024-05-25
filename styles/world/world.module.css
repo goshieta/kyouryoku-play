@@ -137,7 +137,7 @@
 #suggests p:hover {
   cursor: pointer;
 }
-:not(#search input:focus) + #suggests:not(:active),
+:not(input:focus) + #suggests:not(:active),
 #suggests:not(:has(p)) {
   display: none;
 }

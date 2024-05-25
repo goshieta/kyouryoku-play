@@ -16,3 +16,22 @@
 #tagInputArea input:focus {
   outline: solid 1px var(--link-color);
 }
+#tagInputArea div:last-child {
+  position: relative;
+  background-color: var(--background-color);
+  display: flex;
+  gap: 10px;
+}
+#tagInputArea div:last-child p {
+  border-radius: 9999px;
+  padding: 10px 15px;
+  background-color: var(--green-bg);
+  transition: background-color 0.2s;
+  border: solid 1px var(--green-2);
+}
+#tagInputArea div:last-child p:hover {
+  background-color: var(--green);
+}
+#tagInputArea div:last-child p::before {
+  content: "# ";
+}
