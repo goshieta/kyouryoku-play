@@ -19,12 +19,21 @@ export default function NewPost() {
         setTags={(newVal) => setInputValue({ ...inputValue, tags: newVal })}
         show={show}
       />
-      <textarea
-        placeholder="内容を入力"
-        value={inputValue.body}
-        onChange={(e) => setInputValue({ ...inputValue, body: e.target.value })}
-        id={styles.bodyInputArea}
-      />
+      <div id={styles.textAreaParent}>
+        <textarea
+          placeholder="内容を入力"
+          value={inputValue.body}
+          onChange={(e) => {
+            if (e.target.value.length > 200) {
+              show("error", "200文字までしか入力できません。");
+              return;
+            }
+            setInputValue({ ...inputValue, body: e.target.value });
+          }}
+          id={styles.bodyInputArea}
+        />
+        <p id={styles.textAreaCount}>{`${inputValue.body.length}/200文字`}</p>
+      </div>
       <SendButton
         show={show}
         inputValue={inputValue}
