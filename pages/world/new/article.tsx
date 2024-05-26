@@ -1,1 +1,29 @@
-export default function newArticle() {}
+import useMessage from "@/components/tips/useMessage";
+import ArticleEditor from "@/components/world/new/articleEditor";
+import TagInput from "@/components/world/new/tagInput";
+import styles from "@/styles/world/new/article.module.css";
+import { useState } from "react";
+
+export default function newArticle() {
+  const [show, Message] = useMessage();
+  const [data, setData] = useState<{
+    title: string;
+    tags: string[];
+    body: string;
+  }>({ title: "", tags: [], body: "" });
+
+  return (
+    <div id={styles.article}>
+      <Message />
+      <input type="text" placeholder="タイトルを入力" />
+      <TagInput
+        show={show}
+        tags={data.tags}
+        setTags={(newTags) => {
+          setData({ ...data, tags: newTags });
+        }}
+      />
+      <ArticleEditor />
+    </div>
+  );
+}
