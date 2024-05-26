@@ -6,10 +6,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function SendButton({
+  type,
   show,
   inputValue,
   setInputValue,
 }: {
+  type: "reply" | "article" | "post";
   show: showFunctionType;
   inputValue: { title?: ""; tags: string[]; body: string };
   setInputValue: (newInputValue: {
@@ -23,12 +25,12 @@ export default function SendButton({
   const router = useRouter();
 
   const handleClick = async () => {
-    console.log(inputValue);
     if (auth) {
-      const result = await sendSome(inputValue, setIsSending);
+      const result = await sendSome(type, inputValue, setIsSending, auth.id);
       if (result === true) {
         //成功
         setInputValue({ title: "", tags: [], body: "" });
+        await show("info", "投稿が完了しました。");
         router.push("/world");
       } else {
         //エラー発生

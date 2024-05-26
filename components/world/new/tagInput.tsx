@@ -36,7 +36,6 @@ export default function TagInput({
   );
   const submitTag = useCallback(
     async (val: string) => {
-      console.log(val);
       //タグを登録する前にそのタグについて✅する
       if (val.trim().length > 10) {
         await show("error", "長いタグはよくない。せめて10文字以下にして。");
@@ -86,14 +85,18 @@ export default function TagInput({
             <button onClick={() => handleDeleteTag(oneTag)}>×</button>
           </p>
         ))}
-        <input
-          type="text"
-          placeholder="タグをスペース区切りで入力"
-          value={currentInputTag}
-          onChange={handleChange}
-          id={styles.tagInputInput}
-          ref={tagInput}
-        />
+        {tags.length < 5 ? (
+          <input
+            type="text"
+            placeholder="タグをスペース区切りで入力"
+            value={currentInputTag}
+            onChange={handleChange}
+            id={styles.tagInputInput}
+            ref={tagInput}
+          />
+        ) : (
+          <></>
+        )}
       </div>
       <div ref={tagSuggestArea}>
         <SuggestTag

@@ -62,7 +62,7 @@ export type oneArticleType =
       body: string;
       target: string;
       targetUser: string;
-      targetTitle: string;
+      targetTitle: string | null;
       targetBody: string;
     });
 export const isOneArticleType = (arg: any): arg is oneArticleType => {

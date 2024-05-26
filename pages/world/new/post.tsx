@@ -35,6 +35,7 @@ export default function NewPost() {
         <p id={styles.textAreaCount}>{`${inputValue.body.length}/200文字`}</p>
       </div>
       <SendButton
+        type="post"
         show={show}
         inputValue={inputValue}
         setInputValue={setInputValue}
