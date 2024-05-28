@@ -1,5 +1,5 @@
 import useMessage from "@/components/tips/useMessage";
-import ArticleEditor from "@/components/world/new/articleEditor";
+import ArticleEditor from "@/components/world/new/editor/articleEditor";
 import TagInput from "@/components/world/new/tagInput";
 import styles from "@/styles/world/new/article.module.css";
 import { useState } from "react";
