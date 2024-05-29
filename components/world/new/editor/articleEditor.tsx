@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { KeyboardEvent, useCallback, useState } from "react";
 import {
   withReact,
   Slate,
@@ -6,8 +6,10 @@ import {
   RenderLeafProps,
   ReactEditor,
 } from "slate-react";
-import { Editor, createEditor, BaseEditor } from "slate";
+import { createEditor, BaseEditor } from "slate";
 import Leaf from "./leaf";
+import { CustomEditor } from "./customEditor";
+import EditorOperation from "./editorOperation";
 
 type CustomElement = { type: "paragraph"; children: CustomText[] };
 type CustomText = { text: string; bold?: true };
@@ -34,22 +36,23 @@ export default function ArticleEditor() {
     (props: RenderLeafProps) => <Leaf {...props}></Leaf>,
     []
   );
+  const onEditorKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (!e.ctrlKey) return;
+
+      e.preventDefault();
+      switch (e.key) {
+        case "b":
+          CustomEditor.toggleBoldBlock(editor);
+      }
+    },
+    [editor]
+  );
 
   return (
     <Slate editor={editor} initialValue={initialValue}>
-      <Editable
-        renderLeaf={renderLeaf}
-        onKeyDown={(e) => {
-          if (!e.ctrlKey) return;
-
-          e.preventDefault();
-          switch (e.key) {
-            case "b":
-              Editor.addMark(editor, "bold", true);
-              break;
-          }
-        }}
-      />
+      <EditorOperation editor={editor} />
+      <Editable renderLeaf={renderLeaf} onKeyDown={onEditorKeyDown} />
     </Slate>
   );
 }
