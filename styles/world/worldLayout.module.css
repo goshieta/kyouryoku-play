@@ -10,6 +10,11 @@
   padding-bottom: 20px;
 }
 #children {
-  padding-top: 80px;
+  padding-top: 100px;
   padding-bottom: 80px;
+  margin: 0 10px;
+  display: flex;
+}
+#directChild {
+  flex-grow: 1;
 }

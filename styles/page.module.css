@@ -1,6 +1,5 @@
 /*メニュー*/
 #menu {
-  padding: 20px;
   width: fit-content;
   position: sticky;
   top: 100px;
@@ -8,14 +7,15 @@
   height: fit-content;
 }
 #menu a {
+  width: 80px;
   display: block;
-  font-size: 17px;
   text-decoration: none;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
   margin: 15px 0;
-  padding: 10px 30px;
+  padding: 10px 10px;
   border-radius: 9999px;
   transition: background-color 0.2s;
   transition: color 0.2s;
@@ -23,19 +23,38 @@
 #menu a span {
   font-size: 22px;
   transition: color 0.2s;
+  margin: 0;
+}
+#menu a p {
+  margin: 0;
+  font-size: 14px;
 }
 #menu a:hover {
   color: var(--link-color);
 }
-#menu a:hover span {
-  color: var(--link-color);
+#menu a span {
+  position: relative;
 }
-.active_link {
-  color: var(--link-color);
-  background-color: var(--special-bg);
+#menu a span::before {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 25px;
+  border-radius: 9999px;
+  position: absolute;
+  z-index: -1;
+  top: -2px;
+  left: -15px;
+  transition: background-color 0.4s;
+}
+#menu a:not(.active_link):hover span::before {
+  background-color: var(--theme-color-level-1);
+}
+.active_link span::before {
+  background-color: var(--theme-color-level-2);
 }
 .active_link span {
-  color: var(--link-color);
+  font-weight: bold;
 }
 
 /*コンテンツ一覧*/

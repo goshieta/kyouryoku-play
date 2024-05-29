@@ -2,6 +2,7 @@ import { ReactNode, createContext, useEffect, useMemo } from "react";
 import Header from "../header/Header";
 import styles from "@/styles/world/worldLayout.module.css";
 import { useQueryState } from "next-usequerystate";
+import Menu from "../top/menu";
 
 export const CurrentTagContext = createContext<{
   currentTag: string | null;
@@ -24,7 +25,10 @@ export default function WorldLayout({ children }: { children: ReactNode }) {
     <CurrentTagContext.Provider value={contextValue}>
       <div id="rootParent">
         <Header />
-        <div id={styles.children}> {children}</div>
+        <div id={styles.children}>
+          <Menu />
+          <div id={styles.directChild}> {children}</div>
+        </div>
       </div>
     </CurrentTagContext.Provider>
   );
