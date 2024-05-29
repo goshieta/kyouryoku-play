@@ -5,14 +5,30 @@ import {
   Editable,
   RenderLeafProps,
   ReactEditor,
+  RenderElementProps,
 } from "slate-react";
 import { createEditor, BaseEditor } from "slate";
 import Leaf from "./leaf";
 import { CustomEditor } from "./customEditor";
 import EditorOperation from "./editorOperation";
+import DefaultBlockType, { TitleElement } from "./renderElement";
 
-type CustomElement = { type: "paragraph"; children: CustomText[] };
-type CustomText = { text: string; bold?: true };
+export type CustomElementAllType = "paragraph" | "h1" | "h2" | "h3";
+export const isCustomElementAllType = (
+  arg: any
+): arg is CustomElementAllType => {
+  return arg === "paragraph" || arg === "h1" || arg === "h2" || arg === "h3";
+};
+type CustomElement = {
+  type: CustomElementAllType;
+  children: CustomText[];
+};
+type CustomText = {
+  text: string;
+  bold?: true;
+  underline?: true;
+  link?: string;
+};
 
 const initialValue: CustomElement[] = [
   {
@@ -48,11 +64,25 @@ export default function ArticleEditor() {
     },
     [editor]
   );
+  const renderElement = useCallback((props: RenderElementProps) => {
+    switch (props.element.type) {
+      case "h1":
+      case "h2":
+      case "h3":
+        return <TitleElement {...props} />;
+      default:
+        return <DefaultBlockType {...props} />;
+    }
+  }, []);
 
   return (
     <Slate editor={editor} initialValue={initialValue}>
       <EditorOperation editor={editor} />
-      <Editable renderLeaf={renderLeaf} onKeyDown={onEditorKeyDown} />
+      <Editable
+        renderLeaf={renderLeaf}
+        renderElement={renderElement}
+        onKeyDown={onEditorKeyDown}
+      />
     </Slate>
   );
 }

@@ -4,7 +4,7 @@ import TagInput from "@/components/world/new/tagInput";
 import styles from "@/styles/world/new/article.module.css";
 import { useState } from "react";
 
-export default function newArticle() {
+export default function NewArticle() {
   const [show, Message] = useMessage();
   const [data, setData] = useState<{
     title: string;
