@@ -24,10 +24,10 @@ export default function WorldLayout({ children }: { children: ReactNode }) {
   return (
     <CurrentTagContext.Provider value={contextValue}>
       <div id="rootParent">
-        <Header />
-        <div id={styles.children}>
-          <Menu />
-          <div id={styles.directChild}> {children}</div>
+        <Menu />
+        <div id={styles.noneMenuContent}>
+          <Header />
+          <div id={styles.children}>{children}</div>
         </div>
       </div>
     </CurrentTagContext.Provider>

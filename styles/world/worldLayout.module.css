@@ -15,6 +15,6 @@
   margin: 0 10px;
   display: flex;
 }
-#directChild {
-  flex-grow: 1;
+#noneMenuContent {
+  margin-left: 100px;
 }

@@ -98,6 +98,11 @@ body {
 }
 #noneFooterContent {
   flex: 1;
+  margin-left: 100px;
+  position: relative;
+}
+#includeMenu {
+  display: flex;
 }
 #contentArea {
   margin: 0 10px;

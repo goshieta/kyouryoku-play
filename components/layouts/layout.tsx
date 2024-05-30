@@ -6,14 +6,14 @@ import Menu from "../top/menu";
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div id="rootParent">
-      <div id="noneFooterContent">
-        <Header></Header>
-        <div id="contentArea">
-          <Menu />
-          {children}
+      <div id="includeMenu">
+        <Menu />
+        <div id="noneFooterContent">
+          <Header></Header>
+          <div id="contentArea">{children}</div>
+          <Footer></Footer>
         </div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }

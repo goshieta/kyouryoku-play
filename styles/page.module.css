@@ -1,10 +1,11 @@
 /*メニュー*/
 #menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: var(--special-bg);
   width: fit-content;
-  position: sticky;
-  top: 100px;
-  left: 0px;
-  height: fit-content;
 }
 #menu a {
   width: 80px;
