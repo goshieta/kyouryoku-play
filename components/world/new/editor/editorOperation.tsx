@@ -1,8 +1,7 @@
 import { BaseEditor } from "slate";
 import { CustomEditor } from "./customEditor";
 import { ReactEditor } from "slate-react";
-import { useEffect, useState } from "react";
-import { CustomElementAllType, isCustomElementAllType } from "./articleEditor";
+import styles from "@/styles/world/new/editor.module.css";
 
 export default function EditorOperation({
   editor,
@@ -10,32 +9,15 @@ export default function EditorOperation({
   editor: BaseEditor & ReactEditor;
 }) {
   return (
-    <div>
-      <button
-        onMouseDown={(e) => {
-          e.preventDefault();
-          CustomEditor.toggleBoldBlock(editor);
-        }}
-      >
-        太字
-      </button>
-      <button
-        onMouseDown={(e) => {
-          e.preventDefault();
-          CustomEditor.toggleUnderlineBlock(editor);
-        }}
-      >
-        下線
-      </button>
-      <button>リンク</button>
-      <div>
+    <div id={styles.operation}>
+      <div id={styles.selectTextType}>
         <button
           onMouseDown={(e) => {
             e.preventDefault();
             CustomEditor.toggleBlock(editor, "paragraph");
           }}
         >
-          通常テキスト
+          <p>通常テキスト</p>
         </button>
         <button
           onMouseDown={(e) => {
@@ -43,7 +25,7 @@ export default function EditorOperation({
             CustomEditor.toggleBlock(editor, "h1");
           }}
         >
-          見出し
+          <h1>見出し</h1>
         </button>
         <button
           onMouseDown={(e) => {
@@ -51,7 +33,7 @@ export default function EditorOperation({
             CustomEditor.toggleBlock(editor, "h2");
           }}
         >
-          見出し2
+          <h2>見出し2</h2>
         </button>
         <button
           onMouseDown={(e) => {
@@ -59,7 +41,43 @@ export default function EditorOperation({
             CustomEditor.toggleBlock(editor, "h3");
           }}
         >
-          見出し3
+          <h3>見出し3</h3>
+        </button>
+      </div>
+      <div id={styles.buttons}>
+        <button
+          onMouseDown={(e) => {
+            e.preventDefault();
+            CustomEditor.toggleBoldBlock(editor);
+          }}
+        >
+          <span className="material-symbols-outlined">format_bold</span>
+        </button>
+        <button
+          onMouseDown={(e) => {
+            e.preventDefault();
+            CustomEditor.toggleUnderlineBlock(editor);
+          }}
+        >
+          <span className="material-symbols-outlined">format_underlined</span>
+        </button>
+        <button>
+          <span className="material-symbols-outlined">link</span>
+        </button>
+        <button>
+          <span className="material-symbols-outlined">imagesmode</span>
+        </button>
+        <button>
+          <span className="material-symbols-outlined">code</span>
+        </button>
+        <button>
+          <span className="material-symbols-outlined">list</span>
+        </button>
+        <button>
+          <span className="material-symbols-outlined">highlight</span>
+        </button>
+        <button>
+          <span className="material-symbols-outlined">error</span>
         </button>
       </div>
     </div>

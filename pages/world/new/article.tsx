@@ -15,14 +15,16 @@ export default function NewArticle() {
   return (
     <div id={styles.article}>
       <Message />
-      <input type="text" placeholder="タイトルを入力" />
-      <TagInput
-        show={show}
-        tags={data.tags}
-        setTags={(newTags) => {
-          setData({ ...data, tags: newTags });
-        }}
-      />
+      <input type="text" placeholder="タイトルを入力" id={styles.inputTitle} />
+      <div id={styles.tagInputArea}>
+        <TagInput
+          show={show}
+          tags={data.tags}
+          setTags={(newTags) => {
+            setData({ ...data, tags: newTags });
+          }}
+        />
+      </div>
       <ArticleEditor />
     </div>
   );

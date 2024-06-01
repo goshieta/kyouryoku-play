@@ -12,6 +12,7 @@ import Leaf from "./leaf";
 import { CustomEditor } from "./customEditor";
 import EditorOperation from "./editorOperation";
 import DefaultBlockType, { TitleElement } from "./renderElement";
+import styles from "@/styles/world/new/editor.module.css";
 
 export type CustomElementAllType = "paragraph" | "h1" | "h2" | "h3";
 export const isCustomElementAllType = (
@@ -76,13 +77,15 @@ export default function ArticleEditor() {
   }, []);
 
   return (
-    <Slate editor={editor} initialValue={initialValue}>
-      <EditorOperation editor={editor} />
-      <Editable
-        renderLeaf={renderLeaf}
-        renderElement={renderElement}
-        onKeyDown={onEditorKeyDown}
-      />
-    </Slate>
+    <div id={styles.editorArea}>
+      <Slate editor={editor} initialValue={initialValue}>
+        <EditorOperation editor={editor} />
+        <Editable
+          renderLeaf={renderLeaf}
+          renderElement={renderElement}
+          onKeyDown={onEditorKeyDown}
+        />
+      </Slate>
+    </div>
   );
 }
