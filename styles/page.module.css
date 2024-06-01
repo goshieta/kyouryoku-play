@@ -6,6 +6,7 @@
   height: 100vh;
   background-color: var(--special-bg);
   width: fit-content;
+  z-index: 10;
 }
 #menu a {
   width: 80px;

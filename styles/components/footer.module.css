@@ -6,6 +6,11 @@
   margin-bottom: 20px;
   border-radius: 10px;
   background-color: var(--special-bg);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 60px);
+  box-sizing: border-box;
 }
 
 /*リンクエリア*/

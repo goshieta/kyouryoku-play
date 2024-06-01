@@ -91,18 +91,18 @@ body {
   background-color: rgb(155, 155, 155);
 }
 
-#rootParent {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-#noneFooterContent {
-  flex: 1;
-  margin-left: 100px;
-  position: relative;
-}
 #includeMenu {
   display: flex;
+}
+#noneMenuContent {
+  min-height: calc(100vh - 300px);
+  position: relative;
+  padding-bottom: 300px;
+  width: 100%;
+  margin-left: 100px;
+}
+#noneFooterContent {
+  padding: auto;
 }
 #contentArea {
   margin: 0 10px;

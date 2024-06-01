@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div id={styles.footer}>
+    <footer id={styles.footer}>
       <div id={styles.f_linkArea}>
         <Link href="/">トップ</Link>
         <Link href="/additional/about">このサイトについて</Link>
@@ -24,6 +24,6 @@ export default function Footer() {
         </div>
         <p>©2023 峡緑</p>
       </div>
-    </div>
+    </footer>
   );
 }

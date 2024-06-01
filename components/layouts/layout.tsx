@@ -8,9 +8,11 @@ export default function Layout({ children }: { children: ReactNode }) {
     <div id="rootParent">
       <div id="includeMenu">
         <Menu />
-        <div id="noneFooterContent">
-          <Header></Header>
-          <div id="contentArea">{children}</div>
+        <div id="noneMenuContent">
+          <div id="noneFooterContent">
+            <Header></Header>
+            <div id="contentArea">{children}</div>
+          </div>
           <Footer></Footer>
         </div>
       </div>
