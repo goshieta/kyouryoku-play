@@ -10,40 +10,6 @@ export default function EditorOperation({
 }) {
   return (
     <div id={styles.operation}>
-      <div id={styles.selectTextType}>
-        <button
-          onMouseDown={(e) => {
-            e.preventDefault();
-            CustomEditor.toggleBlock(editor, "paragraph");
-          }}
-        >
-          <p>通常テキスト</p>
-        </button>
-        <button
-          onMouseDown={(e) => {
-            e.preventDefault();
-            CustomEditor.toggleBlock(editor, "h1");
-          }}
-        >
-          <h1>見出し</h1>
-        </button>
-        <button
-          onMouseDown={(e) => {
-            e.preventDefault();
-            CustomEditor.toggleBlock(editor, "h2");
-          }}
-        >
-          <h2>見出し2</h2>
-        </button>
-        <button
-          onMouseDown={(e) => {
-            e.preventDefault();
-            CustomEditor.toggleBlock(editor, "h3");
-          }}
-        >
-          <h3>見出し3</h3>
-        </button>
-      </div>
       <div id={styles.buttons}>
         <button
           onMouseDown={(e) => {
@@ -79,6 +45,36 @@ export default function EditorOperation({
         <button>
           <span className="material-symbols-outlined">error</span>
         </button>
+      </div>
+      <div id={styles.selectTextType}>
+        <button
+          onMouseDown={(e) => {
+            e.preventDefault();
+            CustomEditor.toggleBlock(editor, "paragraph");
+          }}
+        >
+          <p>通常テキスト</p>
+        </button>
+        <button
+          onMouseDown={(e) => {
+            e.preventDefault();
+            CustomEditor.toggleBlock(editor, "h2");
+          }}
+        >
+          <h2>見出し1</h2>
+        </button>
+        <button
+          onMouseDown={(e) => {
+            e.preventDefault();
+            CustomEditor.toggleBlock(editor, "h3");
+          }}
+        >
+          <h3>見出し2</h3>
+        </button>
+      </div>
+      <div id={styles.saveButtonArea}>
+        <button id={styles.saveButton}>保存</button>
+        <button id={styles.publishButton}>公開</button>
       </div>
     </div>
   );

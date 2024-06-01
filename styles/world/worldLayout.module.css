@@ -14,6 +14,7 @@
   padding-bottom: 80px;
   margin: 0 10px;
   display: flex;
+  position: relative;
 }
 #noneMenuContent {
   margin-left: 100px;

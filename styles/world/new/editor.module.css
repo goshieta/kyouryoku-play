@@ -1,39 +1,18 @@
 #operation {
   align-items: center;
   position: relative;
-  margin-top: 20px;
-  border-radius: 5px;
-  background-color: var(--special-bg);
+  background-color: var(--background-color);
   padding: 20px 0;
+  position: fixed;
+  top: 0;
+  left: 100px;
+  width: calc(100% - 100px);
+  display: flex;
+  gap: 20px;
 }
 #operation > div {
   justify-content: center;
 }
-#buttons {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-#selectTextType {
-  border-radius: 5px;
-  padding: 0 15px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-#selectTextType::-webkit-scrollbar {
-  width: 0;
-}
-#selectTextType button {
-  display: block;
-  background-color: rgba(0, 0, 0, 0);
-  text-align: center;
-  margin: 0 20px;
-}
-#selectTextType button * {
-  margin: 0;
-}
-
 #operation button {
   width: fit-content;
   height: fit-content;
@@ -42,6 +21,54 @@
 #operation button span {
   font-size: 20px;
   display: block;
+}
+
+#buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-left: 20px;
+}
+
+#selectTextType {
+  border-radius: 5px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  border: solid 1px var(--font-color);
+}
+#selectTextType::-webkit-scrollbar {
+  width: 0;
+}
+#selectTextType button {
+  display: block;
+  background-color: rgba(0, 0, 0, 0);
+  text-align: center;
+  width: 100px;
+  margin: 5px;
+}
+#selectTextType button * {
+  margin: 0;
+}
+
+#saveButtonArea {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  margin-right: 20px;
+}
+#saveButtonArea button {
+  width: 80px;
+  height: 35px;
+}
+#publishButton {
+  background-color: var(--green);
+}
+#publishButton:hover {
+  background-color: var(--green-2);
+}
+#publishButton:active {
+  background-color: var(--green-3);
 }
 
 #editorArea > div:last-child {

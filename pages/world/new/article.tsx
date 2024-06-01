@@ -1,8 +1,9 @@
+import NoneHeaderFooterLayout from "@/components/layouts/noneHeaderFooterLayout";
 import useMessage from "@/components/tips/useMessage";
 import ArticleEditor from "@/components/world/new/editor/articleEditor";
 import TagInput from "@/components/world/new/tagInput";
 import styles from "@/styles/world/new/article.module.css";
-import { useState } from "react";
+import { JSXElementConstructor, ReactElement, useState } from "react";
 
 export default function NewArticle() {
   const [show, Message] = useMessage();
@@ -29,3 +30,9 @@ export default function NewArticle() {
     </div>
   );
 }
+
+NewArticle.getLayout = (
+  page: ReactElement<any, string | JSXElementConstructor<any>>
+) => {
+  return <NoneHeaderFooterLayout>{page}</NoneHeaderFooterLayout>;
+};
