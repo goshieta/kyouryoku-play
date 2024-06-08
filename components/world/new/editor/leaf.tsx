@@ -1,5 +1,6 @@
 import { RenderLeafProps, useFocused, useSelected } from "slate-react";
 import styles from "@/styles/world/new/editor.module.css";
+import { useEffect, useRef, useState } from "react";
 
 const normalStyle = (props: RenderLeafProps) => {
   return {
@@ -16,20 +17,39 @@ export default function Leaf(props: RenderLeafProps) {
   );
 }
 export function LinkLeaf(props: RenderLeafProps) {
-  const focused = useFocused();
-  const selected = useSelected();
+  const [focused, setFocused] = useState(false);
+  const element = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    console.log(element.current);
+    const handleFocus = () => {
+      setFocused(true);
+    };
+    const handleBlur = () => {
+      setFocused(false);
+    };
+
+    if (element.current) {
+      element.current?.addEventListener("mouseover", handleFocus);
+      element.current?.addEventListener("mouseout", handleBlur);
+    }
+    return () => {
+      element.current?.removeEventListener("mouseover", handleFocus);
+      element.current?.removeEventListener("mouseout", handleBlur);
+    };
+  }, [element]);
+
   if (props.leaf.link && props.leaf.linkTarget) {
     return (
-      <span className={styles.linkParent}>
+      <span className={styles.linkParent} ref={element}>
         <a
           {...props.attributes}
           href={props.leaf.linkTarget}
           style={normalStyle(props)}
-          onFocus={() => {}}
         >
           {props.children}
         </a>
-        {focused && selected && <LinkPopup href={props.leaf.linkTarget} />}
+        {focused && <LinkPopup href={props.leaf.linkTarget} />}
       </span>
     );
   } else {

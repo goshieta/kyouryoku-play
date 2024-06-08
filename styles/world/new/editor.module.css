@@ -79,13 +79,14 @@
 }
 #editorArea a {
   color: var(--link-color);
+  cursor: pointer;
 }
 #editorArea a span {
   color: var(--link-color);
 }
 .linkPopup {
   position: absolute;
-  top: 30px;
+  top: 20px;
   left: 0;
   padding: 5px 10px;
   background-color: var(--background-color);
