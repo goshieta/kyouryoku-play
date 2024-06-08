@@ -3,7 +3,6 @@ import {
   JSXElementConstructor,
   ReactElement,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import WorldLayout, {

@@ -2,11 +2,14 @@ import { BaseEditor } from "slate";
 import { CustomEditor } from "./customEditor";
 import { ReactEditor } from "slate-react";
 import styles from "@/styles/world/new/editor.module.css";
+import { CustomElementAllType } from "./articleEditor";
 
 export default function EditorOperation({
   editor,
+  focusEditor,
 }: {
   editor: BaseEditor & ReactEditor;
+  focusEditor: () => void;
 }) {
   return (
     <div id={styles.operation}>
@@ -45,32 +48,21 @@ export default function EditorOperation({
         <button>
           <span className="material-symbols-outlined">error</span>
         </button>
-      </div>
-      <div id={styles.selectTextType}>
-        <button
-          onMouseDown={(e) => {
+        <select
+          id={styles.selectTextType}
+          onChange={(e) => {
             e.preventDefault();
-            CustomEditor.toggleBlock(editor, "paragraph");
+            CustomEditor.toggleBlock(
+              editor,
+              e.target.value as CustomElementAllType
+            );
+            focusEditor();
           }}
         >
-          <p>通常テキスト</p>
-        </button>
-        <button
-          onMouseDown={(e) => {
-            e.preventDefault();
-            CustomEditor.toggleBlock(editor, "h2");
-          }}
-        >
-          <h2>見出し1</h2>
-        </button>
-        <button
-          onMouseDown={(e) => {
-            e.preventDefault();
-            CustomEditor.toggleBlock(editor, "h3");
-          }}
-        >
-          <h3>見出し2</h3>
-        </button>
+          <option value="paragraph">通常テキスト</option>
+          <option value="h2">見出し1</option>
+          <option value="h3">見出し2</option>
+        </select>
       </div>
       <div id={styles.saveButtonArea}>
         <button id={styles.saveButton}>保存</button>

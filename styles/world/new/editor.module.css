@@ -9,6 +9,7 @@
   width: calc(100% - 100px);
   display: flex;
   gap: 20px;
+  z-index: 20;
 }
 #operation > div {
   justify-content: center;
@@ -35,20 +36,11 @@
   padding: 0 15px;
   display: flex;
   align-items: center;
+  background-color: var(--background-color);
+  cursor: pointer;
   border: solid 1px var(--font-color);
-}
-#selectTextType::-webkit-scrollbar {
-  width: 0;
-}
-#selectTextType button {
-  display: block;
-  background-color: rgba(0, 0, 0, 0);
-  text-align: center;
-  width: 100px;
-  margin: 5px;
-}
-#selectTextType button * {
-  margin: 0;
+  padding: 5px 20px;
+  outline: none;
 }
 
 #saveButtonArea {
@@ -73,15 +65,15 @@
 
 #editorArea > div:last-child {
   background-color: rgba(0, 0, 0, 0);
-  outline: none;
   border: none;
   border-radius: 5px;
   padding: 20px;
-  border: solid 1px var(--font-color);
   margin-top: 30px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: var(--special-bg);
+  outline: solid 1px var(--background-color);
+  transition: outline-color 0.2s;
 }
 #editorArea > div:last-child:focus {
-  border: solid 1px var(--theme-color-level-2);
-  box-shadow: 0 0 10px 0 var(--theme-color-level-2);
+  outline: solid 1px var(--font-color);
 }

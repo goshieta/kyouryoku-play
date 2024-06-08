@@ -34,7 +34,19 @@ type CustomText = {
 const initialValue: CustomElement[] = [
   {
     type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
+    children: [
+      {
+        text: "ここにテキストを入力することで、記事を書くことができます。",
+      },
+    ],
+  },
+  {
+    type: "paragraph",
+    children: [
+      {
+        text: "書く記事の内容は何でもいいですが、コミュニティガイドラインに沿った投稿をしてください。",
+      },
+    ],
   },
 ];
 
@@ -79,7 +91,10 @@ export default function ArticleEditor() {
   return (
     <div id={styles.editorArea}>
       <Slate editor={editor} initialValue={initialValue}>
-        <EditorOperation editor={editor} />
+        <EditorOperation
+          editor={editor}
+          focusEditor={() => ReactEditor.focus(editor)}
+        />
         <Editable
           renderLeaf={renderLeaf}
           renderElement={renderElement}
