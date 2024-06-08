@@ -115,7 +115,7 @@ export default function WorldMenu({
         <button
           id={styles.createNew}
           className={styles.leftButton}
-          onClick={() => router.push("/world/new")}
+          onClick={() => router.push("/world/new/post")}
         >
           <span className="material-symbols-outlined">article</span>投稿
         </button>

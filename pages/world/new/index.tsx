@@ -18,15 +18,6 @@ export default function NewWorld() {
           />
           <p>つぶやき</p>
         </Link>
-        <Link href="./new/article">
-          <Image
-            src="/navigation/world/article.svg"
-            width={100}
-            height={100}
-            alt="つぶやき"
-          />
-          <p>記事</p>
-        </Link>
       </div>
       <div id={styles.needHelp}>
         <Link href="/additional/about">
