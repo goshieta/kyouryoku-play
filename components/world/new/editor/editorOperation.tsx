@@ -3,6 +3,7 @@ import { CustomEditor } from "./customEditor";
 import { ReactEditor } from "slate-react";
 import styles from "@/styles/world/new/editor.module.css";
 import { CustomElementAllType } from "./articleEditor";
+import useMessage from "@/components/tips/useMessage";
 
 export default function EditorOperation({
   editor,
@@ -11,6 +12,8 @@ export default function EditorOperation({
   editor: BaseEditor & ReactEditor;
   focusEditor: () => void;
 }) {
+  const [show, Message] = useMessage();
+
   return (
     <div id={styles.operation}>
       <div id={styles.buttons}>
@@ -30,7 +33,12 @@ export default function EditorOperation({
         >
           <span className="material-symbols-outlined">format_underlined</span>
         </button>
-        <button>
+        <button
+          onMouseDown={(e) => {
+            e.preventDefault();
+            CustomEditor.toggleLinkBlock(editor, show);
+          }}
+        >
           <span className="material-symbols-outlined">link</span>
         </button>
         <button>

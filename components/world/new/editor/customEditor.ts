@@ -1,6 +1,7 @@
 import { BaseEditor, Editor, Element, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
 import { CustomElementAllType } from "./articleEditor";
+import { showFunctionType } from "@/components/tips/useMessage";
 
 type editorType = BaseEditor & ReactEditor;
 
@@ -22,6 +23,22 @@ export const CustomEditor = {
     const isActive = this.isUnderlineActive(editor);
     if (isActive) Editor.removeMark(editor, "underline");
     else Editor.addMark(editor, "underline", true);
+  },
+  isLinkActive(editor: editorType) {
+    const marks = Editor.marks(editor);
+    return marks ? marks.link === true : false;
+  },
+  toggleLinkBlock(editor: editorType, show: showFunctionType) {
+    const isActive = this.isLinkActive(editor);
+    if (isActive) {
+      Editor.removeMark(editor, "link");
+      Editor.removeMark(editor, "linkTarget");
+      Editor.removeMark(editor, "underline");
+    } else {
+      Editor.addMark(editor, "link", true);
+      Editor.addMark(editor, "linkTarget", "https://www.youtube.com");
+      Editor.addMark(editor, "underline", true);
+    }
   },
 
   //ブロックタイプ

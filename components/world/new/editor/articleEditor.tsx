@@ -8,7 +8,7 @@ import {
   RenderElementProps,
 } from "slate-react";
 import { createEditor, BaseEditor } from "slate";
-import Leaf from "./leaf";
+import Leaf, { LinkLeaf } from "./leaf";
 import { CustomEditor } from "./customEditor";
 import EditorOperation from "./editorOperation";
 import DefaultBlockType, { TitleElement } from "./renderElement";
@@ -28,7 +28,8 @@ type CustomText = {
   text: string;
   bold?: true;
   underline?: true;
-  link?: string;
+  link?: true;
+  linkTarget?: string;
 };
 
 const initialValue: CustomElement[] = [
@@ -62,7 +63,12 @@ export default function ArticleEditor() {
   const [editor] = useState(() => withReact(createEditor()));
 
   const renderLeaf = useCallback(
-    (props: RenderLeafProps) => <Leaf {...props}></Leaf>,
+    (props: RenderLeafProps) =>
+      props.leaf.link && props.leaf.linkTarget ? (
+        <LinkLeaf {...props} />
+      ) : (
+        <Leaf {...props}></Leaf>
+      ),
     []
   );
   const onEditorKeyDown = useCallback(

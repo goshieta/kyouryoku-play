@@ -77,3 +77,21 @@
 #editorArea > div:last-child:focus {
   outline: solid 1px var(--font-color);
 }
+#editorArea a {
+  color: var(--link-color);
+}
+#editorArea a span {
+  color: var(--link-color);
+}
+.linkPopup {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  padding: 5px 10px;
+  background-color: var(--background-color);
+  border: solid 1px var(--pale-font-color);
+  border-radius: 5px;
+}
+.linkParent {
+  position: relative;
+}
