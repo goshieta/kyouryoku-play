@@ -77,18 +77,21 @@ export const isOneArticleType = (arg: any): arg is oneArticleType => {
     typeof arg.dislike === "number" &&
     typeof arg.reply === "number";
 
-  const postElementCheck = arg.type === "post" && typeof arg.body === "string";
+  const postElementCheck =
+    arg && arg.type === "post" && typeof arg.body === "string";
   const articleElementCheck =
+    arg &&
     arg.type === "article" &&
     typeof arg.title === "string" &&
     typeof arg.description === "string" &&
     typeof arg.body === "string";
   const replyElementCheck =
+    arg &&
     arg.type === "reply" &&
     typeof arg.body === "string" &&
     typeof arg.target === "string" &&
     typeof arg.targetUser === "string" &&
-    typeof arg.targetTitle === "string" &&
+    (typeof arg.targetTitle === "string" || arg.targetTitle === null) &&
     typeof arg.targetBody === "string";
 
   return (

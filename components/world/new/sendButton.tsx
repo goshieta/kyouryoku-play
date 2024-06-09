@@ -5,35 +5,69 @@ import styles from "@/styles/world/new/common.module.css";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
+type commonSBPType = { show: showFunctionType };
+
+type replyInputValueType = {
+  tags: string[];
+  body: string;
+};
+type replyValue = {
+  type: "reply";
+  inputValue: replyInputValueType;
+  targetValue: {
+    target: string;
+    targetUser: string;
+    targetTitle: string | null;
+    targetBody: string;
+  };
+  setInputValue: (newInputValue: replyInputValueType) => void;
+};
+
+type postInputValueType = {
+  tags: string[];
+  body: string;
+};
+type postValue = {
+  type: "post";
+  inputValue: postInputValueType;
+  setInputValue: (newInputValue: postInputValueType) => void;
+};
+
+type sendButtonPropsType = commonSBPType & (replyValue | postValue);
+
 export default function SendButton({
   type,
   show,
   inputValue,
   setInputValue,
-}: {
-  type: "reply" | "article" | "post";
-  show: showFunctionType;
-  inputValue: { title?: ""; tags: string[]; body: string };
-  setInputValue: (newInputValue: {
-    title?: "";
-    tags: string[];
-    body: string;
-  }) => void;
-}) {
+  ...args
+}: sendButtonPropsType) {
   const [isSending, setIsSending] = useState(false);
   const auth = useAuth();
   const router = useRouter();
 
   const handleClick = async () => {
     if (auth) {
-      const result = await sendSome(type, inputValue, setIsSending, auth.id);
+      let sendSomeSendData = inputValue;
+      if (type === "reply" && "targetValue" in args)
+        sendSomeSendData = { ...inputValue, ...args.targetValue };
+      const result = await sendSome(
+        type,
+        sendSomeSendData,
+        setIsSending,
+        auth.id
+      );
+
       if (result === true) {
         //成功
-        setInputValue({ title: "", tags: [], body: "" });
+        setInputValue({ tags: [], body: "" });
         await show("info", "投稿が完了しました。");
         router.push("/world");
       } else {
         //エラー発生
+        for (let oneError of result) {
+          await show("error", oneError.body);
+        }
       }
     } else show("error", "投稿するにはログインしてください。");
   };

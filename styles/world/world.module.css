@@ -194,6 +194,9 @@
 .oneArticle > p {
   margin-bottom: 10px;
 }
+.oneArticle > a > p {
+  margin-top: 10px;
+}
 .accountArea {
   display: flex;
   gap: 10px;

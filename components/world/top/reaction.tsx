@@ -83,7 +83,7 @@ export default function Reaction({
 
   const onreply = useCallback(() => {
     //replyする
-    router.push(`/world/new?type=reply&target=${messageId}`);
+    router.push(`/world/new/reply?type=reply&target=${messageId}`);
   }, [router]);
 
   return evaluationButtonState ? (
