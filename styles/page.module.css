@@ -151,3 +151,5 @@
 #moreRead:hover {
   background-color: var(--theme-color-level-2);
 }
+
+/*ログインしていないとき*/
