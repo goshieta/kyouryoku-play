@@ -23,5 +23,9 @@
   },
   "devDependencies": {
     "next-sitemap": "^4.2.3"
-  }
+  },
+  "description": "This is an game site created by KyouRyoku.",
+  "main": "next-sitemap.config.js",
+  "author": "",
+  "license": "ISC"
 }
