@@ -1,0 +1,18 @@
+import { initializeApp, cert, App, getApps } from "firebase-admin/app";
+
+// Firebase Admin SDKの初期化
+let FirebaseAdminApp: App;
+if (!getApps().length) {
+  const certInfo = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  };
+  FirebaseAdminApp = initializeApp({
+    credential: cert(certInfo),
+  });
+} else {
+  FirebaseAdminApp = getApps()[0];
+}
+
+export default FirebaseAdminApp;
