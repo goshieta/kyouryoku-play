@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebase";
 import { gameInfoType } from "@/app/lib/types/gameType";
-import GameScreen from "@/app/style/component/game/screen";
+import GameScreen from "@/app/component/screen";
 import styles from "@/app/style/page/game.module.css";
 import { Metadata } from "next";
 
