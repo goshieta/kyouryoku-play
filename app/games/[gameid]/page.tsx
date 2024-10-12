@@ -1,5 +1,6 @@
 import { db } from "@/app/lib/firebase";
 import { gameInfoType } from "@/app/lib/types/gameType";
+import GameScreen from "@/app/style/component/game/screen";
 import styles from "@/app/style/page/game.module.css";
 import { Metadata } from "next";
 
@@ -44,7 +45,11 @@ export default async function GamePage({
       <div id={styles.game_page}>
         <div id={styles.content}>
           <div id={styles.game_area}>
-            <div id={styles.game_screen}></div>
+            <GameScreen
+              id={params.gameid}
+              width={gameInfo.width}
+              height={gameInfo.height}
+            />
             <div id={styles.game_operation}>
               <button>報告</button>
               <button>提案</button>

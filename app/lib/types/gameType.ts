@@ -6,5 +6,7 @@ export type gameInfoType = {
   explanation: string;
   howtoplay: string;
   played: number;
+  width: number;
+  height: number;
   recommend: string[];
 };
