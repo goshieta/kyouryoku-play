@@ -11,13 +11,15 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <div id="rootParent">
-        <div id="noneFooterContent">
-          <Header></Header>
-          <div id="contentArea">{children}</div>
+      <body>
+        <div id="rootParent">
+          <div id="noneFooterContent">
+            <Header></Header>
+            <div id="contentArea">{children}</div>
+          </div>
+          <Footer></Footer>
         </div>
-        <Footer></Footer>
-      </div>
+      </body>
       <GoogleAnalytics gaId="G-CJT63ZRL0E" />
     </html>
   );

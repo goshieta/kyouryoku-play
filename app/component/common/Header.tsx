@@ -1,8 +1,10 @@
+"use client";
+
 import Link from "next/link";
-import styles from "../styles/components/header.module.css";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import styles from "@/app/style/component/header.module.css";
+import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [mobileMenu, setmobileMenu] = useState(false);
@@ -17,11 +19,6 @@ export default function Header() {
   );
 
   const router = useRouter();
-  const pageEnter = () => setmobileMenu(false);
-  useEffect(() => {
-    router.events.on("routeChangeStart", pageEnter);
-    return () => router.events.off("routeChangeStart", pageEnter);
-  }, []);
 
   return (
     <>
