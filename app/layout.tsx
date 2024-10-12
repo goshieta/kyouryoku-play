@@ -1,6 +1,6 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import "@/styles/globals.css";
+import Footer from "@/app/component/common/Footer";
+import Header from "@/app/component/common/Header";
+import "@/app/style/globals.css";
 import { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
