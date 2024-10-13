@@ -52,6 +52,10 @@ export default async function GamePage({
             />
             <div id={styles.game_operation}>
               <button>
+                <span className="material-symbols-outlined">share</span>
+                共有
+              </button>
+              <button>
                 <span className="material-symbols-outlined">report</span>
                 報告
               </button>

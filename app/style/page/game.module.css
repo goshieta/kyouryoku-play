@@ -10,6 +10,7 @@
 #screen_iframe {
   border: none;
   border-radius: 5px;
+  display: block;
 }
 #game_operation {
   display: flex;
@@ -40,6 +41,7 @@
 #fullscreen_button {
   margin-left: auto;
 }
+
 #game_overview {
   display: flex;
   align-items: center;
@@ -61,7 +63,6 @@
 #statistics p {
   margin: 0;
 }
-
 #game_description {
   max-width: 500px;
   line-height: 2em;
