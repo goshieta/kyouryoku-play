@@ -51,22 +51,41 @@ export default async function GamePage({
               height={gameInfo.height}
             />
             <div id={styles.game_operation}>
-              <button>報告</button>
-              <button>提案</button>
-              <button>全画面</button>
+              <button>
+                <span className="material-symbols-outlined">report</span>
+                報告
+              </button>
+              <button>
+                <span className="material-symbols-outlined">front_hand</span>
+                提案
+              </button>
+              <button id={styles.fullscreen_button}>
+                <span className="material-symbols-outlined">fullscreen</span>
+                全画面
+              </button>
             </div>
           </div>
           <div id={styles.game_description}>
+            <div id={styles.game_overview}>
+              <h1 id={styles.game_title}>{gameInfo.name}</h1>
+              <div id={styles.statistics}>
+                <div>
+                  <span className="material-symbols-outlined">
+                    sports_esports
+                  </span>
+                  <p>{gameInfo.played} 回</p>
+                </div>
+              </div>
+            </div>
             <div id={styles.explanation}>
-              <p>プレイ回数 : {gameInfo.played}</p>
               <p>{gameInfo.explanation}</p>
             </div>
             <div id={styles.howtoplay}>
               <p>{gameInfo.howtoplay}</p>
             </div>
           </div>
-          <div id={styles.related}></div>
         </div>
+        <div id={styles.related}></div>
       </div>
     );
   }

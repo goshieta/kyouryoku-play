@@ -1,0 +1,81 @@
+#game_page {
+  margin: 20px;
+}
+
+#content {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+#screen_iframe {
+  border: none;
+  border-radius: 5px;
+}
+#game_operation {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+#game_operation button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 15px;
+  padding: 10px 16px;
+  background-color: var(--accent-color);
+  border: none;
+  outline: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: solid 1px var(--link-color);
+}
+#game_operation button:hover {
+  background-color: var(--hover-accent);
+}
+#game_operation button:active {
+  background-color: var(--active-accent);
+}
+#fullscreen_button {
+  margin-left: auto;
+}
+#game_overview {
+  display: flex;
+  align-items: center;
+}
+#statistics {
+  margin-left: auto;
+}
+#statistics div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 15px;
+  background-color: var(--special-bg);
+  width: fit-content;
+  border-radius: 5px;
+}
+#statistics p {
+  margin: 0;
+}
+
+#game_description {
+  max-width: 500px;
+  line-height: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#explanation,
+#howtoplay {
+  background-color: var(--special-bg);
+  padding: 30px;
+  border-radius: 5px;
+}
+#howtoplay p,
+#explanation p {
+  margin: 0;
+}
