@@ -44,9 +44,6 @@ body {
     --hover-accent: #002869;
     --active-accent: #003996;
   }
-  img {
-    filter: brightness(70%);
-  }
 }
 
 ::-webkit-scrollbar {
