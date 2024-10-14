@@ -7,6 +7,9 @@
   justify-content: center;
   gap: 40px;
 }
+#game_screen {
+  max-width: calc(100vw - 525px);
+}
 #start_screen {
   display: flex;
   justify-content: center;
@@ -14,10 +17,14 @@
   position: relative;
   border-radius: 5px;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 #start_screen img {
   position: absolute;
   z-index: -1;
+  width: 100%;
+  height: 100%;
 }
 #start_screen button {
   background-color: rgba(0, 0, 0, 0.5);
@@ -34,6 +41,8 @@
   border: none;
   border-radius: 5px;
   display: block;
+  width: 100%;
+  height: 100%;
 }
 #game_operation {
   display: flex;
@@ -102,4 +111,34 @@
 #howtoplay p,
 #explanation p {
   margin: 0;
+}
+
+@media screen and (max-width: 959px) {
+  #game_page {
+    margin: 0;
+  }
+  #content {
+    flex-direction: column;
+    align-items: center;
+  }
+  #game_screen {
+    max-width: calc(100vw - 20px);
+  }
+  #start_screen button {
+    font-size: 30px;
+  }
+  #game_operation button {
+    gap: 3px;
+    padding: 5px 10px;
+    align-items: center;
+    font-size: 13px;
+  }
+  #game_operation button span {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+  #game_overview h1 {
+    font-size: 25px;
+  }
 }

@@ -13,14 +13,16 @@ export default function GameScreen({
   const [isberow, setIsberow] = useState(false);
 
   return (
-    <div id={styles.game_screen}>
+    <div
+      id={styles.game_screen}
+      style={{
+        width: width,
+        aspectRatio: width / height,
+      }}
+    >
       <div
         id={styles.start_screen}
-        style={{
-          display: isberow ? "none" : "flex",
-          width: width,
-          height: height,
-        }}
+        style={{ display: isberow ? "none" : "flex" }}
       >
         <img src={`/api/games/${id}/promote.webp`} alt={`${id}の画像`} />
         <button onClick={() => setIsberow(true)}>クリックでプレイ</button>
