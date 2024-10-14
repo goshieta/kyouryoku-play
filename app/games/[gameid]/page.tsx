@@ -1,8 +1,8 @@
 import { db } from "@/app/lib/firebase";
 import { gameInfoType } from "@/app/lib/types/gameType";
-import GameScreen from "@/app/component/screen";
 import styles from "@/app/style/page/game.module.css";
 import { Metadata } from "next";
+import GameArea from "@/app/component/game/gameArea";
 
 export const generateMetadata = async ({
   params,
@@ -44,31 +44,7 @@ export default async function GamePage({
     return (
       <div id={styles.game_page}>
         <div id={styles.content}>
-          <div id={styles.game_area}>
-            <GameScreen
-              id={params.gameid}
-              width={gameInfo.width}
-              height={gameInfo.height}
-            />
-            <div id={styles.game_operation}>
-              <button>
-                <span className="material-symbols-outlined">share</span>
-                共有
-              </button>
-              <button>
-                <span className="material-symbols-outlined">report</span>
-                報告
-              </button>
-              <button>
-                <span className="material-symbols-outlined">front_hand</span>
-                提案
-              </button>
-              <button id={styles.fullscreen_button}>
-                <span className="material-symbols-outlined">fullscreen</span>
-                全画面
-              </button>
-            </div>
-          </div>
+          <GameArea gameInfo={gameInfo} />
           <div id={styles.game_description}>
             <div id={styles.game_overview}>
               <h1 id={styles.game_title}>{gameInfo.name}</h1>

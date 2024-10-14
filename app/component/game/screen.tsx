@@ -1,5 +1,3 @@
-"use client";
-
 import styles from "@/app/style/page/game.module.css";
 import { useState } from "react";
 
