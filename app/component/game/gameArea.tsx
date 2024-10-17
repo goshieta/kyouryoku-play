@@ -28,15 +28,25 @@ export default function GameArea({ gameInfo }: { gameInfo: gameInfoType }) {
         height={gameInfo.height}
       />
       <div id={styles.game_operation}>
-        <button onClick={share}>
-          <span className="material-symbols-outlined">share</span>
-          共有
-        </button>
-        <button>
+        {navigator && typeof navigator.share === "function" && (
+          <button onClick={share}>
+            <span className="material-symbols-outlined">share</span>
+            共有
+          </button>
+        )}
+        <button
+          onClick={() =>
+            window.open("https://forms.gle/cA4Gj4yw7TpvWa787", "_blank")
+          }
+        >
           <span className="material-symbols-outlined">report</span>
           報告
         </button>
-        <button>
+        <button
+          onClick={() =>
+            window.open("https://forms.gle/koB9KyN9biwiD3BUA", "_blank")
+          }
+        >
           <span className="material-symbols-outlined">front_hand</span>
           提案
         </button>
