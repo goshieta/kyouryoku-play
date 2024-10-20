@@ -16,6 +16,16 @@ export default function GameScreen({
 }) {
   const [isberow, setIsberow] = useState(false);
 
+  const windowAspect =
+    typeof window === "undefined" ? 1 : window.innerWidth / window.innerHeight;
+  const gameScreenAspect = width / height;
+
+  const calcedWidth = isFull
+    ? windowAspect > gameScreenAspect
+      ? window.innerHeight * gameScreenAspect
+      : window.innerWidth // フルスクリーンのクライアントサイド、ウィンドウのアスペクト比とゲーム画面のアスペクト比をもとに、widthを決定する
+    : width; //通常状態
+
   return (
     <div id={styles.fullscreen_wraper} className={isFull ? styles.full : ""}>
       <button
@@ -28,7 +38,7 @@ export default function GameScreen({
       <div
         id={styles.game_screen}
         style={{
-          width: isFull ? "100%" : width,
+          width: calcedWidth,
           aspectRatio: width / height,
         }}
         className={isFull ? styles.full : ""}
