@@ -3,7 +3,7 @@
 import GameScreen from "@/app/component/game/screen";
 import { gameInfoType } from "@/app/lib/types/gameType";
 import styles from "@/app/style/page/game.module.css";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 export default function GameArea({ gameInfo }: { gameInfo: gameInfoType }) {
   const share = useCallback(async () => {
@@ -20,20 +20,25 @@ export default function GameArea({ gameInfo }: { gameInfo: gameInfoType }) {
     }
   }, []);
 
+  const [isFull, setIsFull] = useState(false);
+
   return (
     <div id={styles.game_area}>
       <GameScreen
         id={gameInfo.id}
         width={gameInfo.width}
         height={gameInfo.height}
+        isFull={isFull}
+        closeFull={() => setIsFull(false)}
       />
       <div id={styles.game_operation}>
-        {navigator && typeof navigator.share === "function" && (
-          <button onClick={share}>
-            <span className="material-symbols-outlined">share</span>
-            共有
-          </button>
-        )}
+        {typeof navigator === "object" &&
+          typeof navigator.share === "function" && (
+            <button onClick={share}>
+              <span className="material-symbols-outlined">share</span>
+              共有
+            </button>
+          )}
         <button
           onClick={() =>
             window.open("https://forms.gle/cA4Gj4yw7TpvWa787", "_blank")
@@ -50,7 +55,7 @@ export default function GameArea({ gameInfo }: { gameInfo: gameInfoType }) {
           <span className="material-symbols-outlined">front_hand</span>
           提案
         </button>
-        <button id={styles.fullscreen_button}>
+        <button id={styles.fullscreen_button} onClick={() => setIsFull(true)}>
           <span className="material-symbols-outlined">fullscreen</span>
           全画面
         </button>

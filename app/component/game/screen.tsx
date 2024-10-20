@@ -5,36 +5,50 @@ export default function GameScreen({
   id,
   width,
   height,
+  isFull,
+  closeFull,
 }: {
   id: string;
   width: number;
   height: number;
+  isFull: boolean;
+  closeFull: () => void;
 }) {
   const [isberow, setIsberow] = useState(false);
 
   return (
-    <div
-      id={styles.game_screen}
-      style={{
-        width: width,
-        aspectRatio: width / height,
-      }}
-    >
-      <div
-        id={styles.start_screen}
-        style={{ display: isberow ? "none" : "flex" }}
+    <div id={styles.fullscreen_wraper} className={isFull ? styles.full : ""}>
+      <button
+        onClick={closeFull}
+        id={styles.close_full}
+        className={isFull ? styles.full : ""}
       >
-        <img src={`/api/games/${id}/promote.webp`} alt={`${id}の画像`} />
-        <button onClick={() => setIsberow(true)}>クリックでプレイ</button>
+        <span className="material-symbols-outlined">close</span>
+      </button>
+      <div
+        id={styles.game_screen}
+        style={{
+          width: isFull ? "100%" : width,
+          aspectRatio: width / height,
+        }}
+        className={isFull ? styles.full : ""}
+      >
+        <div
+          id={styles.start_screen}
+          style={{ display: isberow ? "none" : "flex" }}
+        >
+          <img src={`/api/games/${id}/promote.webp`} alt={`${id}の画像`} />
+          <button onClick={() => setIsberow(true)}>クリックでプレイ</button>
+        </div>
+        <iframe
+          src={`/api/games/${id}/index.html`}
+          loading="lazy"
+          width={width}
+          height={height}
+          id={styles.screen_iframe}
+          style={{ display: isberow ? "block" : "none" }}
+        ></iframe>
       </div>
-      <iframe
-        src={`/api/games/${id}/index.html`}
-        loading="lazy"
-        width={width}
-        height={height}
-        id={styles.screen_iframe}
-        style={{ display: isberow ? "block" : "none" }}
-      ></iframe>
     </div>
   );
 }

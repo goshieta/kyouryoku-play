@@ -7,8 +7,45 @@
   justify-content: center;
   gap: 40px;
 }
+#close_full {
+  display: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+#close_full span {
+  color: black;
+  display: block;
+}
+#close_full.full {
+  display: flex;
+}
+#fullscreen_wraper.full {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 1000;
+  background-color: black;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #game_screen {
   max-width: calc(100vw - 525px);
+}
+#game_screen.full {
+  max-width: 100%;
 }
 #start_screen {
   display: flex;
