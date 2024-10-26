@@ -22,7 +22,7 @@ body {
 /*テーマカラーなど*/
 :root {
   --font-color: #00114f;
-  --pale-font-color: rgb(39, 49, 85) f;
+  --pale-font-color: rgb(65, 78, 124);
   --black-font-color: #00114f;
   --background-color: #f6f9ff;
   --alpha-background-color: #f6f9ffb4;

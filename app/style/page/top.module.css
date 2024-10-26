@@ -1,0 +1,8 @@
+#gridGameArea {
+  display: grid;
+  margin: 20px auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 50px;
+  justify-content: center;
+  max-width: 1300px;
+}

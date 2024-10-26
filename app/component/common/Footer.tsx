@@ -1,4 +1,4 @@
-import styles from "@/styles/components/footer.module.css";
+import styles from "@/app/style/component/footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
