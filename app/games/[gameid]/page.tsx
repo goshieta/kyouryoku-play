@@ -3,6 +3,7 @@ import { gameInfoType } from "@/app/lib/types/gameType";
 import styles from "@/app/style/page/game.module.css";
 import { Metadata } from "next";
 import GameArea from "@/app/component/game/gameArea";
+import GameTile from "@/app/component/common/gameTile";
 
 export const generateMetadata = async ({
   params,
@@ -65,7 +66,13 @@ export default async function GamePage({
             </div>
           </div>
         </div>
-        <div id={styles.related}></div>
+        <div id={styles.related}>
+          <div id={styles.games}>
+            {gameInfo.recommend.map((id) => (
+              <GameTile gameCode={id} key={id}></GameTile>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

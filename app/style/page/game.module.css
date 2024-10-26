@@ -176,6 +176,19 @@
   margin: 0;
 }
 
+#related {
+  max-width: 1300px;
+  margin: 0 auto;
+  margin-top: 80px !important;
+}
+#games {
+  display: grid;
+  margin: 20px auto;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 50px;
+  justify-content: center;
+}
+
 @media screen and (max-width: 959px) {
   #game_page {
     margin: 0;
