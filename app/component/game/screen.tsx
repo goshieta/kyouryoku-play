@@ -52,6 +52,9 @@ export default function GameScreen({
         }}
         className={isFull ? styles.full : ""}
       >
+        <div id={styles.back_loading}>
+          <div></div>
+        </div>
         <div
           id={styles.start_screen}
           style={{ display: isberow ? "none" : "flex" }}
