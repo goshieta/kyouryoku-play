@@ -47,8 +47,19 @@ export default function GameScreen({
           id={styles.start_screen}
           style={{ display: isberow ? "none" : "flex" }}
         >
-          <img src={`/api/games/${id}/promote.webp`} alt={`${id}の画像`} />
-          <button onClick={() => setIsberow(true)}>クリックでプレイ</button>
+          <img
+            src={`/api/games/${id}/promote.webp`}
+            alt={`${id}の画像`}
+            id={styles.start_screen_back}
+          />
+          <button onClick={() => setIsberow(true)}>
+            <img
+              src="/navigation/playbutton.svg"
+              alt="あそぼーよ！"
+              width={150}
+              height={150}
+            />
+          </button>
         </div>
         <iframe
           src={`/api/games/${id}/index.html`}

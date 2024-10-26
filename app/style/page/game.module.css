@@ -57,21 +57,21 @@
   width: 100%;
   height: 100%;
 }
-#start_screen img {
+#start_screen_back {
   position: absolute;
   z-index: -1;
   width: 100%;
   height: 100%;
 }
 #start_screen button {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100%;
   font-size: 50px;
-  font-weight: bold;
   border: none;
   outline: none;
   cursor: pointer;
+  font-weight: bold;
   color: white;
 }
 #screen_iframe {
