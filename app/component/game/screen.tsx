@@ -1,5 +1,7 @@
 import styles from "@/app/style/page/game.module.css";
 import { useState } from "react";
+import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "@/app/lib/firebase";
 
 export default function GameScreen({
   id,
@@ -25,6 +27,13 @@ export default function GameScreen({
       ? window.innerHeight * gameScreenAspect
       : window.innerWidth // フルスクリーンのクライアントサイド、ウィンドウのアスペクト比とゲーム画面のアスペクト比をもとに、widthを決定する
     : width; //通常状態
+
+  const handlePlay = () => {
+    setIsberow(true);
+
+    //プレイ回数を1増やす
+    updateDoc(doc(db, `gamesInfo/${id}`), { played: increment(1) });
+  };
 
   return (
     <div id={styles.fullscreen_wraper} className={isFull ? styles.full : ""}>
@@ -52,7 +61,7 @@ export default function GameScreen({
             alt={`${id}の画像`}
             id={styles.start_screen_back}
           />
-          <button onClick={() => setIsberow(true)}>
+          <button onClick={handlePlay}>
             <img
               src="/navigation/playbutton.svg"
               alt="あそぼーよ！"

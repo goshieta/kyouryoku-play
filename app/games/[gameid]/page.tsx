@@ -1,4 +1,4 @@
-import { db } from "@/app/lib/firebase";
+import { db } from "@/app/lib/firebase-admin";
 import { gameInfoType } from "@/app/lib/types/gameType";
 import styles from "@/app/style/page/game.module.css";
 import { Metadata } from "next";
