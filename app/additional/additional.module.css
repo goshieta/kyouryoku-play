@@ -1,0 +1,20 @@
+#explain_area {
+  max-width: 700px;
+  margin: 0 auto;
+}
+#explain_area h1 {
+  text-align: center;
+  margin: 80px 0;
+}
+#explain_area h1,
+#explain_area p,
+#explain_area a,
+#explain_area h2,
+#explain_area li {
+  line-height: 3em;
+}
+@media screen and (max-width: 740px) {
+  #explain_area {
+    margin: 20px;
+  }
+}
