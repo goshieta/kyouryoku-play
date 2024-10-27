@@ -13,6 +13,14 @@
 #explain_area li {
   line-height: 3em;
 }
+
+.block {
+  margin: 50px 0;
+  background-color: var(--special-bg);
+  border-radius: 5px;
+  padding: 20px;
+}
+
 @media screen and (max-width: 740px) {
   #explain_area {
     margin: 20px;
