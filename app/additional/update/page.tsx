@@ -10,6 +10,7 @@ export default function Update() {
     <div id={styles.explain_area}>
       <h1>アップデート情報</h1>
       <div className="block">
+        <p>2024/10/27 : サイトの外観を一新、内部処理を簡素化した</p>
         <p>2024/02/02 : ダークモード対応</p>
         <p>2024/02/02 : 走る城を追加</p>
         <p>2024/02/02 : ヘマヘマサッカーを追加</p>

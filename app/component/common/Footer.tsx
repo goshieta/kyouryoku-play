@@ -8,7 +8,7 @@ export default function Footer() {
       <div id={styles.f_linkArea}>
         <Link href="/">トップ</Link>
         <Link href="/additional/about">このサイトについて</Link>
-        <Link href="/additional/report">報告・提案</Link>
+        <Link href="/additional/report">ご意見</Link>
         <Link href="/additional/aboutkyouryoku">峡緑について</Link>
         <Link href="/additional/update">アップデート情報</Link>
       </div>
