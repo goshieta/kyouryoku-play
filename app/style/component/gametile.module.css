@@ -4,8 +4,6 @@
   grid-row: span 3;
   text-decoration: none;
   position: relative;
-  justify-content: center;
-  align-items: center;
   gap: 0;
 }
 
@@ -26,9 +24,6 @@
 }
 .gametile:hover #promote_img {
   transform: scale(1.1);
-}
-#description {
-  width: 300px;
 }
 #game_title {
   line-height: 1.8em;
