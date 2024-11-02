@@ -2,18 +2,21 @@ import styles from "@/app/style/page/game.module.css";
 import { useState } from "react";
 import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
+import ImageFromFirebase from "../common/gameImage";
 
 export default function GameScreen({
   id,
   width,
   height,
   isFull,
+  imgPath,
   closeFull,
 }: {
   id: string;
   width: number;
   height: number;
   isFull: boolean;
+  imgPath: string;
   closeFull: () => void;
 }) {
   const [isberow, setIsberow] = useState(false);
@@ -59,10 +62,11 @@ export default function GameScreen({
           id={styles.start_screen}
           style={{ display: isberow ? "none" : "flex" }}
         >
-          <img
-            src={`/api/games/${id}/promote.webp`}
-            alt={`${id}の画像`}
-            id={styles.start_screen_back}
+          <ImageFromFirebase
+            path={imgPath}
+            alt={`${id}のプロモーション用画像`}
+            width="100%"
+            height="100%"
           />
           <button onClick={handlePlay}>
             <img

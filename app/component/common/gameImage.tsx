@@ -8,8 +8,8 @@ import styles from "./gamesImage.module.css";
 
 interface ImageFromFirebaseProps {
   path: string; // Firebase Storageの画像パス
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
   alt: string;
 }
 

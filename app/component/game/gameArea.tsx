@@ -29,6 +29,7 @@ export default function GameArea({ gameInfo }: { gameInfo: gameInfoType }) {
         width={gameInfo.width}
         height={gameInfo.height}
         isFull={isFull}
+        imgPath={gameInfo.imgpath}
         closeFull={() => setIsFull(false)}
       />
       <div id={styles.game_operation}>
