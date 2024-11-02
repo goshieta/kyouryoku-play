@@ -4,7 +4,7 @@
   grid-row: span 3;
   text-decoration: none;
   position: relative;
-  gap: 0;
+  gap: 10px;
 }
 
 #img_wrapper {
@@ -31,8 +31,26 @@
 }
 #game_title {
   line-height: 1.8em;
+  margin: 0;
 }
 #description_p {
   color: var(--pale-font-color) !important;
   line-height: 1.8em;
+  margin: 0;
+}
+
+@media screen and (max-width: 428px) {
+  .gametile {
+    gap: 10px;
+  }
+  #game_title {
+    font-size: 18px;
+    line-height: 1.8em;
+    margin: 0 10px;
+  }
+  #description_p {
+    line-height: 1.8em;
+    font-size: 14px;
+    margin: 0 10px;
+  }
 }
