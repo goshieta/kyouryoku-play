@@ -15,9 +15,13 @@
   border-radius: 10px;
   background-color: var(--special-bg);
 }
+#img_wrapper div {
+  width: 100% !important;
+  height: 100% !important;
+}
 #img_wrapper img {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: cover;
   overflow: hidden;
   transition: transform 0.2s;

@@ -9,4 +9,5 @@ export type gameInfoType = {
   width: number;
   height: number;
   recommend: string[];
+  imgpath: string;
 };

@@ -13,7 +13,7 @@ export default async function GameTile({ gameCode }: { gameCode: string }) {
     <Link href={`/games/${gameCode}`} className={styles.gametile}>
       <div id={styles.img_wrapper}>
         <ImageFromFirebase
-          path={`gs://kyouryoku-play.appspot.com/games/${gameCode}/promote.webp`}
+          path={gameData.imgpath}
           width={400}
           height={300}
           alt={`${gameData.promotename}のイメージ画像`}
