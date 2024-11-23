@@ -2,6 +2,7 @@
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -15,13 +16,13 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebaseの初期化処理
 if (!getApps()?.length) {
   // Firebaseアプリの初期化
   initializeApp(firebaseConfig);
 }
 
-// Initialize Firebase
+// Initialize Firebase services
 export const db = getFirestore();
 export const storage = getStorage();
+export const auth = getAuth();
