@@ -63,11 +63,16 @@
 }
 
 /*リンクエリア*/
+#right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 30px;
+  gap: 30px;
+}
 #linkArea {
   display: flex;
   gap: 30px;
-  margin-left: auto;
-  margin-right: 30px;
   align-items: center;
 }
 #linkArea a {

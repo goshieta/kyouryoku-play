@@ -28,6 +28,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  z-index: 2;
 }
 #loading_damy {
   width: 36px;
@@ -35,9 +36,14 @@
   background-color: var(--accent-color);
   border-radius: 50%;
 }
+#circleProgress {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+}
 
 #detail_area {
-  top: 50px;
+  top: 70px;
   right: 0px;
   position: absolute;
   box-sizing: border-box;

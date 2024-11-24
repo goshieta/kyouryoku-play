@@ -16,7 +16,6 @@ export default function Header() {
       <Link href="/additional/about">このサイトについて</Link>
       <Link href="/additional/report">ご意見</Link>
       <Link href="/additional/aboutkyouryoku">峡緑について</Link>
-      <UserArea />
     </>
   );
 
@@ -48,7 +47,10 @@ export default function Header() {
             <h1>峡緑プレイ</h1>
           </div>
         </Link>
-        <div id={styles.linkArea}>{links}</div>
+        <div id={styles.right}>
+          <div id={styles.linkArea}>{links}</div>
+          <UserArea />
+        </div>
       </div>
     </>
   );

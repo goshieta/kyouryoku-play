@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import calcLankFromPoints from "@/app/lib/tips/calcLankFromPoints";
+import CircularProgressBar from "./progress";
 
 export default function UserArea() {
   const [uid, setUid] = useState(auth.currentUser?.uid);
@@ -57,6 +58,15 @@ export default function UserArea() {
             />
             <div id={styles.user_rank}>
               {calcLankFromPoints(userData.totalPoints)[0]}
+            </div>
+            <div id={styles.circleProgress}>
+              <CircularProgressBar
+                percentage={
+                  (calcLankFromPoints(userData.totalPoints)[1] /
+                    calcLankFromPoints(userData.totalPoints)[2]) *
+                  100
+                }
+              />
             </div>
           </button>
         </div>
