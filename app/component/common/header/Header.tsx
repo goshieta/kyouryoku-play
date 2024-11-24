@@ -5,6 +5,7 @@ import styles from "@/app/style/component/header.module.css";
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import UserArea from "./userArea";
 
 export default function Header() {
   const [mobileMenu, setmobileMenu] = useState(false);
@@ -15,6 +16,7 @@ export default function Header() {
       <Link href="/additional/about">このサイトについて</Link>
       <Link href="/additional/report">ご意見</Link>
       <Link href="/additional/aboutkyouryoku">峡緑について</Link>
+      <UserArea />
     </>
   );
 
