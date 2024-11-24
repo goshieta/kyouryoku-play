@@ -20,10 +20,10 @@ export const registerUser = async (
     const userData = {
       id: userId,
       name: userName,
-      rank: 0, // 初回ログイン時のランク
+      rank: 1, // 初回ログイン時のランク
       totalPoints: 0, // 初回ログイン時の合計ポイント
       description: "", // アカウントの説明（必要に応じて追加）
-      profileImageUrl: user.photoURL || "", // アカウント画像のURL
+      profileImageUrl: user.photoURL || "/navigation/unknowAccount.png", // アカウント画像のURL
     };
     const privateUserData = {
       createdAt: createdAt,

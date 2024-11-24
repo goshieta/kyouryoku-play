@@ -11,6 +11,7 @@ export default function UserArea() {
   const [userData, setUserData] = useState<null | undefined | accountDataType>(
     null
   );
+  const [onDetailArea, setOnDetailArea] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -42,19 +43,40 @@ export default function UserArea() {
     return (
       <div id={styles.user_area}>
         <div id={styles.img_area}>
+          <button
+            id={styles.account_button}
+            onClick={() => setOnDetailArea(!onDetailArea)}
+          >
+            <img
+              src={userData.profileImageUrl}
+              alt={`${userData.name}の画像`}
+              id={styles.user_img}
+              width={36}
+              height={36}
+            />
+            <div id={styles.user_rank}>{userData.rank}</div>
+          </button>
+        </div>
+        <div
+          id={styles.detail_area}
+          style={{ display: onDetailArea ? "block" : "none" }}
+        >
           <img
             src={userData.profileImageUrl}
             alt={`${userData.name}の画像`}
-            id={styles.user_img}
+            width={60}
+            height={60}
+            id={styles.profile_detail_img}
           />
-          <div id={styles.user_rank}>
-            <p>{userData.rank}</p>
+          <div id={styles.rank_area}>
+            <p>ランク：{userData.rank}</p>
+            <div id={styles.progress}>
+              <div id={styles.progress_inline}></div>
+            </div>
           </div>
-        </div>
-        <div id={styles.detail_area}>
           <p id={styles.user_name}>{userData.name}</p>
           <p id={styles.user_description}>{userData.description}</p>
-          <button>もっと見る</button>
+          <button id={styles.show_more}>もっと見る</button>
         </div>
       </div>
     );
@@ -62,7 +84,9 @@ export default function UserArea() {
     //読み込み中
     return (
       <div id={styles.user_area}>
-        <div id={styles.img_area}></div>
+        <div id={styles.img_area}>
+          <div id={styles.loading_damy}></div>
+        </div>
       </div>
     );
   } else if (userData === undefined) {
