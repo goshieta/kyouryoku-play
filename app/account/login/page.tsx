@@ -1,9 +1,7 @@
-import { Metadata } from "next";
-import styles from "./style.module.css";
+"use client";
 
-export const metadata: Metadata = {
-  title: "ログイン - 峡緑プレイ",
-};
+import styles from "./style.module.css";
+import { loginWithGoogle, loginWithMicrosoft } from "@/app/lib/auth/auth";
 
 export default function Login() {
   return (
@@ -11,7 +9,7 @@ export default function Login() {
       <div id={styles.login_ui}>
         <h1>峡緑プレイにログイン</h1>
         <div id={styles.button_area}>
-          <button>
+          <button onClick={loginWithGoogle}>
             <img
               src="/navigation/logo/google.png"
               alt="Google"
@@ -20,7 +18,7 @@ export default function Login() {
             />
             <p>Googleでログイン</p>
           </button>
-          <button>
+          <button onClick={loginWithMicrosoft}>
             <img
               src="/navigation/logo/microsoft.png"
               alt="Microsoft"
