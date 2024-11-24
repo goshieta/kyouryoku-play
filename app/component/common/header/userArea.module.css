@@ -51,6 +51,19 @@
 #profile_detail_img {
   border-radius: 50%;
 }
+#progress {
+  width: 100%;
+  height: 12px;
+  border-radius: 9999px;
+  background-color: var(--accent-color);
+  position: relative;
+}
+#progress_inline {
+  height: 100%;
+  position: absolute;
+  background-color: var(--link-color);
+  border-radius: 10px;
+}
 #user_name {
   font-size: 18px;
 }

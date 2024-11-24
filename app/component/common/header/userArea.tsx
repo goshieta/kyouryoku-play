@@ -5,6 +5,7 @@ import { accountDataType } from "@/app/lib/types/accountType";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import calcLankFromPoints from "@/app/lib/tips/calcLankFromPoints";
 
 export default function UserArea() {
   const [uid, setUid] = useState(auth.currentUser?.uid);
@@ -54,7 +55,9 @@ export default function UserArea() {
               width={36}
               height={36}
             />
-            <div id={styles.user_rank}>{userData.rank}</div>
+            <div id={styles.user_rank}>
+              {calcLankFromPoints(userData.totalPoints)[0]}
+            </div>
           </button>
         </div>
         <div
@@ -69,9 +72,18 @@ export default function UserArea() {
             id={styles.profile_detail_img}
           />
           <div id={styles.rank_area}>
-            <p>ランク：{userData.rank}</p>
+            <p>ランク：{calcLankFromPoints(userData.totalPoints)[0]}</p>
             <div id={styles.progress}>
-              <div id={styles.progress_inline}></div>
+              <div
+                id={styles.progress_inline}
+                style={{
+                  width: `${
+                    (calcLankFromPoints(userData.totalPoints)[1] /
+                      calcLankFromPoints(userData.totalPoints)[2]) *
+                    100
+                  }%`,
+                }}
+              ></div>
             </div>
           </div>
           <p id={styles.user_name}>{userData.name}</p>
