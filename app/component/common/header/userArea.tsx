@@ -1,12 +1,13 @@
 import { auth } from "@/app/lib/firebase";
 import styles from "./userArea.module.css";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { accountDataType } from "@/app/lib/types/accountType";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import calcLankFromPoints from "@/app/lib/tips/calcLankFromPoints";
 import CircularProgressBar from "./progress";
+import { useRouter } from "next/navigation";
 
 export default function UserArea() {
   const [uid, setUid] = useState(auth.currentUser?.uid);
@@ -40,6 +41,12 @@ export default function UserArea() {
       setUserData(undefined);
     }
   }, [uid]);
+
+  const router = useRouter();
+  const handleShowMore = useCallback(() => {
+    router.push("/account");
+    setOnDetailArea(false);
+  }, [router]);
 
   if (userData) {
     return (
@@ -98,7 +105,9 @@ export default function UserArea() {
           </div>
           <p id={styles.user_name}>{userData.name}</p>
           <p id={styles.user_description}>{userData.description}</p>
-          <button id={styles.show_more}>もっと見る</button>
+          <button id={styles.show_more} onClick={handleShowMore}>
+            もっと見る
+          </button>
         </div>
       </div>
     );
