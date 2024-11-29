@@ -20,8 +20,8 @@
 }
 #user_rank {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -7px;
+  right: -7px;
   margin: 0;
   padding: 0;
   background-color: var(--accent-color);
@@ -38,8 +38,8 @@
 }
 #circleProgress {
   position: absolute;
-  top: -4px;
-  left: -4px;
+  top: -5px;
+  left: -5px;
 }
 
 #detail_area {
