@@ -4,6 +4,7 @@ import useUser from "@/app/lib/auth/useUser";
 import styles from "./style.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Setting from "./setting";
 
 export default function AccountSetting() {
   const [uid, uData] = useUser();
@@ -13,33 +14,7 @@ export default function AccountSetting() {
     return (
       <div id={styles.setting_page}>
         <h1>アカウントの設定</h1>
-        <form>
-          <div id={styles.setting_area}>
-            <div>
-              <img src={uData.profileImageUrl} alt={`${uData.name}の画像`} />
-              <button>変更</button>
-            </div>
-            <div>
-              <p>アカウント名</p>
-              <input
-                type="text"
-                value={uData.name}
-                placeholder="アカウント名を入力"
-              />
-            </div>
-            <div>
-              <p>アカウントの説明</p>
-              <textarea
-                value={uData.description}
-                placeholder="アカウントの説明を入力"
-              />
-            </div>
-          </div>
-          <div id={styles.applyArea}>
-            <button>キャンセル</button>
-            <button>適用</button>
-          </div>
-        </form>
+        <Setting uData={uData} />
       </div>
     );
   } else if (uData === null) {

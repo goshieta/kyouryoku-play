@@ -1,0 +1,40 @@
+#setting_page {
+  width: fit-content;
+  margin: 0 auto;
+}
+#setting_area th {
+  text-align: left;
+  font-weight: normal;
+  padding-right: 20px;
+}
+#account_img {
+  border-radius: 50%;
+}
+#select_img_area label {
+  display: block;
+  margin-bottom: 15px;
+}
+#setting_page input[type="text"],
+#setting_page textarea {
+  border: none;
+  background-color: inherit;
+  border: solid 1px var(--pale-font-color);
+  border-radius: 3px;
+  padding: 5px 10px;
+  min-width: 200px;
+  outline: none;
+}
+#setting_page input[type="text"]:focus,
+#setting_page textarea:focus {
+  outline: solid 1px var(--pale-font-color);
+}
+#setting_page textarea {
+  resize: none;
+  height: 50px;
+}
+
+#apply_area {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
