@@ -111,6 +111,7 @@ button {
   display: flex;
   gap: 5px;
   align-items: center;
+  justify-content: center;
 }
 button:hover {
   background-color: var(--hover-accent);
@@ -123,4 +124,17 @@ button .material-symbols-outlined {
   align-items: center;
   font-size: 20px;
   line-height: 20px;
+}
+@media screen and (max-width: 400px) {
+  button {
+    gap: 3px;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  button .material-symbols-outlined {
+    font-size: 15px;
+    line-height: 15px;
+    height: 15px;
+    width: 15px;
+  }
 }

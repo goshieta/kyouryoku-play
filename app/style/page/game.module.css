@@ -97,6 +97,9 @@
   cursor: pointer;
   font-weight: bold;
   color: white;
+  border-radius: 5px;
+  padding: 0;
+  display: block;
 }
 #screen_iframe {
   border: none;

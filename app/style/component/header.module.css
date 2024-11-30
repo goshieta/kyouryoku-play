@@ -17,8 +17,12 @@
   background-color: rgba(0, 0, 0, 0);
   border: none;
   outline: none;
-  margin: 0 10px;
   cursor: pointer;
+  padding: 0;
+  margin-right: 10px;
+}
+#openMenu img {
+  display: block;
 }
 @media (prefers-color-scheme: dark) {
   #openMenu img {
@@ -85,11 +89,82 @@
   transition: color 0.2s;
 }
 
+#mobile_menu {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  box-sizing: border-box;
+  padding: 40px 20px;
+  padding-top: 100px;
+  gap: 30px;
+  animation: menu_open_animation 0.4s;
+  animation-fill-mode: forwards;
+}
+#mobile_menu a {
+  text-decoration: none;
+}
+#mobile_menu.closing {
+  animation: menu_close_animation 0.4s;
+  animation-fill-mode: forwards;
+}
+#close_menu {
+  background-color: inherit;
+  border: none;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  position: absolute;
+  top: 18px;
+  left: 10px;
+}
+#close_menu span {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+}
+@keyframes menu_open_animation {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+@keyframes menu_close_animation {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 /*レスポンシブCSS*/
 @media screen and (max-width: 720px) {
   #openMenu {
     display: block;
   }
+
+  #titleIconArea img {
+    width: 40px;
+    height: 40px;
+  }
+  #titleStringArea h1 {
+    font-size: 25px;
+    line-height: 25px;
+  }
+  #titleStringArea p {
+    font-size: 10px;
+    line-height: 20px;
+  }
+
   #linkArea {
     display: none;
     position: absolute;

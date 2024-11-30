@@ -2,29 +2,61 @@
 
 import Link from "next/link";
 import styles from "@/app/style/component/header.module.css";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import UserArea from "./userArea";
 
 export default function Header() {
-  const [mobileMenu, setmobileMenu] = useState(false);
+  const [mobileMenu, setmobileMenu] = useState<boolean | "closing">(false);
+
+  const handleLinkClick = () => {
+    if (mobileMenu) {
+      setmobileMenu("closing");
+      setTimeout(() => {
+        setmobileMenu(false);
+      }, 400);
+    }
+  };
 
   const links = (
     <>
-      <Link href="/">トップ</Link>
-      <Link href="/additional/about">このサイトについて</Link>
-      <Link href="/additional/report">ご意見</Link>
-      <Link href="/additional/aboutkyouryoku">峡緑について</Link>
+      <Link href="/" onClick={handleLinkClick}>
+        トップ
+      </Link>
+      <Link href="/additional/about" onClick={handleLinkClick}>
+        このサイトについて
+      </Link>
+      <Link href="/additional/report" onClick={handleLinkClick}>
+        ご意見
+      </Link>
+      <Link href="/additional/aboutkyouryoku" onClick={handleLinkClick}>
+        峡緑について
+      </Link>
     </>
   );
 
-  const router = useRouter();
-
   return (
     <>
+      <div
+        id={styles.mobile_menu}
+        style={{ display: mobileMenu ? "flex" : "none" }}
+        className={mobileMenu === "closing" ? styles.closing : ""}
+      >
+        <button
+          id={styles.close_menu}
+          onClick={() => {
+            setmobileMenu("closing");
+            setTimeout(() => {
+              setmobileMenu(false);
+            }, 400);
+          }}
+        >
+          <span className="material-symbols-outlined">close</span>
+        </button>
+        {links}
+      </div>
       <div id={styles.Header}>
-        <button id={styles.openMenu} onClick={() => setmobileMenu(!mobileMenu)}>
+        <button id={styles.openMenu} onClick={() => setmobileMenu(true)}>
           <Image
             src="/navigation/menu.svg"
             alt="メニュー"
@@ -32,12 +64,6 @@ export default function Header() {
             height={30}
           />
         </button>
-        <input
-          type="checkbox"
-          id={styles.linkAreaNaviInput}
-          checked={mobileMenu}
-          onChange={(event) => setmobileMenu(!mobileMenu)}
-        />
         <Link id={styles.titleArea} href="/">
           <div id={styles.titleIconArea}>
             <Image src="/icon.png" alt="" width="50" height="50" />
