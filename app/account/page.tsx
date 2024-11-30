@@ -6,10 +6,16 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
 import getGreeting from "../lib/tips/getGreeting";
 import calcLankFromPoints from "../lib/tips/calcLankFromPoints";
+import { useCallback } from "react";
+import { auth } from "../lib/firebase";
 
 export default function AccountPage() {
   const [uid, udata] = useUser();
   const router = useRouter();
+
+  const handleLogout = useCallback(() => {
+    auth.signOut();
+  }, []);
 
   if (udata) {
     return (
@@ -53,7 +59,7 @@ export default function AccountPage() {
           </div>
         </div>
         <div id={styles.account_handle}>
-          <button>
+          <button onClick={handleLogout}>
             <span className="material-symbols-outlined">logout</span>ログアウト
           </button>
           <button>

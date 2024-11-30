@@ -99,3 +99,28 @@ body {
     margin: 20px;
   }
 }
+
+button {
+  border: solid 1px var(--link-color);
+  background-color: var(--accent-color);
+  outline: none;
+  padding: 7px 15px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+button:hover {
+  background-color: var(--hover-accent);
+}
+button:active {
+  background-color: var(--active-accent);
+}
+button .material-symbols-outlined {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  line-height: 20px;
+}

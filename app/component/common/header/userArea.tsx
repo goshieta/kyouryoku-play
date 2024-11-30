@@ -94,6 +94,10 @@ export default function UserArea() {
     );
   } else if (userData === undefined) {
     //ログインしていない、もしくはユーザーデータが破損している
-    return <button>ログイン</button>;
+    return (
+      <button id={styles.login} onClick={() => router.push("/account/login")}>
+        <span className="material-symbols-outlined">login</span>ログイン
+      </button>
+    );
   }
 }
