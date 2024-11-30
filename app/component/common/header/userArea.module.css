@@ -52,7 +52,7 @@
   padding: 20px;
   width: 250px;
   text-align: center;
-  box-shadow: 1px 1px 6px 1px rgb(196, 196, 196);
+  box-shadow: 1px 1px 6px 1px var(--active-accent);
 }
 #profile_detail_img {
   border-radius: 50%;

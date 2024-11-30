@@ -1,0 +1,73 @@
+#account_page {
+  width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#top_profile {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+#profile_img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+
+#greeting {
+  font-size: 20px;
+}
+#point_bar {
+  width: 100%;
+  height: 12px;
+  border-radius: 9999px;
+  background-color: var(--special-bg);
+  overflow: hidden;
+}
+#point_bar_inline {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: var(--link-color);
+  animation: bar_animation 1s;
+  transform-origin: center left;
+}
+@keyframes bar_animation {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+#account_handle {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 50px 0;
+}
+#account_handle button {
+  border: solid 1px var(--link-color);
+  outline: none;
+  background-color: var(--accent-color);
+  padding: 7px 15px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.2s;
+}
+#account_handle button span {
+  height: 20px;
+  font-size: 20px;
+  display: block;
+}
+#account_handle button:hover {
+  background-color: var(--hover-accent);
+}
+#account_handle button:active {
+  background-color: var(--active-accent);
+}

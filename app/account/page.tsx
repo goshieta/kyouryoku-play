@@ -16,15 +16,20 @@ export default function AccountPage() {
       <div id={styles.account_page}>
         <div id={styles.top_profile}>
           <div>
-            <img src={udata.profileImageUrl} alt={`${udata.name}の画像`} />
+            <img
+              src={udata.profileImageUrl}
+              alt={`${udata.name}の画像`}
+              width={100}
+              height={100}
+              id={styles.profile_img}
+            />
           </div>
           <div>
-            <p>
+            <p id={styles.greeting}>
               {getGreeting()}！{udata.name}さん。
             </p>
             <div>
               <p>レベル：{calcLankFromPoints(udata.totalPoints)[0]}</p>
-              <p>総獲得ポイント：{udata.totalPoints}</p>
               <div id={styles.point_bar}>
                 <div
                   style={{
@@ -41,16 +46,22 @@ export default function AccountPage() {
                 あと、
                 {calcLankFromPoints(udata.totalPoints)[2] -
                   calcLankFromPoints(udata.totalPoints)[1]}
-                ポイントで次のレベルに到達します。
+                ポイントでレベル{calcLankFromPoints(udata.totalPoints)[0] + 1}
+                に到達します。
               </p>
             </div>
           </div>
         </div>
         <div id={styles.account_handle}>
-          <button>ログアウト</button>
-          <button>設定</button>
-          <button>アカウントについて</button>
-          <button>レベルとポイントについて</button>
+          <button>
+            <span className="material-symbols-outlined">logout</span>ログアウト
+          </button>
+          <button>
+            <span className="material-symbols-outlined">settings</span>設定
+          </button>
+          <button>
+            <span className="material-symbols-outlined">help</span>ヘルプ
+          </button>
         </div>
       </div>
     );
