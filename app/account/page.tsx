@@ -62,7 +62,7 @@ export default function AccountPage() {
           <button onClick={handleLogout}>
             <span className="material-symbols-outlined">logout</span>ログアウト
           </button>
-          <button>
+          <button onClick={() => router.push("/account/setting")}>
             <span className="material-symbols-outlined">settings</span>設定
           </button>
           <button>
