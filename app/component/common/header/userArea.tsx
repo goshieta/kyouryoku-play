@@ -8,39 +8,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import calcLankFromPoints from "@/app/lib/tips/calcLankFromPoints";
 import CircularProgressBar from "./progress";
 import { useRouter } from "next/navigation";
+import useUser from "@/app/lib/auth/useUser";
 
 export default function UserArea() {
-  const [uid, setUid] = useState(auth.currentUser?.uid);
-  const [userData, setUserData] = useState<null | undefined | accountDataType>(
-    null
-  );
+  const [uid, userData] = useUser();
   const [onDetailArea, setOnDetailArea] = useState(false);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUid(user.uid);
-      } else {
-        setUid(undefined);
-      }
-    });
-  }, []);
-
-  const isLoading = useRef(false);
-  useEffect(() => {
-    if (uid) {
-      isLoading.current = true;
-      const userDocRef = doc(db, "users", uid);
-      (async () => {
-        const userdoc = await getDoc(userDocRef);
-        const data = userdoc.data() as accountDataType | undefined;
-        setUserData(data);
-        isLoading.current = false;
-      })();
-    } else if (!isLoading) {
-      setUserData(undefined);
-    }
-  }, [uid]);
 
   const router = useRouter();
   const handleShowMore = useCallback(() => {

@@ -12,13 +12,15 @@ export default function useUser() {
   );
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const Unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUid(user.uid);
       } else {
         setUid(undefined);
       }
     });
+
+    return Unsubscribe;
   }, []);
 
   useEffect(() => {
@@ -34,5 +36,8 @@ export default function useUser() {
     }
   }, [uid]);
 
-  return [uid, userData];
+  return [uid, userData] as [
+    string | null | undefined,
+    null | undefined | accountDataType
+  ];
 }
