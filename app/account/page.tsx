@@ -8,6 +8,7 @@ import getGreeting from "../lib/tips/getGreeting";
 import calcLankFromPoints from "../lib/tips/calcLankFromPoints";
 import { useCallback } from "react";
 import { auth } from "../lib/firebase";
+import useMessage from "../lib/tips/useMessage/useMessage";
 
 export default function AccountPage() {
   const [uid, udata] = useUser();
@@ -17,9 +18,12 @@ export default function AccountPage() {
     auth.signOut();
   }, []);
 
+  const { message, Element } = useMessage();
+
   if (udata) {
     return (
       <div id={styles.account_page}>
+        {Element}
         <div id={styles.top_profile}>
           <div>
             <img
@@ -65,7 +69,14 @@ export default function AccountPage() {
           <button onClick={() => router.push("/account/setting")}>
             <span className="material-symbols-outlined">settings</span>設定
           </button>
-          <button>
+          <button
+            onClick={() => {
+              message({
+                message: "ヘルプページは現在作成中です。申し訳ありません🙇‍♀️",
+                button: [{ name: "今後に期待する", value: "ok" }],
+              });
+            }}
+          >
             <span className="material-symbols-outlined">help</span>ヘルプ
           </button>
         </div>
