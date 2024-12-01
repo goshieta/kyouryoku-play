@@ -4,10 +4,14 @@ import { useState } from "react";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storage } from "@/app/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import useMessage from "@/app/lib/tips/useMessage/useMessage";
+import { useRouter } from "next/navigation";
 
 export default function Setting({ uData }: { uData: accountDataType }) {
   const [newUData, setNewUData] = useState(uData);
   const [base64Image, setBase64Image] = useState<string | null>(null);
+  const { message, Element } = useMessage();
+  const router = useRouter();
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -36,25 +40,54 @@ export default function Setting({ uData }: { uData: accountDataType }) {
   };
 
   const applySetting = async () => {
+    const result = await message({
+      message: "この情報は全世界に公開されます。よろしいですか？",
+      button: [
+        { value: "yes", name: "はい" },
+        { value: "no", name: "いいえ" },
+      ],
+    });
+    if (result === "no") return;
     const finalNewUData = newUData;
     if (base64Image) {
       try {
         const imgURL = await uploadImage(base64Image);
         newUData.profileImageUrl = imgURL;
       } catch (error) {
-        throw Error("プロフィール画像のアップロードに失敗しました。");
+        await message({
+          message: "エラー：プロフィール画像の更新に失敗しました。",
+          button: [{ name: "閉じる", value: "close" }],
+        });
+        return;
       }
     }
     try {
       await setDoc(doc(db, "users", uData.id), finalNewUData);
     } catch {
-      throw Error("ユーザー情報の更新に失敗しました。");
+      await message({
+        message: "エラー：ユーザー情報の更新に失敗しました。",
+        button: [{ name: "閉じる", value: "close" }],
+      });
+      return;
     }
     console.log("succeed!");
   };
 
+  const handleCancel = async () => {
+    const result = await message({
+      message: "キャンセルすると変更が失われます。本当にキャンセルしますか？",
+      button: [
+        { name: "はい", value: "yes" },
+        { name: "いいえ", value: "no" },
+      ],
+    });
+    if (result === "no") return;
+    router.push("/account");
+  };
+
   return (
     <>
+      {Element}
       <table id={styles.setting_area}>
         <tbody>
           <tr>
@@ -115,7 +148,7 @@ export default function Setting({ uData }: { uData: accountDataType }) {
         </tbody>
       </table>
       <div id={styles.apply_area}>
-        <button>
+        <button onClick={handleCancel}>
           <span className="material-symbols-outlined">cancel</span>キャンセル
         </button>
         <button onClick={applySetting}>
