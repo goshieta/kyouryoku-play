@@ -27,3 +27,10 @@
   width: 100%;
   flex-grow: 1;
 }
+
+@media screen and (max-width: 500px) {
+  #box {
+    width: 90%;
+    box-sizing: border-box;
+  }
+}

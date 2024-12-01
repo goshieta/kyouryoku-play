@@ -1,6 +1,6 @@
 import { accountDataType } from "@/app/lib/types/accountType";
 import styles from "./style.module.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { db, storage } from "@/app/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
@@ -13,6 +13,7 @@ export default function Setting({ uData }: { uData: accountDataType }) {
   const { message, Element } = useMessage();
   const router = useRouter();
   const [isApplying, setIsApplying] = useState(false);
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -115,7 +116,14 @@ export default function Setting({ uData }: { uData: accountDataType }) {
                 id={styles.select_plofile_img}
                 onChange={handleInputFile}
                 accept="image/jpeg, image/png"
+                ref={inputFileRef}
               />
+              <button onClick={() => inputFileRef.current?.click()}>
+                <span className="material-symbols-outlined">
+                  add_photo_alternate
+                </span>
+                画像を選択
+              </button>
             </td>
           </tr>
           <tr>
