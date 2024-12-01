@@ -1,7 +1,7 @@
 import styles from "@/app/style/page/game.module.css";
 import { useState } from "react";
 import { doc, increment, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "@/app/lib/firebase";
+import { auth, db } from "@/app/lib/firebase";
 import ImageFromFirebase from "../common/gameImage";
 
 export default function GameScreen({
@@ -36,6 +36,12 @@ export default function GameScreen({
 
     //プレイ回数を1増やす
     updateDoc(doc(db, `gamesInfo/${id}`), { played: increment(1) });
+    //ポイントを1増やす
+    if (auth.currentUser?.uid) {
+      updateDoc(doc(db, "users", auth.currentUser.uid), {
+        totalPoints: increment(1),
+      });
+    }
   };
 
   return (
