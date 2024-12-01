@@ -1,7 +1,7 @@
 import { auth } from "@/app/lib/firebase";
 import { useEffect, useState, useRef } from "react";
 import { accountDataType } from "@/app/lib/types/accountType";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -26,11 +26,11 @@ export default function useUser() {
   useEffect(() => {
     if (typeof uid === "string") {
       const userDocRef = doc(db, "users", uid);
-      (async () => {
-        const userdoc = await getDoc(userDocRef);
+      const unsub = onSnapshot(userDocRef, (userdoc) => {
         const data = userdoc.data() as accountDataType | undefined;
         setUserData(data);
-      })();
+      });
+      return unsub;
     } else {
       setUserData(uid);
     }
