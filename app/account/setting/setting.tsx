@@ -12,6 +12,7 @@ export default function Setting({ uData }: { uData: accountDataType }) {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const { message, Element } = useMessage();
   const router = useRouter();
+  const [isApplying, setIsApplying] = useState(false);
 
   const handleInputFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -19,8 +20,12 @@ export default function Setting({ uData }: { uData: accountDataType }) {
       return;
     }
     //ファイルサイズを10MBまでに制限
-    if (file.size > ((10 * 1000) ^ 2)) {
-      throw Error("ファイルサイズが大きすぎます。10MB以下にしてください。");
+    if (file.size > 10 * 1000 ** 2) {
+      message({
+        message: "ファイルサイズが大きすぎます。10MB以下にしてください。",
+        button: [{ name: "はい", value: "yes" }],
+      });
+      return;
     }
 
     const reader = new FileReader();
@@ -48,6 +53,7 @@ export default function Setting({ uData }: { uData: accountDataType }) {
       ],
     });
     if (result === "no") return;
+    setIsApplying(true);
     const finalNewUData = newUData;
     if (base64Image) {
       try {
@@ -70,7 +76,7 @@ export default function Setting({ uData }: { uData: accountDataType }) {
       });
       return;
     }
-    console.log("succeed!");
+    router.push("/account");
   };
 
   const handleCancel = async () => {
@@ -148,11 +154,12 @@ export default function Setting({ uData }: { uData: accountDataType }) {
         </tbody>
       </table>
       <div id={styles.apply_area}>
-        <button onClick={handleCancel}>
+        <button onClick={handleCancel} disabled={isApplying}>
           <span className="material-symbols-outlined">cancel</span>キャンセル
         </button>
-        <button onClick={applySetting}>
-          <span className="material-symbols-outlined">check_circle</span>適用
+        <button onClick={applySetting} disabled={isApplying}>
+          <span className="material-symbols-outlined">check_circle</span>
+          {isApplying ? "適用中…" : "適用"}
         </button>
       </div>
     </>

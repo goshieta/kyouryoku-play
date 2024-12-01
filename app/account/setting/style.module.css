@@ -38,3 +38,9 @@
   gap: 10px;
   margin-top: 20px;
 }
+#apply_area button:disabled {
+  background-color: var(--background-color);
+  color: var(--pale-font-color);
+  border-color: var(--active-accent);
+  cursor: not-allowed;
+}
