@@ -43,8 +43,8 @@ export default function Setting({ uData }: { uData: accountDataType }) {
     const result = await message({
       message: "この情報は全世界に公開されます。よろしいですか？",
       button: [
-        { value: "yes", name: "はい" },
-        { value: "no", name: "いいえ" },
+        { value: "yes", name: "はい", icon: "check_circle" },
+        { value: "no", name: "いいえ", icon: "cancel" },
       ],
     });
     if (result === "no") return;
@@ -77,8 +77,8 @@ export default function Setting({ uData }: { uData: accountDataType }) {
     const result = await message({
       message: "キャンセルすると変更が失われます。本当にキャンセルしますか？",
       button: [
-        { name: "はい", value: "yes" },
-        { name: "いいえ", value: "no" },
+        { name: "はい", value: "yes", icon: "delete" },
+        { name: "いいえ", value: "no", icon: "edit" },
       ],
     });
     if (result === "no") return;
