@@ -40,6 +40,5 @@ export const registerUser = async (
       console.error("Firestoreへのユーザー登録エラー:", error);
       throw error; // エラーを再スロー
     }
-    window.location.href = "/account/setting";
   }
 };

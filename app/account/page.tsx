@@ -6,7 +6,7 @@ import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
 import getGreeting from "../lib/tips/getGreeting";
 import calcLankFromPoints from "../lib/tips/calcLankFromPoints";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { auth } from "../lib/firebase";
 import useMessage from "../lib/tips/useMessage/useMessage";
 
@@ -19,6 +19,12 @@ export default function AccountPage() {
   }, []);
 
   const { message, Element } = useMessage();
+
+  useEffect(() => {
+    if (udata === undefined) {
+      router.push("/account/login");
+    }
+  });
 
   if (udata) {
     return (
@@ -85,7 +91,6 @@ export default function AccountPage() {
   } else if (udata === null) {
     return <div></div>;
   } else if (udata === undefined) {
-    router.push("/account/login");
     return (
       <div>
         <p>ログインページにリダイレクト中…</p>

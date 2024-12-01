@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import styles from "@/app/style/component/header.module.css";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import UserArea from "./userArea";
+import KyouRyoukuPlay from "./kyouryokuPlay";
 
 export default function Header() {
   const [mobileMenu, setmobileMenu] = useState<boolean | "closing">(false);
@@ -64,15 +65,7 @@ export default function Header() {
             height={30}
           />
         </button>
-        <Link id={styles.titleArea} href="/">
-          <div id={styles.titleIconArea}>
-            <Image src="/icon.png" alt="" width="50" height="50" />
-          </div>
-          <div id={styles.titleStringArea}>
-            <p>KyouRyoku Play</p>
-            <h1>峡緑プレイ</h1>
-          </div>
-        </Link>
+        <KyouRyoukuPlay />
         <div id={styles.right}>
           <div id={styles.linkArea}>{links}</div>
           <UserArea />
