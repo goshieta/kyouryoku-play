@@ -9,7 +9,7 @@
   align-items: center;
   background-color: var(--background-color);
   z-index: 100;
-  background-image: url(/brandAsset/back.jpg);
+  background-image: url(/brandAsset/back_low.jpg);
   background-size: cover;
 }
 #login::after {

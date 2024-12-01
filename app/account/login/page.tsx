@@ -5,7 +5,6 @@ import styles from "./style.module.css";
 import { loginWithGoogle } from "@/app/lib/auth/auth";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import KyouRyoukuPlay from "@/app/component/common/header/kyouryokuPlay";
 import Link from "next/link";
 import Image from "next/image";
 
