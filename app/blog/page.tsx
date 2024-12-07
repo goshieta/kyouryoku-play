@@ -1,7 +1,12 @@
 import { Metadata } from "next";
 import getPagesByFilter from "./lib/getPagesByFilter";
 import PageTile from "./components/pageTile";
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import {
+  PageObjectResponse,
+  PartialPageObjectResponse,
+  PartialDatabaseObjectResponse,
+  DatabaseObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import styles from "./style.module.css";
 import getDatabaseTags from "./lib/getTags";
 import Link from "next/link";
@@ -29,8 +34,18 @@ export default async function Blog({
 }) {
   const tag =
     typeof searchParams["tag"] === "string" ? searchParams["tag"] : undefined;
-  const pages = await getPagesByFilter(tag);
-  const tags = await getDatabaseTags();
+  const [pages, tags] = (await Promise.all([
+    getPagesByFilter(tag),
+    getDatabaseTags(),
+  ])) as [
+    (
+      | PageObjectResponse
+      | PartialPageObjectResponse
+      | PartialDatabaseObjectResponse
+      | DatabaseObjectResponse
+    )[],
+    string[]
+  ];
 
   return (
     <div id={styles.results_page}>
@@ -38,8 +53,11 @@ export default async function Blog({
         <h1>{tag ? tag + "の記事" : "すべての記事"}</h1>
       </div>
       <div id={styles.tags}>
+        <Link href={`/blog`}>すべて</Link>
         {tags.map((oneTag) => (
-          <Link href={`/blog/${oneTag}`}>{oneTag}</Link>
+          <Link href={`/blog?tag=${oneTag}`} key={oneTag}>
+            {oneTag}
+          </Link>
         ))}
       </div>
       <div id={styles.article_grid}>

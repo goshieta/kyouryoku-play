@@ -3,8 +3,35 @@
   margin: 0 auto;
 }
 #page_title {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   text-align: center;
+}
+#tags {
+  display: flex;
+  gap: 10px;
+  margin: 50px 0;
+  overflow-x: scroll;
+  padding: 10px 0;
+}
+#tags::-webkit-scrollbar {
+  height: 5px;
+}
+#tags a {
+  min-width: fit-content;
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--special-bg);
+  padding: 7px 15px;
+  border-radius: 9999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+#tags a:hover {
+  color: var(--link-color);
+  text-decoration: underline;
 }
 
 #article_grid {
