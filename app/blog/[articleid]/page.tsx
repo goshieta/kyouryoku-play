@@ -33,7 +33,7 @@ export default async function Article({
 }) {
   const [result, pages] = await Promise.all([
     await getPageByID(params.articleid),
-    getPagesByFilter(undefined, 5),
+    getPagesByFilter(undefined, 4),
   ]);
   if (result === null)
     return (

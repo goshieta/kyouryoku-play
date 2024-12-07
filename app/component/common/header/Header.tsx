@@ -24,14 +24,14 @@ export default function Header() {
       <Link href="/" onClick={handleLinkClick}>
         トップ
       </Link>
-      <Link href="/additional/about" onClick={handleLinkClick}>
-        このサイトについて
+      <Link href="/blog" onClick={handleLinkClick}>
+        ブログ
       </Link>
-      <Link href="/additional/report" onClick={handleLinkClick}>
-        ご意見
+      <Link href="/blog?tag=サポート" onClick={handleLinkClick}>
+        サポート
       </Link>
-      <Link href="/additional/aboutkyouryoku" onClick={handleLinkClick}>
-        峡緑について
+      <Link href="/blog?tag=ヘルプ" onClick={handleLinkClick}>
+        ヘルプ
       </Link>
     </>
   );
