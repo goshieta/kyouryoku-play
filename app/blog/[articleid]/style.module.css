@@ -41,12 +41,16 @@
 #article_detail_area div {
   margin: 20px 0;
 }
+#tag_area {
+  display: flex;
+  gap: 15px;
+}
 #tag_area a {
   display: flex;
   justify-content: center;
   align-items: center;
   width: fit-content;
-  gap: 5px;
+  gap: 2px;
   cursor: pointer;
   transition: color 0.2s;
 }

@@ -4,6 +4,7 @@
   margin: 0 auto;
   gap: 40px;
   max-width: 1000px;
+  justify-content: center;
 }
 
 .article {
@@ -18,16 +19,30 @@
 .article h2 {
   margin: 0;
 }
+.img_box {
+  width: 100%;
+  aspect-ratio: 1.5;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: var(--special-bg);
+}
 .article_img {
   width: 100%;
   aspect-ratio: 1.5;
-  border-radius: 10px;
-  background-color: var(--special-bg);
+  transition: scale 0.2s;
+}
+.article:hover .article_img {
+  transform: scale(1.1);
+  transition: 0.4s all;
 }
 .title {
   font-size: 20px;
   font-weight: 500;
   margin: 10px 0 !important;
+  transition: color 0.2s;
+}
+.article:hover .title {
+  color: var(--link-color);
 }
 .published_date {
   display: flex;
@@ -40,14 +55,22 @@
 .published_date span {
   color: var(--pale-font-color);
 }
+.article:hover .published_date,
+.article:hover .published_date span {
+  color: var(--link-color);
+}
 .description {
   line-height: 2em;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   /* ブラウザがサポートしていない場合のフェールセーフ */
   max-height: 96px;
   text-overflow: ellipsis;
   overflow: hidden;
   color: var(--pale-font-color);
+}
+.article:hover .description {
+  color: var(--link-color);
 }
