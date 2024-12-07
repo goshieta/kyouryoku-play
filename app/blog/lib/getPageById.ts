@@ -1,12 +1,25 @@
 import { Client } from "@notionhq/client";
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import {
+  GetPageResponse,
+  ListBlockChildrenResponse,
+  PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 
 export default async function getPageByID(id: string) {
   const notion = new Client({ auth: process.env.NOTION_API_KEY });
-  const data = (await notion.pages.retrieve({
-    page_id: id,
-  })) as PageObjectResponse;
-  const content = (await notion.blocks.children.list({ block_id: id })).results;
+  const promiseArray = [
+    notion.pages.retrieve({
+      page_id: id,
+    }),
+    notion.blocks.children.list({ block_id: id }),
+  ];
+  const resolvePromiseArray = (await Promise.all(promiseArray)) as [
+    GetPageResponse,
+    ListBlockChildrenResponse
+  ];
+
+  const data = resolvePromiseArray[0] as PageObjectResponse;
+  const content = resolvePromiseArray[1].results;
 
   const properties = data.properties;
 
