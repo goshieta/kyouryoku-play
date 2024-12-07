@@ -1,5 +1,7 @@
 import Link from "next/link";
 import getPageByID from "../lib/getPageById";
+import ArticleBlock from "../components/articleBlock";
+import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export default async function Article({
   params,
@@ -28,7 +30,12 @@ export default async function Article({
       <div>
         {content.map((oneContent) => {
           console.log(oneContent);
-          return <div key={oneContent.id}></div>;
+          return (
+            <ArticleBlock
+              data={oneContent as BlockObjectResponse}
+              key={oneContent.id}
+            />
+          );
         })}
       </div>
       <div></div>
