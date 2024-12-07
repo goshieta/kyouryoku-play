@@ -31,28 +31,46 @@ export default async function Article({
     else resultString = seconds + "秒";
   })();
 
+  const publishedDate = new Date(articleData.publishedTime);
+
   return (
     <div id={styles.article_page}>
-      <img
-        src={articleData.imgurl}
-        alt={`${articleData.title}の画像`}
-        width={800}
-        id={styles.title_img}
-      />
-      <h1 id={styles.title}>{articleData.title}</h1>
-      <div>
-        <div id={styles.tag_area}>
-          {articleData.tags.map((tag: any) => {
-            return (
-              <Link href={`/blog?tag=${tag.id}`} key={tag.id}>
-                {tag.name}
-              </Link>
-            );
-          })}
+      <div id={styles.article_header}>
+        <div id={styles.back_button_area}>
+          <Link href={"/blog"} id={styles.back_button}>
+            <span className="material-symbols-outlined">arrow_back</span>
+            <p>戻る</p>
+          </Link>
         </div>
-        <div>
-          <p>公開日 : {articleData.publishedTime}</p>
-          <p>最終更新 : {resultString}前</p>
+        <img
+          src={articleData.imgurl}
+          alt={`${articleData.title}の画像`}
+          width={800}
+          id={styles.title_img}
+        />
+        <h1 id={styles.title}>{articleData.title}</h1>
+        <div id={styles.article_detail_area}>
+          <div id={styles.tag_area}>
+            {articleData.tags.map((tag: any) => {
+              return (
+                <Link href={`/blog?tag=${tag.id}`} key={tag.id}>
+                  <span className="material-symbols-outlined">label</span>
+                  {tag.name}
+                </Link>
+              );
+            })}
+          </div>
+          <div className={styles.date_area}>
+            <span className="material-symbols-outlined">calendar_month</span>
+            <p>
+              公開日 : {publishedDate.getFullYear()}年
+              {publishedDate.getMonth() + 1}月{publishedDate.getDate()}日
+            </p>
+          </div>
+          <div className={styles.date_area}>
+            <span className="material-symbols-outlined">history</span>
+            <p>最終更新 : {resultString}前</p>
+          </div>
         </div>
       </div>
       <div id={styles.content_area}>
