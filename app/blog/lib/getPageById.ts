@@ -27,12 +27,16 @@ export default async function getPageByID(id: string) {
   const description = (properties["記事説明"] as any).rich_text[0].plain_text;
   const imgurl = (properties["タイトル画像"] as any).files[0].file.url;
   const tags = (properties["タグ"] as any).multi_select;
+  const lastEditedTime = (properties["更新日時"] as any).last_edited_time;
+  const publishedTime = (properties["公開日"] as any).date?.start;
 
   return {
     title,
     description,
     imgurl,
     tags,
+    lastEditedTime,
+    publishedTime,
     content,
   };
 }

@@ -8,7 +8,6 @@ import Link from "next/link";
 
 export default function PageTile({ data }: { data: PageObjectResponse }) {
   const properties = data.properties;
-  console.log(data);
 
   const title = (properties["記事タイトル"] as any).title[0].plain_text;
   const description = (properties["記事説明"] as any).rich_text[0].plain_text;
