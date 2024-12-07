@@ -2,6 +2,7 @@ import Link from "next/link";
 import getPageByID from "../lib/getPageById";
 import ArticleBlock from "../components/articleBlock";
 import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import styles from "./style.module.css";
 
 export default async function Article({
   params,
@@ -11,14 +12,15 @@ export default async function Article({
   const { content, ...articleData } = await getPageByID(params.articleid);
 
   return (
-    <div>
+    <div id={styles.article_page}>
       <img
         src={articleData.imgurl}
         alt={`${articleData.title}の画像`}
         width={800}
+        id={styles.title_img}
       />
-      <h1>{articleData.title}</h1>
-      <div>
+      <h1 id={styles.title}>{articleData.title}</h1>
+      <div id={styles.tag_area}>
         {articleData.tags.map((tag: any) => {
           return (
             <Link href={`/blog?tag=${tag.id}`} key={tag.id}>
@@ -27,7 +29,7 @@ export default async function Article({
           );
         })}
       </div>
-      <div>
+      <div id={styles.content_area}>
         {content.map((oneContent) => {
           console.log(oneContent);
           return (
