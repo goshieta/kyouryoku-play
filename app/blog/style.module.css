@@ -51,8 +51,10 @@
   width: fit-content;
   gap: 5px;
   color: var(--pale-font-color);
+  transition: color 0.2s;
 }
 .published_date span {
+  transition: color 0.2s;
   color: var(--pale-font-color);
 }
 .article:hover .published_date,
@@ -70,6 +72,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   color: var(--pale-font-color);
+  transition: color 0.2s;
 }
 .article:hover .description {
   color: var(--link-color);
