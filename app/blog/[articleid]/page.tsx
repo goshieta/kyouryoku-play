@@ -9,7 +9,18 @@ export default async function Article({
 }: {
   params: { articleid: string };
 }) {
-  const { content, ...articleData } = await getPageByID(params.articleid);
+  const result = await getPageByID(params.articleid);
+  if (result === null)
+    return (
+      <div id={styles.unknown}>
+        <h1>404 : 存在しない記事</h1>
+        <p>
+          存在しない記事にアクセスしました。URLが間違っているか、すでに記事が削除されている可能性あります。
+        </p>
+        <Link href="/blog">ブログの記事一覧へ</Link>
+      </div>
+    );
+  const { content, ...articleData } = result;
 
   let resultString = "";
   (() => {

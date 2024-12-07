@@ -72,6 +72,12 @@
   margin: 0;
 }
 
+#unknown {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 @media screen and (max-width: 768px) {
   #article_header {
     display: flex;

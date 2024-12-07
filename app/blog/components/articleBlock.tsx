@@ -48,8 +48,6 @@ export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
 }
 
 function RichText({ txt }: { txt: RichTextItemResponse }) {
-  console.log(txt.href);
-
   if (txt.href)
     return (
       <Link
