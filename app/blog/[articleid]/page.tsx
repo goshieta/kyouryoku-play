@@ -64,7 +64,7 @@ export default async function Article({
           <div id={styles.tag_area}>
             {articleData.tags.map((tag: any) => {
               return (
-                <Link href={`/blog?tag=${tag.id}`} key={tag.id}>
+                <Link href={`/blog?tag=${tag.name}`} key={tag.id}>
                   <span className="material-symbols-outlined">label</span>
                   {tag.name}
                 </Link>

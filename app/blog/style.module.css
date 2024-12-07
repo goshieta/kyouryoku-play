@@ -1,9 +1,16 @@
+#results_page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+#page_title {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
 #article_grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
-  margin: 0 auto;
   gap: 40px;
-  max-width: 1000px;
   justify-content: center;
 }
 
