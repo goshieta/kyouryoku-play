@@ -1,0 +1,53 @@
+#article_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  margin: 0 auto;
+  gap: 40px;
+  max-width: 1000px;
+}
+
+.article {
+  text-decoration: none;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 4;
+  gap: 10px;
+  max-width: 400px;
+}
+.article p,
+.article h2 {
+  margin: 0;
+}
+.article_img {
+  width: 100%;
+  aspect-ratio: 1.5;
+  border-radius: 10px;
+  background-color: var(--special-bg);
+}
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 10px 0 !important;
+}
+.published_date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  gap: 5px;
+  color: var(--pale-font-color);
+}
+.published_date span {
+  color: var(--pale-font-color);
+}
+.description {
+  line-height: 2em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  /* ブラウザがサポートしていない場合のフェールセーフ */
+  max-height: 96px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: var(--pale-font-color);
+}
