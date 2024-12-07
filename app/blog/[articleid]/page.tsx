@@ -123,7 +123,7 @@ export default async function Article({
         <h2>最新記事</h2>
         <div id={styles.relative_grid}>
           {pages.map((onePage) => (
-            <PageTile data={onePage as PageObjectResponse} />
+            <PageTile data={onePage as PageObjectResponse} key={onePage.id} />
           ))}
         </div>
       </div>
