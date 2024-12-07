@@ -6,6 +6,7 @@ import styles from "./block.module.css";
 import Link from "next/link";
 
 export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
+  console.log(data.type);
   switch (data.type) {
     case "paragraph":
       return (
@@ -43,6 +44,30 @@ export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
             <p key={cap.plain_text}>{cap.plain_text}</p>
           ))}
         </Link>
+      );
+    case "heading_1":
+      return (
+        <h2 className={styles.heading_1}>
+          {data.heading_1.rich_text.map((txt) => (
+            <RichText txt={txt} />
+          ))}
+        </h2>
+      );
+    case "heading_2":
+      return (
+        <h3>
+          {data.heading_2.rich_text.map((txt) => (
+            <RichText txt={txt} />
+          ))}
+        </h3>
+      );
+    case "heading_3":
+      return (
+        <h4>
+          {data.heading_3.rich_text.map((txt) => (
+            <RichText txt={txt} />
+          ))}
+        </h4>
       );
   }
 }
