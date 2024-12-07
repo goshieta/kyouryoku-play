@@ -72,6 +72,13 @@
   margin: 0;
 }
 
+#relative_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  justify-content: center;
+}
+
 #unknown {
   max-width: 800px;
   margin: 0 auto;

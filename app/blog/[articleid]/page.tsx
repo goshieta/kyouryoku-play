@@ -1,15 +1,40 @@
 import Link from "next/link";
 import getPageByID from "../lib/getPageById";
 import ArticleBlock from "../components/articleBlock";
-import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import {
+  BlockObjectResponse,
+  PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import styles from "./style.module.css";
+import getPagesByFilter from "../lib/getPagesByFilter";
+import PageTile from "../components/pageTile";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { articleid: string };
+}) {
+  const result = await getPageByID(params.articleid);
+  if (result === null) {
+    return {
+      title: "404 : 存在しない記事 - 峡緑プレイ",
+    };
+  }
+  return {
+    title: `${result.title} - 峡緑プレイ`,
+    description: result.description,
+  };
+}
 
 export default async function Article({
   params,
 }: {
   params: { articleid: string };
 }) {
-  const result = await getPageByID(params.articleid);
+  const [result, pages] = await Promise.all([
+    await getPageByID(params.articleid),
+    getPagesByFilter(undefined, 5),
+  ]);
   if (result === null)
     return (
       <div id={styles.unknown}>
@@ -94,7 +119,14 @@ export default async function Article({
           );
         })}
       </div>
-      <div></div>
+      <div id={styles.relative}>
+        <h2>最新記事</h2>
+        <div id={styles.relative_grid}>
+          {pages.map((onePage) => (
+            <PageTile data={onePage as PageObjectResponse} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

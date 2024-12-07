@@ -1,6 +1,9 @@
 import { Client } from "@notionhq/client";
 
-export default async function getPagesByFilter(tag: string | undefined) {
+export default async function getPagesByFilter(
+  tag: string | undefined,
+  limit?: number
+) {
   const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
   const databaseId = process.env.NOTION_DATABASE_ID!;
@@ -32,6 +35,11 @@ export default async function getPagesByFilter(tag: string | undefined) {
           : []),
       ],
     },
+    ...(limit
+      ? {
+          page_size: limit,
+        }
+      : {}),
   });
 
   return responce.results;
