@@ -49,7 +49,7 @@ export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
       return (
         <h2 className={styles.heading_1}>
           {data.heading_1.rich_text.map((txt) => (
-            <RichText txt={txt} />
+            <RichText txt={txt} key={txt.plain_text} />
           ))}
         </h2>
       );
@@ -57,7 +57,7 @@ export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
       return (
         <h3>
           {data.heading_2.rich_text.map((txt) => (
-            <RichText txt={txt} />
+            <RichText txt={txt} key={txt.plain_text} />
           ))}
         </h3>
       );
@@ -65,7 +65,7 @@ export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
       return (
         <h4>
           {data.heading_3.rich_text.map((txt) => (
-            <RichText txt={txt} />
+            <RichText txt={txt} key={txt.plain_text} />
           ))}
         </h4>
       );

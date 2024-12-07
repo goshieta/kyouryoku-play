@@ -3,6 +3,8 @@ import getPagesByFilter from "./lib/getPagesByFilter";
 import PageTile from "./components/pageTile";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import styles from "./style.module.css";
+import getDatabaseTags from "./lib/getTags";
+import Link from "next/link";
 
 export const generateMetadata = async ({
   params,
@@ -28,12 +30,18 @@ export default async function Blog({
   const tag =
     typeof searchParams["tag"] === "string" ? searchParams["tag"] : undefined;
   const pages = await getPagesByFilter(tag);
+  const tags = await getDatabaseTags();
+
   return (
     <div id={styles.results_page}>
       <div id={styles.page_title}>
         <h1>{tag ? tag + "の記事" : "すべての記事"}</h1>
       </div>
-      <div id={styles.tags}></div>
+      <div id={styles.tags}>
+        {tags.map((oneTag) => (
+          <Link href={`/blog/${oneTag}`}>{oneTag}</Link>
+        ))}
+      </div>
       <div id={styles.article_grid}>
         {pages.map((onePage) => (
           <PageTile data={onePage as PageObjectResponse} key={onePage.id} />
