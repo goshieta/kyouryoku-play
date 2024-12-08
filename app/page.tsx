@@ -1,15 +1,10 @@
-"use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const router = useRouter();
   const url = "https://kyouryoku.net";
-  useEffect(() => {
-    router.push(url);
-  }, []);
+
+  redirect(url);
 
   return (
     <div>
