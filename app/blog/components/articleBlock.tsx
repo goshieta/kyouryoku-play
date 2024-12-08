@@ -6,7 +6,6 @@ import styles from "./block.module.css";
 import Link from "next/link";
 
 export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
-  console.log(data.type);
   switch (data.type) {
     case "paragraph":
       return (
@@ -69,6 +68,26 @@ export default function ArticleBlock({ data }: { data: BlockObjectResponse }) {
           ))}
         </h4>
       );
+    case "image":
+      console.log(data.image.type);
+      if (data.image.type === "file")
+        return (
+          <img
+            src={data.image.file.url}
+            alt={data.image.caption.map((txt) => txt.plain_text).join("")}
+            width={800}
+            className={styles.image}
+          />
+        );
+      else if (data.image.type === "external")
+        return (
+          <img
+            src={data.image.external.url}
+            alt={data.image.caption.map((txt) => txt.plain_text).join("")}
+            width={800}
+            className={styles.image}
+          />
+        );
   }
 }
 

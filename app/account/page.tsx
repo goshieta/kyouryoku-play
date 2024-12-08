@@ -76,12 +76,9 @@ export default function AccountPage() {
             <span className="material-symbols-outlined">settings</span>設定
           </button>
           <button
-            onClick={() => {
-              message({
-                message: "ヘルプページは現在作成中です。申し訳ありません🙇‍♀️",
-                button: [{ name: "今後に期待する", value: "ok" }],
-              });
-            }}
+            onClick={() =>
+              router.push("/blog/15642357-ea21-80a2-a244-e3f04a16a194")
+            }
           >
             <span className="material-symbols-outlined">help</span>ヘルプ
           </button>
