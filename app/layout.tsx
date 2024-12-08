@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Footer></Footer>
         </div>
       </body>
-      <GoogleAnalytics gaId="G-CJT63ZRL0E" />
+      <GoogleAnalytics gaId="G-QD7XXSJW1P" />
     </html>
   );
 }
