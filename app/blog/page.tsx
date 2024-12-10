@@ -22,6 +22,8 @@ export const generateMetadata = async ({
     title:
       (searchParams.tag ? `${searchParams.tag}の記事一覧` : "すべての記事") +
       " - 峡緑プレイ",
+    description:
+      "ゲームサイトである峡緑プレイのブログです。アップデート情報や技術記事、サポート情報など各種情報をブログという形で配信しています。",
   };
 };
 
