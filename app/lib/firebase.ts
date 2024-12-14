@@ -7,13 +7,14 @@ import { getAuth } from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyCkl27YvvLqEc2WbHDeMxg26tVatP43XF0",
+  authDomain: "kyouryoku-play.firebaseapp.com",
+  databaseURL: "https://kyouryoku-play-default-rtdb.firebaseio.com",
+  projectId: "kyouryoku-play",
+  storageBucket: "kyouryoku-play.appspot.com",
+  messagingSenderId: "1063918632710",
+  appId: "1:1063918632710:web:d72e53a10cda4f7c722887",
+  measurementId: "G-8458LE0ZRL",
 };
 
 // Firebaseの初期化処理

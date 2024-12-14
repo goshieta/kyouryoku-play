@@ -2,7 +2,7 @@ import { Client } from "@notionhq/client";
 
 const getDatabaseTags = async () => {
   const notion = new Client({ auth: process.env.NOTION_API_KEY });
-  const databaseId = process.env.NOTION_DATABASE_ID!;
+  const databaseId = "15542357ea2180b9b26ce8e1d0fa8cfa"!;
 
   try {
     // データベースのプロパティを取得

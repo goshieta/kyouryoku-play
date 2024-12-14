@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import useUser from "../lib/auth/useUser";
+import useUser from "@/app/lib/auth/useUser";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
-import getGreeting from "../lib/tips/getGreeting";
-import calcLankFromPoints from "../lib/tips/calcLankFromPoints";
+import getGreeting from "@/app/lib/tips/getGreeting";
+import calcLankFromPoints from "@/app/lib/tips/calcLankFromPoints";
 import { useCallback, useEffect } from "react";
-import { auth } from "../lib/firebase";
-import useMessage from "../lib/tips/useMessage/useMessage";
+import { auth } from "@/app/lib/firebase";
+import useMessage from "@/app/lib/tips/useMessage/useMessage";
 
 export default function AccountPage() {
   const [uid, udata] = useUser();
